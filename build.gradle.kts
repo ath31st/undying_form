@@ -71,6 +71,6 @@ tasks {
         from(contents)
     }
     build {
-        dependsOn(fatJar) // Trigger fat jar creation during build
+        dependsOn(fatJar)
     }
 }
