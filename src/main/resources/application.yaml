@@ -1,0 +1,14 @@
+sql:
+  dialect: SQLITE
+
+spring:
+  datasource:
+    url: jdbc:sqlite:./undying_form.db
+    driver-class-name: org.sqlite.JDBC
+    username: admin
+    password: admin
+
+  # only for development (on production must be commented)
+  flyway:
+    clean-on-validation-error: true
+    clean-disabled: false
