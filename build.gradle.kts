@@ -4,7 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
     id("application")
-//    id("jacoco")
+    id("jacoco")
 //    id("io.gitlab.arturbosch.detekt") version "1.23.4"
 //    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
@@ -36,28 +36,35 @@ repositories {
     mavenCentral()
 }
 
+val starterVersion = "3.2.0"
 val jooqPluginVersion = "8.2.1"
 val kotlinVersion = "1.9.20"
+val sqliteVersion = "3.44.1.0"
+val flywayVersion = "9.21.1"
+val jooqApiVersion = "3.19.0"
+val jacksonVersion = "2.14.2"
+val slf4jVersion = "2.0.9"
+val securityTestVersion = "6.0.2"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-jooq:3.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-security:3.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-web:3.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.0")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:3.2.0")
+    implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$starterVersion")
 
-    implementation("org.flywaydb:flyway-core:9.21.1")
-    api("org.jooq:jooq-codegen:3.19.0")
-    jooqGenerator("org.xerial:sqlite-jdbc:3.44.1.0")
-    jooqGenerator("org.slf4j:slf4j-jdk14:2.0.9")
-    runtimeOnly("org.xerial:sqlite-jdbc:3.44.1.0")
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
+    implementation("org.flywaydb:flyway-core:$flywayVersion")
+    api("org.jooq:jooq-codegen:$jooqApiVersion")
+    jooqGenerator("org.xerial:sqlite-jdbc:$sqliteVersion")
+    jooqGenerator("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    runtimeOnly("org.xerial:sqlite-jdbc:$sqliteVersion")
+    implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.0")
-    testImplementation("org.springframework.security:spring-security-test:6.0.2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$starterVersion")
+    testImplementation("org.springframework.security:spring-security-test:$securityTestVersion")
 }
 
 tasks.withType<KotlinCompile> {
@@ -75,37 +82,37 @@ application {
     mainClass.set("sidim.doma.undying.UndyingFormApplicationKt")
 }
 
-//jacoco {
-//    toolVersion = "0.8.8"
-//}
+jacoco {
+    toolVersion = "0.8.8"
+}
 
-//tasks.jacocoTestReport {
-//    reports {
-//        xml.required.set(true)
-//        xml.outputLocation.set(File("$buildDir/reports/jacoco/report.xml"))
-//        html.required.set(true)
-//        csv.required.set(false)
-//    }
-//    classDirectories.setFrom(
-//        fileTree("build/classes/kotlin/main") {}
-//    )
-//}
-//
-//tasks.jacocoTestCoverageVerification {
-//    classDirectories.setFrom(
-//        fileTree("build/classes/kotlin/main") {}
-//    )
-//    violationRules {
-//        rule {
-//            limit {
-//                counter = "INSTRUCTION"
-//                value = "COVEREDRATIO"
-//                //minimum = BigDecimal.valueOf(0.9)
-//                minimum = BigDecimal.valueOf(0.1)
-//            }
-//        }
-//    }
-//}
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(File("build/reports/jacoco/report.xml"))
+        html.required.set(true)
+        csv.required.set(false)
+    }
+    classDirectories.setFrom(
+        fileTree("build/classes/kotlin/main") {}
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    classDirectories.setFrom(
+        fileTree("build/classes/kotlin/main") {}
+    )
+    violationRules {
+        rule {
+            limit {
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
+                //minimum = BigDecimal.valueOf(0.9)
+                minimum = BigDecimal.valueOf(0.1)
+            }
+        }
+    }
+}
 
 //tasks.named("check") {
 //    dependsOn("detektMain")
@@ -152,7 +159,7 @@ val dbSchema = "public"
 val dbDriver = "org.sqlite.JDBC"
 
 jooq {
-    version.set("3.19.0")
+    version.set(jooqApiVersion)
     configurations {
         create("main") {
             jooqConfiguration.apply {
@@ -203,4 +210,9 @@ flyway {
     password = dbPassword
     schemas = arrayOf(dbSchema)
     driver = dbDriver
+}
+
+extensions.findByName("buildScan")?.withGroovyBuilder {
+    setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
+    setProperty("termsOfServiceAgree", "no")
 }
