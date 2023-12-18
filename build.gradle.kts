@@ -1,32 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-buildscript {
-    repositories {
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
-    }
-    dependencies {
-        classpath("nu.studer:gradle-jooq-plugin:8.2.1")
-    }
-}
-apply(plugin = "nu.studer.jooq")
-
-//configurations.all {
-//    resolutionStrategy.eachDependency {
-//        if (requested.group == "org.jetbrains.kotlin") {
-//            useVersion(io.gitlab.arturbosch.detekt.getSupportedKotlinVersion())
-//        }
-//    }
-//}
-
 plugins {
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
     id("application")
-    id("jacoco")
+//    id("jacoco")
 //    id("io.gitlab.arturbosch.detekt") version "1.23.4"
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+//    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
     id("nu.studer.jooq") version "8.2.1"
     id("org.flywaydb.flyway") version "9.21.1"
@@ -63,14 +43,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:3.2.0")
     implementation("org.springframework.boot:spring-boot-starter-security:3.2.0")
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.0")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:3.2.0")
+
     implementation("org.flywaydb:flyway-core:9.21.1")
-    api ("org.jooq:jooq-codegen:3.19.0")
-    implementation("nu.studer:gradle-jooq-plugin:$jooqPluginVersion")
+    api("org.jooq:jooq-codegen:3.19.0")
+    jooqGenerator("org.xerial:sqlite-jdbc:3.44.1.0")
+    jooqGenerator("org.slf4j:slf4j-jdk14:2.0.9")
+    runtimeOnly("org.xerial:sqlite-jdbc:3.44.1.0")
+    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:3.2.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.0")
     testImplementation("org.springframework.security:spring-security-test:6.0.2")
 }
@@ -90,9 +75,9 @@ application {
     mainClass.set("sidim.doma.undying.UndyingFormApplicationKt")
 }
 
-jacoco {
-    toolVersion = "0.8.8"
-}
+//jacoco {
+//    toolVersion = "0.8.8"
+//}
 
 //tasks.jacocoTestReport {
 //    reports {
@@ -163,15 +148,13 @@ tasks {
 val dbUrl = "jdbc:sqlite:./undying_form.db"
 val dbUser = "admin"
 val dbPassword = System.getenv("DB_PASSWORD") ?: "admin"
-val dbSchema = "default_schema"
+val dbSchema = "public"
 val dbDriver = "org.sqlite.JDBC"
 
 jooq {
     version.set("3.19.0")
     configurations {
         create("main") {
-            generateSchemaSourceOnCompilation.set(false)
-
             jooqConfiguration.apply {
                 jdbc.apply {
                     driver = dbDriver
@@ -183,21 +166,30 @@ jooq {
                     name = "org.jooq.codegen.KotlinGenerator"
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                     database.apply {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        name = "org.jooq.meta.sqlite.SQLiteDatabase"
                         excludes = "flyway_schema_history"
-                        inputSchema = "public"
+                        // inputSchema = "public"
                     }
                     generate.apply {
                         isDeprecated = false
                         isRecords = true
-                        isFluentSetters = true
+                        isImmutablePojos = false
+                        isFluentSetters = false
+                        isJavaBeansGettersAndSetters = false
+                        isSerializablePojos = true
+                        isVarargSetters = false
+                        isPojos = true
+                        isUdts = false
+                        isRoutines = false
+                        isIndexes = false
                         isRelations = true
-                        isImmutablePojos = true
-                        // isKotlinNotNullRecordAttributes = true
+                        isPojosEqualsAndHashCode = true
                     }
                     target.apply {
                         packageName = "sidim.doma.undying.generated"
+                        directory = "build/generated-sources/jooq"
                     }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }
             }
         }
