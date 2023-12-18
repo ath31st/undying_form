@@ -181,7 +181,7 @@ jooq {
                         isDeprecated = false
                         isRecords = true
                         isImmutablePojos = false
-                        isFluentSetters = false
+                        isFluentSetters = true
                         isJavaBeansGettersAndSetters = false
                         isSerializablePojos = true
                         isVarargSetters = false
@@ -191,12 +191,12 @@ jooq {
                         isIndexes = false
                         isRelations = true
                         isPojosEqualsAndHashCode = true
+                        isJavaTimeTypes = true
                     }
                     target.apply {
                         packageName = "sidim.doma.undying.generated"
                         directory = "build/generated-sources/jooq"
                     }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }
             }
         }
