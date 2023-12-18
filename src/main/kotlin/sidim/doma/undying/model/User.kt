@@ -8,5 +8,5 @@ class User(
     val name: String,
     val registerDate: LocalDate,
     val isActive: Boolean,
-    val isBlocked: Boolean,
+    val isNotBlocked: Boolean,
 )

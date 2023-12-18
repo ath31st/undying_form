@@ -1,11 +1,11 @@
 package sidim.doma.undying.service
 
-import org.jooq.DSLContext
 import org.springframework.stereotype.Service
+import sidim.doma.undying.dto.UserRegDto
 
 @Service
-class UserService(val dsl: DSLContext) {
-    public fun createUser() {
-        //dsl.insertInto(USERS)
+class UserService {
+    fun registerUser(dto: UserRegDto) {
+        println("woop")
     }
 }
