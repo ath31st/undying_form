@@ -48,7 +48,7 @@ val securityTestVersion = "6.0.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
-    implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
+    //implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$starterVersion")
