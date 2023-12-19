@@ -1,5 +1,6 @@
 package sidim.doma.undying.service
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.UserRegDto
 import sidim.doma.undying.exception.UserException
@@ -12,7 +13,7 @@ class UserService(
 ) {
     fun registerUser(dto: UserRegDto): Users {
         if (userRepository.isUserExistByUsername(dto.username)) {
-            throw UserException("username ${dto.username} already used")
+            throw UserException("username ${dto.username} already used", HttpStatus.CONFLICT)
         }
         return userRepository.createUser(dto)
     }

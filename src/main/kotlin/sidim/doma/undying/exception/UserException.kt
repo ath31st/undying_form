@@ -1,8 +1,6 @@
 package sidim.doma.undying.exception
 
-class UserException : RuntimeException {
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
-}
+import org.springframework.http.HttpStatus
+
+class UserException(message: String? = null, val status: HttpStatus, cause: Throwable? = null) :
+    RuntimeException(message, cause)
