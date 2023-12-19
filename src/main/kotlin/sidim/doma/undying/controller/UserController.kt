@@ -1,5 +1,6 @@
 package sidim.doma.undying.controller
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,7 +17,8 @@ class UserController(
     val userService: UserService
 ) {
     @PostMapping("/register")
-    fun registerUser(@RequestBody dto: UserRegDto): ResponseEntity<Unit> {
-        return ResponseEntity.ok(userService.registerUser(dto))
+    fun registerUser(@RequestBody dto: UserRegDto): ResponseEntity<HttpStatus> {
+        userService.registerUser(dto)
+        return ResponseEntity(HttpStatus.CREATED)
     }
 }
