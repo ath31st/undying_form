@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jooq.meta.jaxb.Property
 
 plugins {
     id("org.springframework.boot") version "3.2.0"
@@ -53,12 +54,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$starterVersion")
 
-    implementation("org.flywaydb:flyway-core:$flywayVersion")
-    api("org.jooq:jooq-codegen:$jooqApiVersion")
     jooqGenerator("org.xerial:sqlite-jdbc:$sqliteVersion")
     jooqGenerator("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    jooqGenerator("org.jooq:jooq-meta-extensions:$jooqApiVersion")
+
     runtimeOnly("org.xerial:sqlite-jdbc:$sqliteVersion")
+    api("org.jooq:jooq-codegen:$jooqApiVersion")
     implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
+    implementation("org.flywaydb:flyway-core:$flywayVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
@@ -155,7 +158,7 @@ tasks {
 val dbUrl = "jdbc:sqlite:./undying_form.db"
 val dbUser = "admin"
 val dbPassword = System.getenv("DB_PASSWORD") ?: "admin"
-val dbSchema = "public"
+val dbSchema = "main"
 val dbDriver = "org.sqlite.JDBC"
 
 jooq {
@@ -163,18 +166,21 @@ jooq {
     configurations {
         create("main") {
             jooqConfiguration.apply {
-                jdbc.apply {
-                    driver = dbDriver
-                    url = dbUrl
-                    user = dbUser
-                    password = dbPassword
-                }
                 generator.apply {
                     name = "org.jooq.codegen.KotlinGenerator"
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                     database.apply {
-                        name = "org.jooq.meta.sqlite.SQLiteDatabase"
+                        name = "org.jooq.meta.extensions.ddl.DDLDatabase"
                         excludes = "flyway_schema_history"
+                        properties.addAll(
+                            listOf(
+                                Property().withKey("scripts")
+                                    .withValue("src/main/resources/db/migration/*.sql"),
+                                Property().withKey("sort").withValue("semantic"),
+                                Property().withKey("unqualifiedSchema").withValue("none"),
+                                Property().withKey("defaultNameCase").withValue("as_is")
+                            )
+                        )
                         // inputSchema = "public"
                     }
                     generate.apply {
@@ -202,6 +208,51 @@ jooq {
         }
     }
 }
+
+//jooq {
+//    version.set(jooqApiVersion)
+//    configurations {
+//        create("main") {
+//            jooqConfiguration.apply {
+//                jdbc.apply {
+//                    driver = dbDriver
+//                    url = dbUrl
+//                    user = dbUser
+//                    password = dbPassword
+//                }
+//                generator.apply {
+//                    name = "org.jooq.codegen.KotlinGenerator"
+//                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+//                    database.apply {
+//                        name = "org.jooq.meta.sqlite.SQLiteDatabase"
+//                        excludes = "flyway_schema_history"
+//                        // inputSchema = "public"
+//                    }
+//                    generate.apply {
+//                        isDeprecated = false
+//                        isRecords = true
+//                        isImmutablePojos = false
+//                        isFluentSetters = true
+//                        isJavaBeansGettersAndSetters = false
+//                        isSerializablePojos = true
+//                        isVarargSetters = false
+//                        isPojos = true
+//                        isUdts = false
+//                        isRoutines = false
+//                        isIndexes = false
+//                        isRelations = true
+//                        isPojosEqualsAndHashCode = true
+//                        isJavaTimeTypes = true
+//                    }
+//                    target.apply {
+//                        packageName = "sidim.doma.undying.generated"
+//                        directory = "build/generated-sources/jooq"
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 flyway {
     cleanDisabled = false
