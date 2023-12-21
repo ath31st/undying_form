@@ -1,8 +1,8 @@
 package sidim.doma.undying.dto
 
 class UserInfoDto(
-    id: Int,
-    role: String,
-    username: String,
-    name: String,
+    val id: Long,
+    val role: String,
+    val username: String,
+    val name: String,
 )
