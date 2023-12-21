@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+
+  postgres-backend:
+    image: postgres:15.5
+    container_name: postgres_db
+    ports:
+      - "${PG_PORT}:${PG_PORT}"
+    command: -p ${PG_PORT}
+    environment:
+      TZ: "Europe/Moscow"
+      PGUSER: "${PG_USER}"
+      POSTGRES_USER: "${PG_USER}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+      POSTGRES_DB: "${PG_DB}"
+    volumes:
+      - "database:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: on-failure
+    networks:
+      - undying-net
+
+volumes:
+  database:
+
+networks:
+  undying-net:
+    name: undying-net
+    driver: bridge

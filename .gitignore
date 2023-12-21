@@ -36,3 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 undying_form.db
+.env
