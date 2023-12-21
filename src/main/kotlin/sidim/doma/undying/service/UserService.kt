@@ -13,7 +13,7 @@ class UserService(
 ) {
     fun registerUser(dto: UserRegDto): Users {
         if (userRepository.isUserExistByUsername(dto.username)) {
-            throw UserException("username ${dto.username} already used", HttpStatus.CONFLICT)
+            throw UserException("Username ${dto.username} already used", HttpStatus.CONFLICT)
         }
         return userRepository.createUser(dto)
     }

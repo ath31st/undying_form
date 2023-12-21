@@ -37,4 +37,10 @@ class UserRepository(private val dslContext: DSLContext) {
         record.store()
         return record.into(Users::class.java)
     }
+
+    fun getUserByUsername(username: String): Users? {
+        return dslContext.select(USERS)
+            .where(USERS.USERNAME.eq(username))
+            .fetchOneInto(Users::class.java)
+    }
 }
