@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
+import sidim.doma.undying.util.Role
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +30,9 @@ class SecurityConfig {
             .authorizeHttpRequests {
                 it
                     .requestMatchers(*authWhitelist).permitAll()
-                    .requestMatchers("/api/user/register").permitAll()
-                    .anyRequest().fullyAuthenticated()
+                    .requestMatchers("/api/users/**").permitAll()
+                    //.requestMatchers("/api/users/info/*").hasAuthority(Role.ROLE_GAMER.name)
+                    .anyRequest().authenticated()
             }
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

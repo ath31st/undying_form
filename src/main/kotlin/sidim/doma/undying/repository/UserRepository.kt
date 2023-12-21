@@ -3,10 +3,10 @@ package sidim.doma.undying.repository
 import java.time.LocalDateTime
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import sidim.doma.undying.util.Role
 import sidim.doma.undying.dto.UserRegDto
 import sidim.doma.undying.generated.tables.pojos.Users
 import sidim.doma.undying.generated.tables.references.USERS
+import sidim.doma.undying.util.Role
 
 @Repository
 class UserRepository(private val dslContext: DSLContext) {
@@ -41,6 +41,12 @@ class UserRepository(private val dslContext: DSLContext) {
     fun getUserByUsername(username: String): Users? {
         return dslContext.select(USERS)
             .where(USERS.USERNAME.eq(username))
+            .fetchOneInto(Users::class.java)
+    }
+
+    fun getUserById(id: Int): Users? {
+        return dslContext.select(USERS)
+            .where(USERS.ID.eq(id))
             .fetchOneInto(Users::class.java)
     }
 }

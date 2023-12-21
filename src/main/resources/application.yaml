@@ -12,3 +12,9 @@ spring:
   flyway:
     clean-on-validation-error: true
     clean-disabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
