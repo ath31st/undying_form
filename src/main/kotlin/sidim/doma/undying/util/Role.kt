@@ -1,4 +1,4 @@
-package sidim.doma.undying
+package sidim.doma.undying.util
 
 import org.springframework.http.HttpStatus
 import sidim.doma.undying.exception.UserException

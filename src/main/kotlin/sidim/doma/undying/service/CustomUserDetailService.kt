@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
-import sidim.doma.undying.Role
+import sidim.doma.undying.util.Role
 import sidim.doma.undying.exception.UserException
 import sidim.doma.undying.repository.UserRepository
 

@@ -3,7 +3,7 @@ package sidim.doma.undying.repository
 import java.time.LocalDateTime
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import sidim.doma.undying.Role
+import sidim.doma.undying.util.Role
 import sidim.doma.undying.dto.UserRegDto
 import sidim.doma.undying.generated.tables.pojos.Users
 import sidim.doma.undying.generated.tables.references.USERS
@@ -32,7 +32,7 @@ class UserRepository(private val dslContext: DSLContext) {
             registerDate = LocalDateTime.now().toString()
             isActive = true
             isNotBlocked = true
-            role = Role.ROLE_ADMINISTRATOR.ordinal
+            role = Role.ROLE_GAMER.ordinal
         })
         record.store()
         return record.into(Users::class.java)
