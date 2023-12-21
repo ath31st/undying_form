@@ -1,12 +1,12 @@
 sql:
-  dialect: SQLITE
+  dialect: POSTGRES
 
 spring:
   datasource:
-    url: jdbc:sqlite:./undying_form.db
-    driver-class-name: org.sqlite.JDBC
-    username: admin
-    password: admin
+    url: jdbc:postgresql://localhost:5444/dev_undying_db
+    username: dev_user
+    password: dev_password
+    driverClassName: org.postgresql.Driver
 
   # only for development (on production must be commented)
   flyway:
