@@ -7,13 +7,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
-
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
 
-    private val AUTH_WHITELIST = arrayOf( // -- Swagger UI v2
-        "/v2/api-docs",
+    private val authWhitelist = arrayOf(
+        "/v2/api-docs",  // -- Swagger UI v2
         "/swagger-resources",
         "/swagger-resources/**",
         "/configuration/ui",
@@ -29,8 +28,8 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/**").permitAll()
-                    .requestMatchers(AUTH_WHITELIST).permitAll()
+                    .requestMatchers(*authWhitelist).permitAll()
+                    .requestMatchers("/api/user/register").permitAll()
                     .anyRequest().fullyAuthenticated()
             }
             .sessionManagement {
@@ -38,32 +37,4 @@ class SecurityConfig {
             }
         return http.build()
     }
-
-//    @Bean
-//    @Throws(Exception::class)
-//    fun filterChain(http: HttpSecurity): SecurityFilterChain {
-//        http.
-//            .antMatchers("/api/auth/login", "/api/auth/token").permitAll()
-//            .antMatchers("/webjars/**")
-//            .permitAll() //.antMatchers(AUTH_WHITELIST).permitAll() - чтобы включить доступ к Swagger,
-//            // надо снять комментарий
-//            //auth
-//
-//            .antMatchers(
-//                "/api/auth/logout",
-//                "/api/auth/refresh",
-//                "/api/manager/account-info",
-//                "/api/manager/update-data",
-//                "/api/manager/role"
-//            ).authenticated() //managers
-//
-//            .anyRequest().authenticated()
-//            .and()
-//            .httpBasic().disable()
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//
-//        //httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
-//
-//        return httpSecurity.build()
-//    }
 }
