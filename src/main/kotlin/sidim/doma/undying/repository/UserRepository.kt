@@ -18,17 +18,10 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun isUserExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(USERS)
-            .where(USERS.NAME.eq(name))
-            .fetchOneInto(Int::class.java) == 1
-    }
-
     fun createUser(dto: UserRegDto): Users {
         val record = dslContext.newRecord(USERS, Users().apply {
             username = dto.username
-            name = dto.name
+            email = dto.email
             registerDate = LocalDateTime.now().toString()
             isActive = true
             isNotBlocked = true

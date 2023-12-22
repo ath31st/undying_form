@@ -23,7 +23,12 @@ class UserService(
     fun getUserInfo(id: Int): UserInfoDto {
         val u = userRepository.getUserById(id)
         if (u != null) {
-            return UserInfoDto(u.id!!, Role.getRoleByIndex(u.role!!).value, u.username!!, u.name!!)
+            return UserInfoDto(
+                u.id!!,
+                Role.getRoleByIndex(u.role!!).value,
+                u.username!!,
+                u.email.let { "" },
+            )
         } else {
             throw UserException("User with id $id not found", HttpStatus.NOT_FOUND)
         }
