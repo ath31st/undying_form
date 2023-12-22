@@ -27,7 +27,7 @@ class UserService(
                 u.id!!,
                 Role.getRoleByIndex(u.role!!).value,
                 u.username!!,
-                u.email.let { "" },
+                u.email.let { it ?: "" },
             )
         } else {
             throw UserException("User with id $id not found", HttpStatus.NOT_FOUND)
