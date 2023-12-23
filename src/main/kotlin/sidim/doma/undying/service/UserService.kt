@@ -24,9 +24,9 @@ class UserService(
         val u = userRepository.getUserById(id)
         if (u != null) {
             return UserInfoDto(
-                u.userId!!,
-                Role.getRoleByIndex(u.role!!).value,
-                u.username!!,
+                u.userId ?: 0,
+                Role.getRoleByIndex(u.role ?: 0).value,
+                u.username.let { it ?: "" },
                 u.email.let { it ?: "" },
             )
         } else {

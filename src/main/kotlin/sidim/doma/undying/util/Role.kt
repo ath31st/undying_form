@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import sidim.doma.undying.exception.UserException
 
 enum class Role(val value: String) {
+    ROLE_DEFAULT("Default"),
     ROLE_ADMINISTRATOR("Administrator"),
     ROLE_GAMER("Gamer"),
     ROLE_DEVELOPER("Developer");
