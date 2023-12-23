@@ -1,4 +1,4 @@
-package sidim.doma.undying.dto
+package sidim.doma.undying.dto.user
 
 class UserInfoDto(
     val userId: Long,

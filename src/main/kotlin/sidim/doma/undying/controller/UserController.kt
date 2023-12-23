@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import sidim.doma.undying.dto.UserInfoDto
-import sidim.doma.undying.dto.UserRegDto
+import sidim.doma.undying.dto.user.UserInfoDto
+import sidim.doma.undying.dto.user.UserRegDto
 import sidim.doma.undying.service.UserService
 
 @RestController

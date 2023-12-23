@@ -2,8 +2,8 @@ package sidim.doma.undying.service
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import sidim.doma.undying.dto.UserInfoDto
-import sidim.doma.undying.dto.UserRegDto
+import sidim.doma.undying.dto.user.UserInfoDto
+import sidim.doma.undying.dto.user.UserRegDto
 import sidim.doma.undying.exception.UserException
 import sidim.doma.undying.generated.tables.pojos.Users
 import sidim.doma.undying.repository.UserRepository
