@@ -37,10 +37,10 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Users::class.java)
     }
 
-    fun getUserById(id: Int): Users? {
+    fun getUserById(id: Long): Users? {
         return dslContext.select()
             .from(USERS)
-            .where(USERS.USER_ID.coerce(Int::class.java).eq(id))
+            .where(USERS.USER_ID.eq(id))
             .fetchOneInto(Users::class.java)
     }
 }

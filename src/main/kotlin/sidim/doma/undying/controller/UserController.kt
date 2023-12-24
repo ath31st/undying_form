@@ -15,7 +15,7 @@ import sidim.doma.undying.service.UserService
 
 @RestController
 @Validated
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 class UserController(
     val userService: UserService
 ) {
@@ -26,7 +26,7 @@ class UserController(
     }
 
     @GetMapping("/info/{id}")
-    fun userInfo(@PathVariable id: Int): ResponseEntity<UserInfoDto> {
+    fun userInfo(@PathVariable id: Long): ResponseEntity<UserInfoDto> {
         return ResponseEntity.ok(userService.getUserInfo(id))
     }
 }

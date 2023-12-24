@@ -20,7 +20,7 @@ class UserService(
         return userRepository.createUser(dto)
     }
 
-    fun getUserInfo(id: Int): UserInfoDto {
+    fun getUserInfo(id: Long): UserInfoDto {
         val u = userRepository.getUserById(id)
         if (u != null) {
             return UserInfoDto(
