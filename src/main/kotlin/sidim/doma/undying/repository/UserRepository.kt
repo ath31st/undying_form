@@ -18,6 +18,13 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
+    fun isUserExistById(id: Long): Boolean {
+        return dslContext.selectCount()
+            .from(USERS)
+            .where(USERS.USER_ID.eq(id))
+            .fetchOneInto(Int::class.java) == 1
+    }
+
     fun createUser(dto: UserRegDto): Users {
         val record = dslContext.newRecord(USERS, Users().apply {
             username = dto.username
@@ -42,5 +49,19 @@ class UserRepository(private val dslContext: DSLContext) {
             .from(USERS)
             .where(USERS.USER_ID.eq(id))
             .fetchOneInto(Users::class.java)
+    }
+
+    fun updateActiveStatus(id: Long, newStatus: Boolean) {
+        dslContext.update(USERS)
+            .set(USERS.IS_ACTIVE, newStatus)
+            .where(USERS.USER_ID.eq(id))
+            .execute()
+    }
+
+    fun updateBlockedStatus(id: Long, newStatus: Boolean) {
+        dslContext.update(USERS)
+            .set(USERS.IS_NOT_BLOCKED, newStatus)
+            .where(USERS.USER_ID.eq(id))
+            .execute()
     }
 }

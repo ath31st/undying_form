@@ -33,4 +33,20 @@ class UserService(
             throw UserException("User with id $id not found", HttpStatus.NOT_FOUND)
         }
     }
+
+    fun updateUserActiveStatus(id: Long, newStatus: Boolean) {
+        checkIsUserExistById(id)
+        userRepository.updateActiveStatus(id, newStatus)
+    }
+
+    fun updateUserBlockedStatus(id: Long, newStatus: Boolean) {
+        checkIsUserExistById(id)
+        userRepository.updateBlockedStatus(id, newStatus)
+    }
+
+    private fun checkIsUserExistById(id: Long) {
+        if (!userRepository.isUserExistById(id)) {
+            throw UserException("User with id $id not found", HttpStatus.NOT_FOUND)
+        }
+    }
 }
