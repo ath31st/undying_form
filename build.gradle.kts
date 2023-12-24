@@ -45,6 +45,7 @@ val jacksonVersion = "2.14.2"
 val slf4jVersion = "2.0.9"
 val securityTestVersion = "6.0.2"
 val postgresVersion = "42.7.1"
+val springdocVersion = "2.3.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
@@ -61,6 +62,8 @@ dependencies {
     api("org.jooq:jooq-codegen:$jooqApiVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
 
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocVersion")
+    implementation("org.springdoc:springdoc-openapi-starter-common:$springdocVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
