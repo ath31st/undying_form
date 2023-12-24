@@ -5,12 +5,12 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("application")
     id("jacoco")
-//    id("io.gitlab.arturbosch.detekt") version "1.23.4"
-//    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+    id("io.gitlab.arturbosch.detekt") version "1.23.4"
+    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
     id("nu.studer.jooq") version "8.2.1"
     id("org.flywaydb.flyway") version "9.21.1"
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "1.9.21"
     kotlin("plugin.spring") version "1.9.20"
 }
 
@@ -124,20 +124,20 @@ tasks.jacocoTestCoverageVerification {
 //    dependsOn("jacocoTestCoverageVerification")
 //}
 
-//detekt {
-//    files(
-//        "src/main/kotlin",
-//        "src/test/kotlin"
-//    )
-//}
+detekt {
+    files(
+        "src/main/kotlin",
+        "src/test/kotlin"
+    )
+}
 
-//ktlint {
-//    disabledRules.set(setOf("no-wildcard-imports"))
-//}
+ktlint {
+    setOf("no-wildcard-imports")
+}
 
-//tasks.named("build") {
-//    dependsOn("detekt")
-//}
+tasks.named("build") {
+    dependsOn("detekt")
+}
 
 tasks {
     val fatJar = register<Jar>("fatJar") {
