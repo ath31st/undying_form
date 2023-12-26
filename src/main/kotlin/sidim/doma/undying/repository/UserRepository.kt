@@ -26,16 +26,17 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun createUser(dto: UserRegDto): Users {
-        val record = dslContext.newRecord(USERS, Users().apply {
-            username = dto.username
-            email = dto.email
-            registerDate = LocalDate.now()
-            isActive = true
-            isNotBlocked = true
-            role = Role.ROLE_GAMER.ordinal
-        })
-        record.store()
-        return record.into(Users::class.java)
+        val r = dslContext.newRecord(USERS)
+        r.username = dto.username
+        r.email = dto.email
+        r.registerDate = LocalDate.now()
+        r.isActive = true
+        r.isNotBlocked = true
+        r.role = Role.ROLE_GAMER.ordinal
+        r.scientistId = null
+
+        r.store()
+        return r.into(Users::class.java)
     }
 
     fun getUserByUsername(username: String): Users? {
