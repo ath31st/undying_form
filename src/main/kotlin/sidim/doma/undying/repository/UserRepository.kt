@@ -1,6 +1,6 @@
 package sidim.doma.undying.repository
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.user.UserRegDto
@@ -29,7 +29,7 @@ class UserRepository(private val dslContext: DSLContext) {
         val record = dslContext.newRecord(USERS, Users().apply {
             username = dto.username
             email = dto.email
-            registerDate = LocalDateTime.now().toString()
+            registerDate = LocalDate.now()
             isActive = true
             isNotBlocked = true
             role = Role.ROLE_GAMER.ordinal
