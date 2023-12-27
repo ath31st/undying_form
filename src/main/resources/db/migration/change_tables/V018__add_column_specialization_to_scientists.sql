@@ -1,2 +1,2 @@
 ALTER TABLE scientists
-    ADD COLUMN specialization_id INT REFERENCES specializations (specialization_id);
+    ADD COLUMN specialization_id SERIAL REFERENCES specializations (specialization_id);
