@@ -36,7 +36,7 @@ class NamingService {
     }
 
     private fun getRandomLine(path: String): String {
-        var line = ""
+        var line = "empty line"
         try {
             val file: File = ResourceUtils.getFile(path)
             val reader = CSVReader(FileReader(file))
@@ -45,6 +45,7 @@ class NamingService {
                 val randomIndex = (0 until lines.size).random()
                 line = lines[randomIndex][0]
             }
+            reader.close()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: CsvException) {
