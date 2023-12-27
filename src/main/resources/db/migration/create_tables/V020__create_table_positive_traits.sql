@@ -7,5 +7,6 @@ CREATE TABLE positive_traits
     biology_bonus         INT,
     engineering_bonus     INT,
     physical_health_bonus INT,
-    mental_health_bonus   INT
+    mental_health_bonus   INT,
+    weight                INT
 );

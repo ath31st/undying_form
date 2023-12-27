@@ -10,5 +10,4 @@ CREATE TABLE scientists
     biology                INT,
     engineering            INT,
     successful_experiments INT
---     negative_traits_id     INT REFERENCES negative_traits (negative_traits_id),
 );
