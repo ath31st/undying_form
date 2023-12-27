@@ -11,8 +11,17 @@ import org.springframework.util.ResourceUtils
 
 @Service
 class NamingService {
-    private val adjectivePath = "classpath:csv_data/adjectives.csv"
-    private val nounPath = "classpath:csv_data/nouns.csv"
+    private val adjectivePath = "classpath:csv_data/hideout_adjectives.csv"
+    private val nounPath = "classpath:csv_data/hideout_nouns.csv"
+    private val caretakerFirstName = "classpath:csv_data/caretaker_firstname.csv"
+    private val caretakerLastName = "classpath:csv_data/caretaker_lastname.csv"
+
+    fun generateCaretakerFirstLastName(): String {
+        val firstName = getRandomLine(caretakerFirstName)
+        val lastName = getRandomLine(caretakerLastName)
+
+        return "$firstName $lastName"
+    }
 
     fun generateHideoutName(): String {
         var adjective: String
