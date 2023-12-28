@@ -2,7 +2,9 @@ package sidim.doma.undying.repository
 
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Repository
+import sidim.doma.undying.exception.HideoutException
 import sidim.doma.undying.generated.tables.references.SPECIALIZATIONS
 
 @Repository
@@ -12,7 +14,10 @@ class SpecializationRepository(private val dslContext: DSLContext) {
             .from(SPECIALIZATIONS)
             .orderBy(DSL.rand())
             .limit(1)
-            .fetchOneInto(Int::class.java) ?: throw IllegalStateException("No specialization found")
+            .fetchOneInto(Int::class.java) ?: throw HideoutException(
+            "No specialization found",
+            HttpStatus.NOT_FOUND
+        )
     }
 
     fun isSpecializationExistById(id: Int): Boolean {
