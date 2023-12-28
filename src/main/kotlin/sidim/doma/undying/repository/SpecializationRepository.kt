@@ -14,4 +14,11 @@ class SpecializationRepository(private val dslContext: DSLContext) {
             .limit(1)
             .fetchOneInto(Int::class.java) ?: throw IllegalStateException("No specialization found")
     }
+
+    fun isSpecializationExistById(id: Int): Boolean {
+        return dslContext.selectCount()
+            .from(SPECIALIZATIONS)
+            .where(SPECIALIZATIONS.SPECIALIZATION_ID.eq(id))
+            .fetchOneInto(Int::class.java) == 1
+    }
 }

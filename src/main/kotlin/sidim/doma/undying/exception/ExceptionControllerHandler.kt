@@ -15,4 +15,14 @@ class ExceptionControllerHandler {
         )
         return ResponseEntity(errorMessage, ex.status)
     }
+
+    @ExceptionHandler
+    fun handleSpecializationException(ex: SpecializationException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
 }
