@@ -11,14 +11,15 @@ import org.springframework.util.ResourceUtils
 
 @Service
 class NamingService {
-    private val adjectivePath = "classpath:csv_data/hideout_adjectives.csv"
-    private val nounPath = "classpath:csv_data/hideout_nouns.csv"
-    private val caretakerFirstName = "classpath:csv_data/caretaker_firstname.csv"
-    private val caretakerLastName = "classpath:csv_data/caretaker_lastname.csv"
+    private val csvPath = "classpath:csv_data/"
+    private val adjectiveFile = csvPath + "hideout_adjectives.csv"
+    private val nounFile = csvPath + "hideout_nouns.csv"
+    private val caretakerFirstNameFile = csvPath + "caretaker_firstname.csv"
+    private val caretakerLastNameFile = csvPath + "caretaker_lastname.csv"
 
     fun generateCaretakerFirstLastName(): String {
-        val firstName = getRandomLine(caretakerFirstName)
-        val lastName = getRandomLine(caretakerLastName)
+        val firstName = getRandomLine(caretakerFirstNameFile)
+        val lastName = getRandomLine(caretakerLastNameFile)
 
         return "$firstName $lastName"
     }
@@ -28,8 +29,8 @@ class NamingService {
         var noun: String
 
         do {
-            adjective = getRandomLine(adjectivePath)
-            noun = getRandomLine(nounPath)
+            adjective = getRandomLine(adjectiveFile)
+            noun = getRandomLine(nounFile)
         } while (checkGender(adjective) != checkGender(noun))
 
         return "${adjective.replaceFirstChar { it.titlecase(Locale.getDefault()) }} $noun"

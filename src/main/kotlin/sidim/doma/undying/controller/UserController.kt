@@ -17,7 +17,7 @@ import sidim.doma.undying.service.UserService
 @Validated
 @RequestMapping("/api/v1/users")
 class UserController(
-    val userService: UserService
+    private val userService: UserService
 ) {
     @PostMapping("/register")
     fun registerUser(@RequestBody dto: UserRegDto): ResponseEntity<HttpStatus> {
