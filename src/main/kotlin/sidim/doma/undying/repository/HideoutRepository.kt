@@ -7,15 +7,14 @@ import sidim.doma.undying.generated.tables.references.HIDEOUTS
 
 @Repository
 class HideoutRepository(
-
     private val dslContext: DSLContext
 ) {
-    fun createHideout(name:String): Hideouts {
+    fun createHideout(name: String, randomValues: List<Int>): Hideouts {
         val r = dslContext.newRecord(HIDEOUTS)
         r.name = name
-        r.alchemyEquipment = 2 // todo change this hardcode to random gen service
-        r.biologyEquipment = 2
-        r.engineeringEquipment = 2
+        r.alchemyEquipment = randomValues[0]
+        r.biologyEquipment = randomValues[1]
+        r.engineeringEquipment = randomValues[2]
         r.districtId = 1 // todo change this hardcode to service
 
         r.store()
