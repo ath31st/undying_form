@@ -11,6 +11,7 @@ import sidim.doma.undying.util.constant.ScientistConstants.DEFAULT_MENTAL_HEALTH
 import sidim.doma.undying.util.constant.ScientistConstants.DEFAULT_PHYSICAL_HEALTH
 import sidim.doma.undying.util.constant.ScientistConstants.MAX_AGE
 import sidim.doma.undying.util.constant.ScientistConstants.MIN_AGE
+import sidim.doma.undying.util.constant.ScientistConstants.MIN_BONUS_VALUE
 import sidim.doma.undying.util.constant.ScientistConstants.SKILLS_COUNT
 
 @Service
@@ -22,10 +23,9 @@ class ScientistService(
     private val generatorRandomValuesUtil: GeneratorRandomValuesUtil
 ) {
     fun createScientist(): Scientists {
-        val countSkills = SKILLS_COUNT
-        val sumBonuses = BONUSES_SUM
-        val randomValues =
-            generatorRandomValuesUtil.generateRandomValues(countSkills, sumBonuses)
+        val randomValues = generatorRandomValuesUtil.generateRandomValues(
+            SKILLS_COUNT, MIN_BONUS_VALUE, BONUSES_SUM
+        )
         val dto = ScientistDto(
             name = namingService.generateCaretakerFirstLastName(),
             age = generatorRandomValuesUtil.generateRandomInteger(MIN_AGE, MAX_AGE),

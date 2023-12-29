@@ -6,6 +6,7 @@ import sidim.doma.undying.repository.HideoutRepository
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.HideoutConstants.BONUSES_SUM
 import sidim.doma.undying.util.constant.HideoutConstants.COUNT_EQUIPMENT
+import sidim.doma.undying.util.constant.HideoutConstants.MIN_BONUS_VALUE
 
 @Service
 class HideoutService(
@@ -16,10 +17,9 @@ class HideoutService(
 ) {
     fun createHideout(): Hideouts {
         val name = namingService.generateHideoutName()
-        val countEquipment = COUNT_EQUIPMENT
-        val sumBonuses = BONUSES_SUM
-        val randomValues =
-            generatorRandomValuesUtil.generateRandomValues(countEquipment, sumBonuses)
+        val randomValues = generatorRandomValuesUtil.generateRandomValues(
+            COUNT_EQUIPMENT, MIN_BONUS_VALUE, BONUSES_SUM
+        )
         val districtId = districtService.getRandomDistrictId()
 
         return hideoutRepository.createHideout(name, districtId, randomValues)
