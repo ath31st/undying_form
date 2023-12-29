@@ -1,4 +1,4 @@
-package sidim.doma.undying.exception
+package sidim.doma.undying.exceptionhandler.exception
 
 import org.springframework.http.HttpStatus
 

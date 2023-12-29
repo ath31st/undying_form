@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.user.UserInfoDto
 import sidim.doma.undying.dto.user.UserRegDto
-import sidim.doma.undying.exception.UserException
+import sidim.doma.undying.exceptionhandler.exception.UserException
 import sidim.doma.undying.generated.tables.pojos.Users
 import sidim.doma.undying.repository.UserRepository
 import sidim.doma.undying.util.Role

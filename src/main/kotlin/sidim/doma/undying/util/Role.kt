@@ -1,7 +1,7 @@
 package sidim.doma.undying.util
 
 import org.springframework.http.HttpStatus
-import sidim.doma.undying.exception.UserException
+import sidim.doma.undying.exceptionhandler.exception.UserException
 
 enum class Role(val value: String) {
     ROLE_DEFAULT("Default"),

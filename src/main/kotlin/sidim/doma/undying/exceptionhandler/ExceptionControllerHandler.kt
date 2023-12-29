@@ -1,8 +1,13 @@
-package sidim.doma.undying.exception
+package sidim.doma.undying.exceptionhandler
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import sidim.doma.undying.exceptionhandler.exception.DistrictException
+import sidim.doma.undying.exceptionhandler.exception.EducationException
+import sidim.doma.undying.exceptionhandler.exception.HideoutException
+import sidim.doma.undying.exceptionhandler.exception.SpecializationException
+import sidim.doma.undying.exceptionhandler.exception.UserException
 
 @ControllerAdvice
 class ExceptionControllerHandler {

@@ -2,7 +2,7 @@ package sidim.doma.undying.service
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import sidim.doma.undying.exception.EducationException
+import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.repository.EducationRepository
 
 @Service
