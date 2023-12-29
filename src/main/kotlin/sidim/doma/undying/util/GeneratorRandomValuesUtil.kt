@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service
 
 @Service
 class GeneratorRandomValuesUtil {
-    fun generateRandomValues(count: Int, targetSum: Int): List<Int> {
+    fun generateRandomValues(count: Int, minValue: Int, targetSum: Int): List<Int> {
         val randomValues = mutableListOf<Int>()
         for (i in 1 until count) {
-            val randomValue = generateRandomInteger(0, targetSum - randomValues.sum())
+            var randomValue: Int
+            do {
+                randomValue = generateRandomInteger(minValue, targetSum - randomValues.sum())
+            } while (randomValue > targetSum / count)
             randomValues.add(randomValue)
         }
         randomValues.add(targetSum - randomValues.sum())
 
-        return randomValues
+        return randomValues.shuffled()
     }
 
     /**
