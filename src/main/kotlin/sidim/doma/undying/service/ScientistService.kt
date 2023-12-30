@@ -27,7 +27,7 @@ class ScientistService(
             SKILLS_COUNT, MIN_BONUS_VALUE, BONUSES_SUM
         )
         val dto = ScientistDto(
-            name = namingService.generateCaretakerFirstLastName(),
+            name = namingService.generateScientistFirstLastName(),
             age = generatorRandomValuesUtil.generateRandomInteger(MIN_AGE, MAX_AGE),
             physicalHealth = DEFAULT_PHYSICAL_HEALTH,
             mentalHealth = DEFAULT_MENTAL_HEALTH,
