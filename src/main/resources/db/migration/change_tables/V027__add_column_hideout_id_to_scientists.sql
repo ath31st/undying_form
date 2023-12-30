@@ -1,2 +1,2 @@
 ALTER TABLE scientists
-    ADD COLUMN hideout_id BIGSERIAL REFERENCES hideouts (hideout_id);
+    ADD COLUMN hideout_id BIGINT REFERENCES hideouts (hideout_id);
