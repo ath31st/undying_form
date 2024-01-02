@@ -13,4 +13,12 @@ data class PositiveTrait(
     var mentalHealthBonus: Int? = null,
     var weight: Int? = null,
     var traitGroupId: Int? = null
-) : Serializable, Trait
+) : Serializable, Trait {
+    override fun getId(): Int {
+        return positiveTraitId ?: 0
+    }
+
+    override fun getGroupId(): Int {
+        return traitGroupId ?: 0
+    }
+}

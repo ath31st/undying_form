@@ -1,3 +1,6 @@
 package sidim.doma.undying.model
 
-interface Trait
+interface Trait {
+    fun getId(): Int
+    fun getGroupId(): Int
+}
