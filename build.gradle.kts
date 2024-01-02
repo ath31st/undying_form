@@ -47,6 +47,7 @@ val securityTestVersion = "6.0.2"
 val postgresVersion = "42.7.1"
 val springdocVersion = "2.3.0"
 val opencsvVersion = "5.9"
+val modelMapperVersion = "3.2.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
@@ -69,6 +70,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("com.opencsv:opencsv:$opencsvVersion")
+    implementation("org.modelmapper:modelmapper:$modelMapperVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$starterVersion")
     testImplementation("org.springframework.security:spring-security-test:$securityTestVersion")
 }
