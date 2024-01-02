@@ -14,11 +14,11 @@ data class PositiveTrait(
     var weight: Int? = null,
     var traitGroupId: Int? = null
 ) : Serializable, Trait {
-    override fun getId(): Int {
+    override fun traitId(): Int {
         return positiveTraitId ?: 0
     }
 
-    override fun getGroupId(): Int {
+    override fun traitGroupId(): Int {
         return traitGroupId ?: 0
     }
 }
