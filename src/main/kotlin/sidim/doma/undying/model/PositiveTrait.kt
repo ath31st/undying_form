@@ -13,4 +13,4 @@ data class PositiveTrait(
     var mentalHealthBonus: Int? = null,
     var weight: Int? = null,
     var traitGroupId: Int? = null
-) : Serializable
+) : Serializable, Trait
