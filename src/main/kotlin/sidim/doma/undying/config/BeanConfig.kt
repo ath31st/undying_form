@@ -1,5 +1,6 @@
 package sidim.doma.undying.config
 
+import org.modelmapper.ModelMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -16,4 +17,7 @@ class BeanConfig {
     @Bean
     fun authenticationManager(config: AuthenticationConfiguration): AuthenticationManager =
         config.authenticationManager
+
+    @Bean
+    fun modelMapper() = ModelMapper()
 }
