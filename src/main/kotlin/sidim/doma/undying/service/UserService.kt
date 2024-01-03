@@ -22,7 +22,7 @@ class UserService(
             throw UserException("Username ${dto.username} already used", HttpStatus.CONFLICT)
         }
         val scientist = scientistService.createScientist()
-        traitService.saveScientistTraits(scientist.scientistId ?: 0)
+        traitService.generateAndSaveRandomSetTraits(scientist.scientistId ?: 0)
         return userRepository.createUser(dto, scientist.scientistId ?: 0)
     }
 

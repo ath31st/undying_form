@@ -3,11 +3,6 @@ package sidim.doma.undying.service
 import org.springframework.stereotype.Service
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
-import sidim.doma.undying.mapper.NegativeTraitMapper
-import sidim.doma.undying.mapper.PositiveTraitMapper
-import sidim.doma.undying.model.NegativeTrait
-import sidim.doma.undying.model.PositiveTrait
-import sidim.doma.undying.model.Trait
 import sidim.doma.undying.repository.NegativeTraitRepository
 import sidim.doma.undying.repository.PositiveTraitRepository
 import sidim.doma.undying.util.constant.TraitConstants.COUNT_TRAITS
@@ -17,27 +12,28 @@ import sidim.doma.undying.util.constant.TraitConstants.TRAITS_WEIGHT_SUM
 class TraitService(
     private val positiveTraitRepository: PositiveTraitRepository,
     private val negativeTraitRepository: NegativeTraitRepository,
-    private val positiveTraitMapper: PositiveTraitMapper,
-    private val negativeTraitMapper: NegativeTraitMapper
 ) {
-    fun saveScientistTraits(scientistId: Long) {
-        val traits = collectScientistRandomTraits()
+    fun generateAndSaveRandomSetTraits(scientistId: Long) {
+        val posTraits = collectScientistRandomTraits().first
+        val negTraits = collectScientistRandomTraits().second
+
         positiveTraitRepository.saveScientistPositiveTraits(
             scientistId,
-            traits.filterIsInstance<PositiveTrait>().map { it.traitId() }.toList()
+            posTraits.map { it.positiveTraitId ?: 0 }.toList()
         )
         negativeTraitRepository.saveScientistNegativeTraits(
             scientistId,
-            traits.filterIsInstance<NegativeTrait>().map { it.traitId() }.toList()
+            negTraits.map { it.negativeTraitId ?: 0 }.toList()
         )
     }
 
-    fun collectScientistRandomTraits(): Set<Trait> {
+    fun collectScientistRandomTraits(): Pair<List<PositiveTraits>, List<NegativeTraits>> {
         var weight = TRAITS_WEIGHT_SUM
-        val traits = mutableSetOf<Trait>()
+        val posTraits = mutableSetOf<PositiveTraits>()
+        val negTraits = mutableSetOf<NegativeTraits>()
         val traitGroupIds = mutableSetOf<Int>()
 
-        while (traits.size < COUNT_TRAITS && weight > 0) {
+        while ((posTraits.size + negTraits.size) < COUNT_TRAITS && weight > 0) {
             val posTrait = getAllPositiveTraits()
                 .shuffled()
                 .firstOrNull {
@@ -46,10 +42,10 @@ class TraitService(
             posTrait?.let {
                 weight -= it.weight!!
                 traitGroupIds.add(it.traitGroupId!!)
-                traits.add(positiveTraitMapper.fromPojoToModel(posTrait))
+                posTraits.add(posTrait)
             }
 
-            if (traits.size < COUNT_TRAITS && weight > 0) {
+            if ((posTraits.size + negTraits.size) < COUNT_TRAITS && weight > 0) {
                 val negTrait = getAllNegativeTraits()
                     .shuffled()
                     .firstOrNull {
@@ -57,12 +53,12 @@ class TraitService(
                     }
                 negTrait?.let {
                     weight -= negTrait.weight!!
-                    traits.add(negativeTraitMapper.fromPojoToModel(negTrait))
                     traitGroupIds.add(negTrait.traitGroupId!!)
+                    negTraits.add(negTrait)
                 }
             }
         }
-        return traits
+        return Pair(posTraits.toList(), negTraits.toList())
     }
 
     fun getAllPositiveTraits(): List<PositiveTraits> {
