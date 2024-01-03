@@ -43,4 +43,14 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
 
         r.store()
     }
+
+    fun findTraitsByScientistId(id: Long): List<PositiveTraits> {
+        return dslContext.select(POSITIVE_TRAITS)
+            .from(POSITIVE_TRAITS)
+            .join(SCIENTIST_POSITIVE_TRAITS)
+            .onKey(POSITIVE_TRAITS.POSITIVE_TRAIT_ID)
+            .where(
+                SCIENTIST_POSITIVE_TRAITS.SCIENTIST_ID.eq(id)
+            ).fetchInto(PositiveTraits::class.java)
+    }
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import sidim.doma.undying.dto.trait.NewTraitDto
+import sidim.doma.undying.dto.trait.ScientistTraitsDto
 import sidim.doma.undying.service.TraitService
 
 @RestController
