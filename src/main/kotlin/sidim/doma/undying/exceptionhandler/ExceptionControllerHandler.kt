@@ -7,6 +7,7 @@ import sidim.doma.undying.exceptionhandler.exception.DistrictException
 import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
 import sidim.doma.undying.exceptionhandler.exception.SpecializationException
+import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.exceptionhandler.exception.UserException
 
 @ControllerAdvice
@@ -53,6 +54,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleEducationException(ex: EducationException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleTraitException(ex: TraitException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
