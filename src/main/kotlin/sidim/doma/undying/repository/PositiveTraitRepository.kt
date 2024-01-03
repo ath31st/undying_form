@@ -2,6 +2,7 @@ package sidim.doma.undying.repository
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
+import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.generated.tables.records.ScientistPositiveTraitsRecord
 import sidim.doma.undying.generated.tables.references.POSITIVE_TRAITS
@@ -25,5 +26,21 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         }
 
         dslContext.batchInsert(records).execute()
+    }
+
+    fun createTrait(dto: NewTraitDto) {
+        val r = dslContext.newRecord(POSITIVE_TRAITS)
+        r.name = dto.name
+        r.description = dto.description
+        r.isActive = true
+        r.alchemyBonus = dto.alchemyBonus
+        r.biologyBonus = dto.biologyBonus
+        r.engineeringBonus = dto.engineeringBonus
+        r.physicalHealthBonus = dto.physicalHealthBonus
+        r.mentalHealthBonus = dto.mentalHealthBonus
+        r.weight = dto.weight
+        r.traitGroupId = dto.traitGroupId
+
+        r.store()
     }
 }

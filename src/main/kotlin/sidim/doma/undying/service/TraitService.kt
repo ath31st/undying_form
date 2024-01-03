@@ -1,6 +1,7 @@
 package sidim.doma.undying.service
 
 import org.springframework.stereotype.Service
+import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.repository.NegativeTraitRepository
@@ -68,5 +69,13 @@ class TraitService(
 
     fun getActiveNegativeTraits(): List<NegativeTraits> {
         return negativeTraitRepository.getActiveTraits()
+    }
+
+    fun createPositiveTrait(dto: NewTraitDto) {
+        positiveTraitRepository.createTrait(dto)
+    }
+
+    fun createNegativeTrait(dto: NewTraitDto) {
+        negativeTraitRepository.createTrait(dto)
     }
 }
