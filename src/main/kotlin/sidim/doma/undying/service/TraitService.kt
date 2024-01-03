@@ -2,8 +2,10 @@ package sidim.doma.undying.service
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.trait.NewTraitDto
+import sidim.doma.undying.dto.trait.ScientistTraitsDto
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
+import sidim.doma.undying.mapper.TraitMapper
 import sidim.doma.undying.repository.NegativeTraitRepository
 import sidim.doma.undying.repository.PositiveTraitRepository
 import sidim.doma.undying.util.constant.TraitConstants.COUNT_TRAITS
@@ -13,6 +15,7 @@ import sidim.doma.undying.util.constant.TraitConstants.TRAITS_WEIGHT_SUM
 class TraitService(
     private val positiveTraitRepository: PositiveTraitRepository,
     private val negativeTraitRepository: NegativeTraitRepository,
+    private val traitMapper: TraitMapper
 ) {
     fun generateAndSaveRandomSetTraits(scientistId: Long) {
         val traits = collectScientistRandomTraits()
@@ -77,5 +80,16 @@ class TraitService(
 
     fun createNegativeTrait(dto: NewTraitDto) {
         negativeTraitRepository.createTrait(dto)
+    }
+
+    fun getTraitsByScientistId(id: Long): ScientistTraitsDto {
+        val posTraits = positiveTraitRepository.findTraitsByScientistId(id)
+        val negTraits = negativeTraitRepository.findTraitsByScientistId(id)
+
+        return ScientistTraitsDto(
+            scientistId = id,
+            positiveTraits = posTraits.map { traitMapper.fromPosPojoToDto(it) }.toList(),
+            negativeTraits = negTraits.map { traitMapper.fromNegPojoToDto(it) }.toList()
+        )
     }
 }
