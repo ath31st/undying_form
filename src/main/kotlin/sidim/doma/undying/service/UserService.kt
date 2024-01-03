@@ -13,7 +13,8 @@ import sidim.doma.undying.util.Role
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val scientistService: ScientistService
+    private val scientistService: ScientistService,
+    private val traitService: TraitService
 ) {
     @Transactional
     fun registerUser(dto: UserRegDto): Users {
@@ -21,6 +22,7 @@ class UserService(
             throw UserException("Username ${dto.username} already used", HttpStatus.CONFLICT)
         }
         val scientist = scientistService.createScientist()
+        traitService.saveScientistTraits(scientist.scientistId ?: 0)
         return userRepository.createUser(dto, scientist.scientistId ?: 0)
     }
 

@@ -5,6 +5,8 @@ import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.mapper.NegativeTraitMapper
 import sidim.doma.undying.mapper.PositiveTraitMapper
+import sidim.doma.undying.model.NegativeTrait
+import sidim.doma.undying.model.PositiveTrait
 import sidim.doma.undying.model.Trait
 import sidim.doma.undying.repository.NegativeTraitRepository
 import sidim.doma.undying.repository.PositiveTraitRepository
@@ -18,6 +20,18 @@ class TraitService(
     private val positiveTraitMapper: PositiveTraitMapper,
     private val negativeTraitMapper: NegativeTraitMapper
 ) {
+    fun saveScientistTraits(scientistId: Long) {
+        val traits = collectScientistRandomTraits()
+        positiveTraitRepository.saveScientistPositiveTraits(
+            scientistId,
+            traits.filterIsInstance<PositiveTrait>().map { it.traitId() }.toList()
+        )
+        negativeTraitRepository.saveScientistNegativeTraits(
+            scientistId,
+            traits.filterIsInstance<NegativeTrait>().map { it.traitId() }.toList()
+        )
+    }
+
     fun collectScientistRandomTraits(): Set<Trait> {
         var weight = TRAITS_WEIGHT_SUM
         val traits = mutableSetOf<Trait>()
