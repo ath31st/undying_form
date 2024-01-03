@@ -33,11 +33,11 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
         r.name = dto.name
         r.description = dto.description
         r.isActive = true
-        r.alchemyPenalty = dto.alchemyBonus
-        r.biologyPenalty = dto.biologyBonus
-        r.engineeringPenalty = dto.engineeringBonus
-        r.physicalHealthPenalty = dto.physicalHealthBonus
-        r.mentalHealthPenalty = dto.mentalHealthBonus
+        r.alchemyPenalty = dto.alchemyValue
+        r.biologyPenalty = dto.biologyValue
+        r.engineeringPenalty = dto.engineeringValue
+        r.physicalHealthPenalty = dto.physicalHealthValue
+        r.mentalHealthPenalty = dto.mentalHealthValue
         r.weight = dto.weight
         r.traitGroupId = dto.traitGroupId
 

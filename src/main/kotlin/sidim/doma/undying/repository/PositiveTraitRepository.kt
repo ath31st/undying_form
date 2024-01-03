@@ -33,11 +33,11 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         r.name = dto.name
         r.description = dto.description
         r.isActive = true
-        r.alchemyBonus = dto.alchemyBonus
-        r.biologyBonus = dto.biologyBonus
-        r.engineeringBonus = dto.engineeringBonus
-        r.physicalHealthBonus = dto.physicalHealthBonus
-        r.mentalHealthBonus = dto.mentalHealthBonus
+        r.alchemyBonus = dto.alchemyValue
+        r.biologyBonus = dto.biologyValue
+        r.engineeringBonus = dto.engineeringValue
+        r.physicalHealthBonus = dto.physicalHealthValue
+        r.mentalHealthBonus = dto.mentalHealthValue
         r.weight = dto.weight
         r.traitGroupId = dto.traitGroupId
 
