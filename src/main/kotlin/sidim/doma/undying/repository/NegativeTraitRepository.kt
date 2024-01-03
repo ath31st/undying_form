@@ -9,8 +9,9 @@ import sidim.doma.undying.generated.tables.references.SCIENTIST_NEGATIVE_TRAITS
 
 @Repository
 class NegativeTraitRepository(private val dslContext: DSLContext) {
-    fun getAllTraits(): List<NegativeTraits> {
+    fun getActiveTraits(): List<NegativeTraits> {
         return dslContext.selectFrom(NEGATIVE_TRAITS)
+            .where(NEGATIVE_TRAITS.IS_ACTIVE.eq(true))
             .fetchInto(NegativeTraits::class.java)
     }
 

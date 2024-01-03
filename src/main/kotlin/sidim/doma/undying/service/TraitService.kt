@@ -14,8 +14,9 @@ class TraitService(
     private val negativeTraitRepository: NegativeTraitRepository,
 ) {
     fun generateAndSaveRandomSetTraits(scientistId: Long) {
-        val posTraits = collectScientistRandomTraits().first
-        val negTraits = collectScientistRandomTraits().second
+        val traits = collectScientistRandomTraits()
+        val posTraits = traits.first
+        val negTraits = traits.second
 
         positiveTraitRepository.saveScientistPositiveTraits(
             scientistId,
@@ -34,7 +35,7 @@ class TraitService(
         val traitGroupIds = mutableSetOf<Int>()
 
         while ((posTraits.size + negTraits.size) < COUNT_TRAITS && weight > 0) {
-            val posTrait = getAllPositiveTraits()
+            val posTrait = getActivePositiveTraits()
                 .shuffled()
                 .firstOrNull {
                     weight - it.weight!! >= 1 && traitGroupIds.contains(it.traitGroupId).not()
@@ -42,30 +43,30 @@ class TraitService(
             posTrait?.let {
                 weight -= it.weight!!
                 traitGroupIds.add(it.traitGroupId!!)
-                posTraits.add(posTrait)
+                posTraits.add(it)
             }
 
             if ((posTraits.size + negTraits.size) < COUNT_TRAITS && weight > 0) {
-                val negTrait = getAllNegativeTraits()
+                val negTrait = getActiveNegativeTraits()
                     .shuffled()
                     .firstOrNull {
                         weight - it.weight!! >= 0 && traitGroupIds.contains(it.traitGroupId).not()
                     }
                 negTrait?.let {
-                    weight -= negTrait.weight!!
-                    traitGroupIds.add(negTrait.traitGroupId!!)
-                    negTraits.add(negTrait)
+                    weight -= it.weight!!
+                    traitGroupIds.add(it.traitGroupId!!)
+                    negTraits.add(it)
                 }
             }
         }
         return Pair(posTraits.toList(), negTraits.toList())
     }
 
-    fun getAllPositiveTraits(): List<PositiveTraits> {
-        return positiveTraitRepository.getAllTraits()
+    fun getActivePositiveTraits(): List<PositiveTraits> {
+        return positiveTraitRepository.getActiveTraits()
     }
 
-    fun getAllNegativeTraits(): List<NegativeTraits> {
-        return negativeTraitRepository.getAllTraits()
+    fun getActiveNegativeTraits(): List<NegativeTraits> {
+        return negativeTraitRepository.getActiveTraits()
     }
 }
