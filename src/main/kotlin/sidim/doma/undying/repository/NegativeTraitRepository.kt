@@ -48,7 +48,7 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
         return dslContext.select(NEGATIVE_TRAITS)
             .from(NEGATIVE_TRAITS)
             .join(SCIENTIST_NEGATIVE_TRAITS)
-            .onKey(NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID)
+            .on(NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID.eq(SCIENTIST_NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID))
             .where(
                 SCIENTIST_NEGATIVE_TRAITS.SCIENTIST_ID.eq(id)
             ).fetchInto(NegativeTraits::class.java)

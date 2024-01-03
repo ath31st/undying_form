@@ -48,7 +48,7 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         return dslContext.select(POSITIVE_TRAITS)
             .from(POSITIVE_TRAITS)
             .join(SCIENTIST_POSITIVE_TRAITS)
-            .onKey(POSITIVE_TRAITS.POSITIVE_TRAIT_ID)
+            .on(POSITIVE_TRAITS.POSITIVE_TRAIT_ID.eq(SCIENTIST_POSITIVE_TRAITS.POSITIVE_TRAIT_ID))
             .where(
                 SCIENTIST_POSITIVE_TRAITS.SCIENTIST_ID.eq(id)
             ).fetchInto(PositiveTraits::class.java)
