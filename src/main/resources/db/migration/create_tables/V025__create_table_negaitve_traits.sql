@@ -3,6 +3,7 @@ CREATE TABLE negative_traits
     negative_trait_id       SERIAL PRIMARY KEY,
     name                    VARCHAR(255)                                     NOT NULL,
     description             TEXT                                             NOT NULL,
+    is_active               BOOLEAN,
     alchemy_penalty         INT,
     biology_penalty         INT,
     engineering_penalty     INT,
