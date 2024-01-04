@@ -42,11 +42,11 @@ class TraitService(
             val posTrait = getActivePositiveTraits()
                 .shuffled()
                 .firstOrNull {
-                    weight - it.weight!! >= 1 && traitGroupIds.contains(it.traitGroupId).not()
+                    weight - (it.weight ?: 0) >= 1 && !traitGroupIds.contains(it.traitGroupId ?: 0)
                 }
             posTrait?.let {
-                weight -= it.weight!!
-                traitGroupIds.add(it.traitGroupId!!)
+                weight -= it.weight ?: 0
+                traitGroupIds.add(it.traitGroupId ?: 0)
                 posTraits.add(it)
             }
 
@@ -54,11 +54,13 @@ class TraitService(
                 val negTrait = getActiveNegativeTraits()
                     .shuffled()
                     .firstOrNull {
-                        weight - it.weight!! >= 0 && traitGroupIds.contains(it.traitGroupId).not()
+                        weight - (it.weight ?: 0) >= 0 && !traitGroupIds.contains(
+                            it.traitGroupId ?: 0
+                        )
                     }
                 negTrait?.let {
-                    weight -= it.weight!!
-                    traitGroupIds.add(it.traitGroupId!!)
+                    weight -= it.weight ?: 0
+                    traitGroupIds.add(it.traitGroupId ?: 0)
                     negTraits.add(it)
                 }
             }
