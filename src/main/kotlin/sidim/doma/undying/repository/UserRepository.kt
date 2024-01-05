@@ -25,7 +25,7 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun createUser(dto: UserRegDto, scientistId: Long): Users {
+    fun createUser(dto: UserRegDto, scholarId: Long): Users {
         val r = dslContext.newRecord(USERS)
         r.username = dto.username
         r.email = dto.email
@@ -33,7 +33,7 @@ class UserRepository(private val dslContext: DSLContext) {
         r.isActive = true
         r.isNotBlocked = true
         r.role = Role.ROLE_GAMER.ordinal
-        r.scientistId = scientistId
+        r.scholarId = scholarId
 
         r.store()
         return r.into(Users::class.java)

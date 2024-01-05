@@ -4,9 +4,9 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
-import sidim.doma.undying.generated.tables.records.ScientistNegativeTraitsRecord
+import sidim.doma.undying.generated.tables.records.ScholarNegativeTraitsRecord
 import sidim.doma.undying.generated.tables.references.NEGATIVE_TRAITS
-import sidim.doma.undying.generated.tables.references.SCIENTIST_NEGATIVE_TRAITS
+import sidim.doma.undying.generated.tables.references.SCHOLAR_NEGATIVE_TRAITS
 
 @Repository
 class NegativeTraitRepository(private val dslContext: DSLContext) {
@@ -16,11 +16,11 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
             .fetchInto(NegativeTraits::class.java)
     }
 
-    fun saveScientistNegativeTraits(scientistId: Long, traitIds: List<Int>) {
-        val records = mutableListOf<ScientistNegativeTraitsRecord>()
+    fun saveScholarNegativeTraits(scholarId: Long, traitIds: List<Int>) {
+        val records = mutableListOf<ScholarNegativeTraitsRecord>()
         traitIds.forEach { id ->
-            val r = dslContext.newRecord(SCIENTIST_NEGATIVE_TRAITS)
-            r.scientistId = scientistId
+            val r = dslContext.newRecord(SCHOLAR_NEGATIVE_TRAITS)
+            r.scholarId = scholarId
             r.negativeTraitId = id
             records.add(r)
         }
@@ -44,13 +44,13 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
         r.store()
     }
 
-    fun findTraitsByScientistId(id: Long): List<NegativeTraits> {
+    fun findTraitsByScholarId(id: Long): List<NegativeTraits> {
         return dslContext.select(NEGATIVE_TRAITS)
             .from(NEGATIVE_TRAITS)
-            .join(SCIENTIST_NEGATIVE_TRAITS)
-            .on(NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID.eq(SCIENTIST_NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID))
+            .join(SCHOLAR_NEGATIVE_TRAITS)
+            .on(NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID.eq(SCHOLAR_NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID))
             .where(
-                SCIENTIST_NEGATIVE_TRAITS.SCIENTIST_ID.eq(id)
+                SCHOLAR_NEGATIVE_TRAITS.SCHOLAR_ID.eq(id)
             ).fetchInto(NegativeTraits::class.java)
     }
 }

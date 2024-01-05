@@ -4,9 +4,9 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
-import sidim.doma.undying.generated.tables.records.ScientistPositiveTraitsRecord
+import sidim.doma.undying.generated.tables.records.ScholarPositiveTraitsRecord
 import sidim.doma.undying.generated.tables.references.POSITIVE_TRAITS
-import sidim.doma.undying.generated.tables.references.SCIENTIST_POSITIVE_TRAITS
+import sidim.doma.undying.generated.tables.references.SCHOLAR_POSITIVE_TRAITS
 
 @Repository
 class PositiveTraitRepository(private val dslContext: DSLContext) {
@@ -16,11 +16,11 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
             .fetchInto(PositiveTraits::class.java)
     }
 
-    fun saveScientistPositiveTraits(scientistId: Long, traitIds: List<Int>) {
-        val records = mutableListOf<ScientistPositiveTraitsRecord>()
+    fun saveScholarPositiveTraits(scholarId: Long, traitIds: List<Int>) {
+        val records = mutableListOf<ScholarPositiveTraitsRecord>()
         traitIds.forEach { id ->
-            val r = dslContext.newRecord(SCIENTIST_POSITIVE_TRAITS)
-            r.scientistId = scientistId
+            val r = dslContext.newRecord(SCHOLAR_POSITIVE_TRAITS)
+            r.scholarId = scholarId
             r.positiveTraitId = id
             records.add(r)
         }
@@ -44,13 +44,13 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         r.store()
     }
 
-    fun findTraitsByScientistId(id: Long): List<PositiveTraits> {
+    fun findTraitsByScholarId(id: Long): List<PositiveTraits> {
         return dslContext.select(POSITIVE_TRAITS)
             .from(POSITIVE_TRAITS)
-            .join(SCIENTIST_POSITIVE_TRAITS)
-            .on(POSITIVE_TRAITS.POSITIVE_TRAIT_ID.eq(SCIENTIST_POSITIVE_TRAITS.POSITIVE_TRAIT_ID))
+            .join(SCHOLAR_POSITIVE_TRAITS)
+            .on(POSITIVE_TRAITS.POSITIVE_TRAIT_ID.eq(SCHOLAR_POSITIVE_TRAITS.POSITIVE_TRAIT_ID))
             .where(
-                SCIENTIST_POSITIVE_TRAITS.SCIENTIST_ID.eq(id)
+                SCHOLAR_POSITIVE_TRAITS.SCHOLAR_ID.eq(id)
             ).fetchInto(PositiveTraits::class.java)
     }
 }

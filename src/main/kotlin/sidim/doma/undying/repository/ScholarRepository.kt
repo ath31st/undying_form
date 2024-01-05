@@ -2,14 +2,14 @@ package sidim.doma.undying.repository
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import sidim.doma.undying.dto.scientist.ScientistDto
-import sidim.doma.undying.generated.tables.pojos.Scientists
-import sidim.doma.undying.generated.tables.references.SCIENTISTS
+import sidim.doma.undying.dto.scholar.ScholarDto
+import sidim.doma.undying.generated.tables.pojos.Scholars
+import sidim.doma.undying.generated.tables.references.SCHOLARS
 
 @Repository
-class ScientistRepository(private val dslContext: DSLContext) {
-    fun createScientist(dto: ScientistDto): Scientists {
-        val r = dslContext.newRecord(SCIENTISTS)
+class ScholarRepository(private val dslContext: DSLContext) {
+    fun createscholar(dto: ScholarDto): Scholars {
+        val r = dslContext.newRecord(SCHOLARS)
         r.name = dto.name
         r.age = dto.age
         r.physicalHealth = dto.physicalHealth
@@ -24,6 +24,6 @@ class ScientistRepository(private val dslContext: DSLContext) {
         r.hideoutId = dto.hideoutId
 
         r.store()
-        return r.into(Scientists::class.java)
+        return r.into(Scholars::class.java)
     }
 }
