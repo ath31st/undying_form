@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.trait.NewTraitDto
-import sidim.doma.undying.dto.trait.ScientistTraitsDto
+import sidim.doma.undying.dto.trait.ScholarTraitsDto
 import sidim.doma.undying.service.TraitService
 
 @RestController
@@ -31,8 +31,8 @@ class TraitController(
         return ResponseEntity(HttpStatus.CREATED)
     }
 
-    @GetMapping("/scientist/{id}")
-    fun scientistTraits(@PathVariable id: Long): ResponseEntity<ScientistTraitsDto> {
-        return ResponseEntity.ok(traitService.getTraitsByScientistId(id))
+    @GetMapping("/scholar/{id}")
+    fun scholarTraits(@PathVariable id: Long): ResponseEntity<ScholarTraitsDto> {
+        return ResponseEntity.ok(traitService.getTraitsByScholarId(id))
     }
 }

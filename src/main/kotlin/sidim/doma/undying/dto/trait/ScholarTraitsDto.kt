@@ -1,7 +1,7 @@
 package sidim.doma.undying.dto.trait
 
-class ScientistTraitsDto(
-    val scientistId: Long,
+class ScholarTraitsDto(
+    val scholarId: Long,
     val positiveTraits: List<PositiveTraitDto>,
     val negativeTraits: List<NegativeTraitDto>,
 )
