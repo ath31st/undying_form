@@ -2,7 +2,7 @@ package sidim.doma.undying.service
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.trait.NewTraitDto
-import sidim.doma.undying.dto.trait.ScientistTraitsDto
+import sidim.doma.undying.dto.trait.ScholarTraitsDto
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.mapper.TraitMapper
@@ -17,22 +17,22 @@ class TraitService(
     private val negativeTraitRepository: NegativeTraitRepository,
     private val traitMapper: TraitMapper
 ) {
-    fun generateAndSaveRandomSetTraits(scientistId: Long) {
-        val traits = collectScientistRandomTraits()
+    fun generateAndSaveRandomSetTraits(scholarId: Long) {
+        val traits = collectScholarRandomTraits()
         val posTraits = traits.first
         val negTraits = traits.second
 
-        positiveTraitRepository.saveScientistPositiveTraits(
-            scientistId,
+        positiveTraitRepository.saveScholarPositiveTraits(
+            scholarId,
             posTraits.map { it.positiveTraitId ?: 0 }.toList()
         )
-        negativeTraitRepository.saveScientistNegativeTraits(
-            scientistId,
+        negativeTraitRepository.saveScholarNegativeTraits(
+            scholarId,
             negTraits.map { it.negativeTraitId ?: 0 }.toList()
         )
     }
 
-    fun collectScientistRandomTraits(): Pair<List<PositiveTraits>, List<NegativeTraits>> {
+    fun collectScholarRandomTraits(): Pair<List<PositiveTraits>, List<NegativeTraits>> {
         var weight = TRAITS_WEIGHT_SUM
         val posTraits = mutableSetOf<PositiveTraits>()
         val negTraits = mutableSetOf<NegativeTraits>()
@@ -84,12 +84,12 @@ class TraitService(
         negativeTraitRepository.createTrait(dto)
     }
 
-    fun getTraitsByScientistId(id: Long): ScientistTraitsDto {
-        val posTraits = positiveTraitRepository.findTraitsByScientistId(id)
-        val negTraits = negativeTraitRepository.findTraitsByScientistId(id)
+    fun getTraitsByScholarId(id: Long): ScholarTraitsDto {
+        val posTraits = positiveTraitRepository.findTraitsByScholarId(id)
+        val negTraits = negativeTraitRepository.findTraitsByScholarId(id)
 
-        return ScientistTraitsDto(
-            scientistId = id,
+        return ScholarTraitsDto(
+            scholarId = id,
             positiveTraits = posTraits.map { traitMapper.fromPosPojoToDto(it) }.toList(),
             negativeTraits = negTraits.map { traitMapper.fromNegPojoToDto(it) }.toList()
         )

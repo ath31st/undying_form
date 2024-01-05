@@ -1,6 +1,6 @@
 package sidim.doma.undying.util.constant
 
-object ScientistConstants {
+object ScholarConstants {
     const val DEFAULT_PHYSICAL_HEALTH = 100
     const val DEFAULT_MENTAL_HEALTH = 100
     const val DEFAULT_EXPERIENCE = 0

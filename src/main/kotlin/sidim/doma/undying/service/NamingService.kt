@@ -16,8 +16,8 @@ class NamingService {
     private val nounFile = csvPath + "hideout_nouns.csv"
     private val caretakerFirstNameFile = csvPath + "caretaker_firstname.csv"
     private val caretakerLastNameFile = csvPath + "caretaker_lastname.csv"
-    private val scientistFirstNameFile = csvPath + "scientist_firstname.csv"
-    private val scientistLastNameFile = csvPath + "scientist_lastname.csv"
+    private val scholarFirstNameFile = csvPath + "scholar_firstname.csv"
+    private val scholarLastNameFile = csvPath + "scholar_lastname.csv"
 
     fun generateCaretakerFirstLastName(): String {
         val firstName = getRandomLine(caretakerFirstNameFile)
@@ -26,9 +26,9 @@ class NamingService {
         return "$firstName $lastName"
     }
 
-    fun generateScientistFirstLastName(): String {
-        val firstName = getRandomLine(scientistFirstNameFile)
-        val lastName = getRandomLine(scientistLastNameFile)
+    fun generateScholarFirstLastName(): String {
+        val firstName = getRandomLine(scholarFirstNameFile)
+        val lastName = getRandomLine(scholarLastNameFile)
 
         return "$firstName $lastName"
     }

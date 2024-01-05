@@ -13,7 +13,7 @@ import sidim.doma.undying.util.Role
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val scientistService: ScientistService,
+    private val scholarService: ScholarService,
     private val traitService: TraitService
 ) {
     @Transactional
@@ -21,9 +21,9 @@ class UserService(
         if (userRepository.isUserExistByUsername(dto.username)) {
             throw UserException("Username ${dto.username} already used", HttpStatus.CONFLICT)
         }
-        val scientist = scientistService.createScientist()
-        traitService.generateAndSaveRandomSetTraits(scientist.scientistId ?: 0)
-        return userRepository.createUser(dto, scientist.scientistId ?: 0)
+        val scholar = scholarService.createscholar()
+        traitService.generateAndSaveRandomSetTraits(scholar.scholarId ?: 0)
+        return userRepository.createUser(dto, scholar.scholarId ?: 0)
     }
 
     fun getUserInfo(id: Long): UserInfoDto {

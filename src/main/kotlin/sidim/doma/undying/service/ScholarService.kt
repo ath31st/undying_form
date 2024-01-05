@@ -1,33 +1,33 @@
 package sidim.doma.undying.service
 
 import org.springframework.stereotype.Service
-import sidim.doma.undying.dto.scientist.ScientistDto
-import sidim.doma.undying.generated.tables.pojos.Scientists
-import sidim.doma.undying.repository.ScientistRepository
+import sidim.doma.undying.dto.scholar.ScholarDto
+import sidim.doma.undying.generated.tables.pojos.Scholars
+import sidim.doma.undying.repository.ScholarRepository
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
-import sidim.doma.undying.util.constant.ScientistConstants.BONUSES_SUM
-import sidim.doma.undying.util.constant.ScientistConstants.DEFAULT_EXPERIENCE
-import sidim.doma.undying.util.constant.ScientistConstants.DEFAULT_MENTAL_HEALTH
-import sidim.doma.undying.util.constant.ScientistConstants.DEFAULT_PHYSICAL_HEALTH
-import sidim.doma.undying.util.constant.ScientistConstants.MAX_AGE
-import sidim.doma.undying.util.constant.ScientistConstants.MIN_AGE
-import sidim.doma.undying.util.constant.ScientistConstants.MIN_BONUS_VALUE
-import sidim.doma.undying.util.constant.ScientistConstants.SKILLS_COUNT
+import sidim.doma.undying.util.constant.ScholarConstants.BONUSES_SUM
+import sidim.doma.undying.util.constant.ScholarConstants.DEFAULT_EXPERIENCE
+import sidim.doma.undying.util.constant.ScholarConstants.DEFAULT_MENTAL_HEALTH
+import sidim.doma.undying.util.constant.ScholarConstants.DEFAULT_PHYSICAL_HEALTH
+import sidim.doma.undying.util.constant.ScholarConstants.MAX_AGE
+import sidim.doma.undying.util.constant.ScholarConstants.MIN_AGE
+import sidim.doma.undying.util.constant.ScholarConstants.MIN_BONUS_VALUE
+import sidim.doma.undying.util.constant.ScholarConstants.SKILLS_COUNT
 
 @Service
-class ScientistService(
-    private val scientistRepository: ScientistRepository,
+class ScholarService(
+    private val scholarRepository: ScholarRepository,
     private val hideoutService: HideoutService,
     private val namingService: NamingService,
     private val educationService: EducationService,
     private val generatorRandomValuesUtil: GeneratorRandomValuesUtil
 ) {
-    fun createScientist(): Scientists {
+    fun createscholar(): Scholars {
         val randomValues = generatorRandomValuesUtil.generateRandomValues(
             SKILLS_COUNT, MIN_BONUS_VALUE, BONUSES_SUM
         )
-        val dto = ScientistDto(
-            name = namingService.generateScientistFirstLastName(),
+        val dto = ScholarDto(
+            name = namingService.generateScholarFirstLastName(),
             age = generatorRandomValuesUtil.generateRandomInteger(MIN_AGE, MAX_AGE),
             physicalHealth = DEFAULT_PHYSICAL_HEALTH,
             mentalHealth = DEFAULT_MENTAL_HEALTH,
@@ -40,6 +40,6 @@ class ScientistService(
             specializationId = null,
             hideoutId = hideoutService.createHideout().hideoutId.let { it ?: 0 }
         )
-        return scientistRepository.createScientist(dto)
+        return scholarRepository.createscholar(dto)
     }
 }
