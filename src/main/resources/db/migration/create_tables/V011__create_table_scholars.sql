@@ -1,6 +1,6 @@
-CREATE TABLE scientists
+CREATE TABLE scholars
 (
-    scientist_id           BIGSERIAL PRIMARY KEY,
+    scholar_id             BIGSERIAL PRIMARY KEY,
     name                   VARCHAR(255) NOT NULL,
     age                    INT,
     physical_health        INT,
