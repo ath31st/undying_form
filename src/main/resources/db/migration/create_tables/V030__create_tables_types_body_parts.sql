@@ -1,16 +1,6 @@
-CREATE TABLE type_hands
+CREATE TABLE hand_types
 (
-    type_hands_id SERIAL PRIMARY KEY,
-    name          VARCHAR(255) NOT NULL,
-    description   TEXT,
-    strength      INTEGER      NOT NULL CHECK (strength >= 0),
-    agility       INTEGER      NOT NULL CHECK (agility >= 0),
-    endurance     INTEGER      NOT NULL CHECK (endurance >= 0)
-);
-
-CREATE TABLE type_legs
-(
-    type_legs_id SERIAL PRIMARY KEY,
+    hand_type_id SERIAL PRIMARY KEY,
     name         VARCHAR(255) NOT NULL,
     description  TEXT,
     strength     INTEGER      NOT NULL CHECK (strength >= 0),
@@ -18,22 +8,32 @@ CREATE TABLE type_legs
     endurance    INTEGER      NOT NULL CHECK (endurance >= 0)
 );
 
-CREATE TABLE type_upper_bodies
+CREATE TABLE leg_types
 (
-    type_upper_bodies_id SERIAL PRIMARY KEY,
-    name                 VARCHAR(255) NOT NULL,
-    description          TEXT,
-    strength             INTEGER      NOT NULL CHECK (strength >= 0),
-    agility              INTEGER      NOT NULL CHECK (agility >= 0),
-    endurance            INTEGER      NOT NULL CHECK (endurance >= 0)
+    leg_type_id SERIAL PRIMARY KEY,
+    name        VARCHAR(255) NOT NULL,
+    description TEXT,
+    strength    INTEGER      NOT NULL CHECK (strength >= 0),
+    agility     INTEGER      NOT NULL CHECK (agility >= 0),
+    endurance   INTEGER      NOT NULL CHECK (endurance >= 0)
 );
 
-CREATE TABLE type_heads
+CREATE TABLE upper_body_types
 (
-    type_heads_id SERIAL PRIMARY KEY,
-    name          VARCHAR(255) NOT NULL,
-    description   TEXT,
-    strength      INTEGER      NOT NULL CHECK (strength >= 0),
-    agility       INTEGER      NOT NULL CHECK (agility >= 0),
-    endurance     INTEGER      NOT NULL CHECK (endurance >= 0)
+    upper_body_type_id SERIAL PRIMARY KEY,
+    name               VARCHAR(255) NOT NULL,
+    description        TEXT,
+    strength           INTEGER      NOT NULL CHECK (strength >= 0),
+    agility            INTEGER      NOT NULL CHECK (agility >= 0),
+    endurance          INTEGER      NOT NULL CHECK (endurance >= 0)
+);
+
+CREATE TABLE head_types
+(
+    head_type_id SERIAL PRIMARY KEY,
+    name         VARCHAR(255) NOT NULL,
+    description  TEXT,
+    strength     INTEGER      NOT NULL CHECK (strength >= 0),
+    agility      INTEGER      NOT NULL CHECK (agility >= 0),
+    endurance    INTEGER      NOT NULL CHECK (endurance >= 0)
 );
