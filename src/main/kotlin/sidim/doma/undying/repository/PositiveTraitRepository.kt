@@ -10,16 +10,19 @@ import sidim.doma.undying.generated.tables.references.SCHOLAR_POSITIVE_TRAITS
 
 @Repository
 class PositiveTraitRepository(private val dslContext: DSLContext) {
+    private val pt = POSITIVE_TRAITS
+    private val spt = SCHOLAR_POSITIVE_TRAITS
+
     fun getActiveTraits(): List<PositiveTraits> {
-        return dslContext.selectFrom(POSITIVE_TRAITS)
-            .where(POSITIVE_TRAITS.IS_ACTIVE.eq(true))
+        return dslContext.selectFrom(pt)
+            .where(pt.IS_ACTIVE.eq(true))
             .fetchInto(PositiveTraits::class.java)
     }
 
     fun saveScholarPositiveTraits(scholarId: Long, traitIds: List<Int>) {
         val records = mutableListOf<ScholarPositiveTraitsRecord>()
         traitIds.forEach { id ->
-            val r = dslContext.newRecord(SCHOLAR_POSITIVE_TRAITS)
+            val r = dslContext.newRecord(spt)
             r.scholarId = scholarId
             r.positiveTraitId = id
             records.add(r)
@@ -29,7 +32,7 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun createTrait(dto: NewTraitDto) {
-        val r = dslContext.newRecord(POSITIVE_TRAITS)
+        val r = dslContext.newRecord(pt)
         r.name = dto.name
         r.description = dto.description
         r.isActive = true
@@ -45,12 +48,12 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun findTraitsByScholarId(id: Long): List<PositiveTraits> {
-        return dslContext.select(POSITIVE_TRAITS)
-            .from(POSITIVE_TRAITS)
-            .join(SCHOLAR_POSITIVE_TRAITS)
-            .on(POSITIVE_TRAITS.POSITIVE_TRAIT_ID.eq(SCHOLAR_POSITIVE_TRAITS.POSITIVE_TRAIT_ID))
+        return dslContext.select(pt)
+            .from(pt)
+            .join(spt)
+            .on(pt.POSITIVE_TRAIT_ID.eq(spt.POSITIVE_TRAIT_ID))
             .where(
-                SCHOLAR_POSITIVE_TRAITS.SCHOLAR_ID.eq(id)
+                spt.SCHOLAR_ID.eq(id)
             ).fetchInto(PositiveTraits::class.java)
     }
 }

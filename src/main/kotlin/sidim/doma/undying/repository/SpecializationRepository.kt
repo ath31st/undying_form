@@ -7,9 +7,11 @@ import sidim.doma.undying.generated.tables.references.SPECIALIZATIONS
 
 @Repository
 class SpecializationRepository(private val dslContext: DSLContext) {
+    private val s = SPECIALIZATIONS
+
     fun getRandomSpecializationId(): Int? {
-        return dslContext.select(SPECIALIZATIONS.SPECIALIZATION_ID)
-            .from(SPECIALIZATIONS)
+        return dslContext.select(s.SPECIALIZATION_ID)
+            .from(s)
             .orderBy(DSL.rand())
             .limit(1)
             .fetchOneInto(Int::class.java)
@@ -17,8 +19,8 @@ class SpecializationRepository(private val dslContext: DSLContext) {
 
     fun isSpecializationExistById(id: Int): Boolean {
         return dslContext.selectCount()
-            .from(SPECIALIZATIONS)
-            .where(SPECIALIZATIONS.SPECIALIZATION_ID.eq(id))
+            .from(s)
+            .where(s.SPECIALIZATION_ID.eq(id))
             .fetchOneInto(Int::class.java) == 1
     }
 }

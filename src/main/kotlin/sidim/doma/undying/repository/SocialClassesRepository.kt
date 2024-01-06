@@ -7,10 +7,12 @@ import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
 
 @Repository
 class SocialClassesRepository(private val dslContext: DSLContext) {
+    private val sc = SOCIAL_CLASSES
+    
     fun getRandomSocialClassId(): Int? {
-        return dslContext.select(SOCIAL_CLASSES.SOCIAL_CLASS_ID)
-            .from(SOCIAL_CLASSES)
-            .where(SOCIAL_CLASSES.IS_ACTIVE.eq(true))
+        return dslContext.select(sc.SOCIAL_CLASS_ID)
+            .from(sc)
+            .where(sc.IS_ACTIVE.eq(true))
             .orderBy(DSL.rand())
             .limit(1)
             .fetchOneInto(Int::class.java)

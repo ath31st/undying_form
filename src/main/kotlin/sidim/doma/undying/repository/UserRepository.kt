@@ -10,23 +10,24 @@ import sidim.doma.undying.util.Role
 
 @Repository
 class UserRepository(private val dslContext: DSLContext) {
+    private val u = USERS
 
     fun isUserExistByUsername(username: String): Boolean {
         return dslContext.selectCount()
-            .from(USERS)
-            .where(USERS.USERNAME.eq(username))
+            .from(u)
+            .where(u.USERNAME.eq(username))
             .fetchOneInto(Int::class.java) == 1
     }
 
     fun isUserExistById(id: Long): Boolean {
         return dslContext.selectCount()
-            .from(USERS)
-            .where(USERS.USER_ID.eq(id))
+            .from(u)
+            .where(u.USER_ID.eq(id))
             .fetchOneInto(Int::class.java) == 1
     }
 
     fun createUser(dto: UserRegDto, scholarId: Long): Users {
-        val r = dslContext.newRecord(USERS)
+        val r = dslContext.newRecord(u)
         r.username = dto.username
         r.email = dto.email
         r.registerDate = LocalDate.now()
@@ -40,29 +41,29 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun getUserByUsername(username: String): Users? {
-        return dslContext.select(USERS)
-            .where(USERS.USERNAME.eq(username))
+        return dslContext.select(u)
+            .where(u.USERNAME.eq(username))
             .fetchOneInto(Users::class.java)
     }
 
     fun getUserById(id: Long): Users? {
         return dslContext.select()
-            .from(USERS)
-            .where(USERS.USER_ID.eq(id))
+            .from(u)
+            .where(u.USER_ID.eq(id))
             .fetchOneInto(Users::class.java)
     }
 
     fun updateActiveStatus(id: Long, newStatus: Boolean) {
-        dslContext.update(USERS)
-            .set(USERS.IS_ACTIVE, newStatus)
-            .where(USERS.USER_ID.eq(id))
+        dslContext.update(u)
+            .set(u.IS_ACTIVE, newStatus)
+            .where(u.USER_ID.eq(id))
             .execute()
     }
 
     fun updateBlockedStatus(id: Long, newStatus: Boolean) {
-        dslContext.update(USERS)
-            .set(USERS.IS_NOT_BLOCKED, newStatus)
-            .where(USERS.USER_ID.eq(id))
+        dslContext.update(u)
+            .set(u.IS_NOT_BLOCKED, newStatus)
+            .where(u.USER_ID.eq(id))
             .execute()
     }
 }

@@ -10,16 +10,19 @@ import sidim.doma.undying.generated.tables.references.SCHOLAR_NEGATIVE_TRAITS
 
 @Repository
 class NegativeTraitRepository(private val dslContext: DSLContext) {
+    private val nt = NEGATIVE_TRAITS
+    private val snt = SCHOLAR_NEGATIVE_TRAITS
+
     fun getActiveTraits(): List<NegativeTraits> {
-        return dslContext.selectFrom(NEGATIVE_TRAITS)
-            .where(NEGATIVE_TRAITS.IS_ACTIVE.eq(true))
+        return dslContext.selectFrom(nt)
+            .where(nt.IS_ACTIVE.eq(true))
             .fetchInto(NegativeTraits::class.java)
     }
 
     fun saveScholarNegativeTraits(scholarId: Long, traitIds: List<Int>) {
         val records = mutableListOf<ScholarNegativeTraitsRecord>()
         traitIds.forEach { id ->
-            val r = dslContext.newRecord(SCHOLAR_NEGATIVE_TRAITS)
+            val r = dslContext.newRecord(snt)
             r.scholarId = scholarId
             r.negativeTraitId = id
             records.add(r)
@@ -29,7 +32,7 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun createTrait(dto: NewTraitDto) {
-        val r = dslContext.newRecord(NEGATIVE_TRAITS)
+        val r = dslContext.newRecord(nt)
         r.name = dto.name
         r.description = dto.description
         r.isActive = true
@@ -45,12 +48,12 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun findTraitsByScholarId(id: Long): List<NegativeTraits> {
-        return dslContext.select(NEGATIVE_TRAITS)
-            .from(NEGATIVE_TRAITS)
-            .join(SCHOLAR_NEGATIVE_TRAITS)
-            .on(NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID.eq(SCHOLAR_NEGATIVE_TRAITS.NEGATIVE_TRAIT_ID))
+        return dslContext.select(nt)
+            .from(nt)
+            .join(snt)
+            .on(nt.NEGATIVE_TRAIT_ID.eq(snt.NEGATIVE_TRAIT_ID))
             .where(
-                SCHOLAR_NEGATIVE_TRAITS.SCHOLAR_ID.eq(id)
+                snt.SCHOLAR_ID.eq(id)
             ).fetchInto(NegativeTraits::class.java)
     }
 }

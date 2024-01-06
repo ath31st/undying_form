@@ -8,8 +8,10 @@ import sidim.doma.undying.generated.tables.references.SCHOLARS
 
 @Repository
 class ScholarRepository(private val dslContext: DSLContext) {
-    fun createscholar(dto: ScholarDto): Scholars {
-        val r = dslContext.newRecord(SCHOLARS)
+    private val s = SCHOLARS
+
+    fun createScholar(dto: ScholarDto): Scholars {
+        val r = dslContext.newRecord(s)
         r.name = dto.name
         r.age = dto.age
         r.physicalHealth = dto.physicalHealth
