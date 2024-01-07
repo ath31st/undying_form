@@ -8,7 +8,7 @@ import sidim.doma.undying.generated.tables.references.LEG_TEMPLATES
 import sidim.doma.undying.generated.tables.references.UPPER_BODY_TEMPLATES
 
 @Repository
-class BodyPartTemplateRepository(private val dslContext: DSLContext) {
+class BodyPartsTemplateRepository(private val dslContext: DSLContext) {
     private val th = HAND_TEMPLATES
     private val tl = LEG_TEMPLATES
     private val tub = UPPER_BODY_TEMPLATES

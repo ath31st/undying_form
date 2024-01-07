@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
 
 @Repository
-class SocialClassesRepository(private val dslContext: DSLContext) {
+class SocialClassRepository(private val dslContext: DSLContext) {
     private val sc = SOCIAL_CLASSES
     
     fun getRandomSocialClassId(): Int? {
