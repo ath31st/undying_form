@@ -6,8 +6,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.util.Locale
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
+import sidim.doma.undying.exceptionhandler.exception.NamingException
 
 @Service
 class NamingService {
@@ -57,9 +59,9 @@ class NamingService {
             }
             reader.close()
         } catch (e: FileNotFoundException) {
-            e.printStackTrace()
+            throw NamingException(e.message, HttpStatus.INTERNAL_SERVER_ERROR)
         } catch (e: CsvException) {
-            e.printStackTrace()
+            throw NamingException(e.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
         return line
     }

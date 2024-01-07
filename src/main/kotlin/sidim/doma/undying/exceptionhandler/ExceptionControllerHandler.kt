@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import sidim.doma.undying.exceptionhandler.exception.DistrictException
 import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
+import sidim.doma.undying.exceptionhandler.exception.NamingException
 import sidim.doma.undying.exceptionhandler.exception.SpecializationException
 import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.exceptionhandler.exception.UserException
@@ -64,6 +65,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleTraitException(ex: TraitException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleNamingException(ex: NamingException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
