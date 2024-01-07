@@ -1,10 +1,10 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.scholar
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
 import sidim.doma.undying.exceptionhandler.exception.SpecializationException
-import sidim.doma.undying.repository.SpecializationRepository
+import sidim.doma.undying.repository.scholar.SpecializationRepository
 
 @Service
 class SpecializationService(private val specializationRepository: SpecializationRepository) {

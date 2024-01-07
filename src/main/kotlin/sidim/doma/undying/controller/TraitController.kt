@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.dto.trait.ScholarTraitsDto
-import sidim.doma.undying.service.TraitService
+import sidim.doma.undying.service.scholar.TraitService
 
 @RestController
 @Validated

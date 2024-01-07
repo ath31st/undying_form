@@ -1,4 +1,4 @@
-package sidim.doma.undying.repository
+package sidim.doma.undying.repository.monster
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository

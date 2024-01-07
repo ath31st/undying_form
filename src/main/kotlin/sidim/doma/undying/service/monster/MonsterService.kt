@@ -1,8 +1,8 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.monster
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.generated.tables.pojos.Monsters
-import sidim.doma.undying.repository.MonsterRepository
+import sidim.doma.undying.repository.monster.MonsterRepository
 
 @Service
 class MonsterService(private val monsterRepository: MonsterRepository) {

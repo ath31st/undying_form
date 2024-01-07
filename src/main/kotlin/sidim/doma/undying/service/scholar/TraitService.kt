@@ -1,4 +1,4 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.scholar
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.trait.NewTraitDto
@@ -6,8 +6,8 @@ import sidim.doma.undying.dto.trait.ScholarTraitsDto
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.mapper.TraitMapper
-import sidim.doma.undying.repository.NegativeTraitRepository
-import sidim.doma.undying.repository.PositiveTraitRepository
+import sidim.doma.undying.repository.scholar.NegativeTraitRepository
+import sidim.doma.undying.repository.scholar.PositiveTraitRepository
 import sidim.doma.undying.util.constant.TraitConstants.COUNT_TRAITS
 import sidim.doma.undying.util.constant.TraitConstants.TRAITS_WEIGHT_SUM
 

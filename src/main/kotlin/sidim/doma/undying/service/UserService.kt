@@ -8,6 +8,8 @@ import sidim.doma.undying.dto.user.UserRegDto
 import sidim.doma.undying.exceptionhandler.exception.UserException
 import sidim.doma.undying.generated.tables.pojos.Users
 import sidim.doma.undying.repository.UserRepository
+import sidim.doma.undying.service.scholar.ScholarService
+import sidim.doma.undying.service.scholar.TraitService
 import sidim.doma.undying.util.Role
 
 @Service

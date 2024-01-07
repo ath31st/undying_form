@@ -1,9 +1,11 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.scholar
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.scholar.ScholarDto
 import sidim.doma.undying.generated.tables.pojos.Scholars
-import sidim.doma.undying.repository.ScholarRepository
+import sidim.doma.undying.repository.scholar.ScholarRepository
+import sidim.doma.undying.service.HideoutService
+import sidim.doma.undying.service.NamingService
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.ScholarConstants.BONUSES_SUM
 import sidim.doma.undying.util.constant.ScholarConstants.DEFAULT_EXPERIENCE
