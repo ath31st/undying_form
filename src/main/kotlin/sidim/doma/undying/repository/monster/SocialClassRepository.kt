@@ -11,7 +11,7 @@ import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
 class SocialClassRepository(private val dslContext: DSLContext) {
     private val sc = SOCIAL_CLASSES
 
-    fun createSocialClass(dto: NewSocialClassDto): SocialClasses {
+    fun saveNewSocialClass(dto: NewSocialClassDto): SocialClasses {
         val r = dslContext.newRecord(sc)
         r.name = dto.name
         r.description = dto.description

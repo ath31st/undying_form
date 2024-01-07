@@ -9,7 +9,7 @@ import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
 class SetBodyPartsRepository(private val dslContext: DSLContext) {
     private val sbp = SETS_BODY_PARTS
 
-    fun createEmptySetBodyParts(): SetsBodyParts {
+    fun saveEmptySetBodyParts(): SetsBodyParts {
         val r = dslContext.newRecord(sbp)
         r.store()
 

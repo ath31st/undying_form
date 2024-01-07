@@ -31,7 +31,7 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         dslContext.batchInsert(records).execute()
     }
 
-    fun createTrait(dto: NewTraitDto) {
+    fun saveNewTrait(dto: NewTraitDto) {
         val r = dslContext.newRecord(pt)
         r.name = dto.name
         r.description = dto.description

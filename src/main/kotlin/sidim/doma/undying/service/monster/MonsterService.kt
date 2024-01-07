@@ -8,6 +8,6 @@ import sidim.doma.undying.repository.monster.MonsterRepository
 class MonsterService(private val monsterRepository: MonsterRepository) {
 
     fun createMonster(scholarId: Long, setBodyPartsId: Long): Monsters {
-        return monsterRepository.createMonster(scholarId, setBodyPartsId)
+        return monsterRepository.saveNewMonster(scholarId, setBodyPartsId)
     }
 }

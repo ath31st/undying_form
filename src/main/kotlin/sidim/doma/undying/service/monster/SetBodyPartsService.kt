@@ -7,6 +7,6 @@ import sidim.doma.undying.repository.monster.SetBodyPartsRepository
 @Service
 class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsRepository) {
     fun createEmptySet(): SetsBodyParts {
-        return setBodyPartsRepository.createEmptySetBodyParts()
+        return setBodyPartsRepository.saveEmptySetBodyParts()
     }
 }

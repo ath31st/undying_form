@@ -42,6 +42,6 @@ class ScholarService(
             specializationId = null,
             hideoutId = hideoutService.createHideout().hideoutId.let { it ?: 0 }
         )
-        return scholarRepository.createScholar(dto)
+        return scholarRepository.saveScholar(dto)
     }
 }

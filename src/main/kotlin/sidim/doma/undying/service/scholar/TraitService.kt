@@ -77,11 +77,11 @@ class TraitService(
     }
 
     fun createPositiveTrait(dto: NewTraitDto) {
-        positiveTraitRepository.createTrait(dto)
+        positiveTraitRepository.saveNewTrait(dto)
     }
 
     fun createNegativeTrait(dto: NewTraitDto) {
-        negativeTraitRepository.createTrait(dto)
+        negativeTraitRepository.saveNewTrait(dto)
     }
 
     fun getTraitsByScholarId(id: Long): ScholarTraitsDto {
