@@ -22,7 +22,7 @@ class ScholarService(
     private val educationService: EducationService,
     private val generatorRandomValuesUtil: GeneratorRandomValuesUtil
 ) {
-    fun createscholar(): Scholars {
+    fun createScholar(): Scholars {
         val randomValues = generatorRandomValuesUtil.generateRandomValues(
             SKILLS_COUNT, MIN_BONUS_VALUE, BONUSES_SUM
         )

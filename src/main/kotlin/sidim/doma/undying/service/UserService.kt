@@ -21,7 +21,7 @@ class UserService(
         if (userRepository.isUserExistByUsername(dto.username)) {
             throw UserException("Username ${dto.username} already used", HttpStatus.CONFLICT)
         }
-        val scholar = scholarService.createscholar()
+        val scholar = scholarService.createScholar()
         traitService.generateAndSaveRandomSetTraits(scholar.scholarId ?: 0)
         return userRepository.createUser(dto, scholar.scholarId ?: 0)
     }
