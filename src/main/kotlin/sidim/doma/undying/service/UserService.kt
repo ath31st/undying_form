@@ -25,7 +25,7 @@ class UserService(
         }
         val scholar = scholarService.createScholar()
         traitService.generateAndSaveRandomSetTraits(scholar.scholarId ?: 0)
-        return userRepository.createUser(dto, scholar.scholarId ?: 0)
+        return userRepository.saveUser(dto, scholar.scholarId ?: 0)
     }
 
     fun getUserInfo(id: Long): UserInfoDto {

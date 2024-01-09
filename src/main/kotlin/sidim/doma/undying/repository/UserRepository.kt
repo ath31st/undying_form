@@ -26,7 +26,7 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun createUser(dto: UserRegDto, scholarId: Long): Users {
+    fun saveUser(dto: UserRegDto, scholarId: Long): Users {
         val r = dslContext.newRecord(u)
         r.username = dto.username
         r.email = dto.email

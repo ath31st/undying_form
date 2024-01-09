@@ -22,6 +22,6 @@ class HideoutService(
         )
         val districtId = districtService.getRandomDistrictId()
 
-        return hideoutRepository.createHideout(name, districtId, randomValues)
+        return hideoutRepository.saveHideout(name, districtId, randomValues)
     }
 }
