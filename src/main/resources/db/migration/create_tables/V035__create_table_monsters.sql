@@ -6,6 +6,5 @@ CREATE TABLE monsters
     agility           INTEGER                                                      NOT NULL CHECK (agility >= 0),
     endurance         INTEGER                                                      NOT NULL CHECK (endurance >= 0),
     stability         INTEGER                                                      NOT NULL CHECK (stability >= 0),
-    scholar_id        BIGINT UNIQUE REFERENCES scholars (scholar_id)               NOT NULL,
     set_body_parts_id BIGINT UNIQUE REFERENCES sets_body_parts (set_body_parts_id) NOT NULL
 );
