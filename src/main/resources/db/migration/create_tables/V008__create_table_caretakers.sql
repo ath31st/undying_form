@@ -7,5 +7,5 @@ CREATE TABLE caretakers
     is_alive              BOOLEAN,
     successful_defenses   INT,
     unsuccessful_defenses INT,
-    graveyard_id          INT REFERENCES graveyards (graveyard_id)
+    graveyard_id          INT UNIQUE REFERENCES graveyards (graveyard_id)
 );
