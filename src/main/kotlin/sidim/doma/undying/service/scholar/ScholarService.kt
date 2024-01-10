@@ -6,6 +6,7 @@ import sidim.doma.undying.generated.tables.pojos.Scholars
 import sidim.doma.undying.repository.scholar.ScholarRepository
 import sidim.doma.undying.service.HideoutService
 import sidim.doma.undying.service.NamingService
+import sidim.doma.undying.service.monster.MonsterService
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.ScholarConstants.BONUSES_SUM
 import sidim.doma.undying.util.constant.ScholarConstants.DEFAULT_EXPERIENCE
@@ -22,7 +23,8 @@ class ScholarService(
     private val hideoutService: HideoutService,
     private val namingService: NamingService,
     private val educationService: EducationService,
-    private val generatorRandomValuesUtil: GeneratorRandomValuesUtil
+    private val generatorRandomValuesUtil: GeneratorRandomValuesUtil,
+    private val monsterService: MonsterService,
 ) {
     fun createScholar(): Scholars {
         val randomValues = generatorRandomValuesUtil.generateRandomValues(
@@ -40,7 +42,8 @@ class ScholarService(
             successfulExperiments = 0,
             educationId = educationService.getRandomEducationId(),
             specializationId = null,
-            hideoutId = hideoutService.createHideout().hideoutId.let { it ?: 0 }
+            hideoutId = hideoutService.createHideout().hideoutId.let { it ?: 0 },
+            monsterId = monsterService.createMonster().monsterId.let { it ?: 0 }
         )
         return scholarRepository.saveScholar(dto)
     }

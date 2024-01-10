@@ -24,6 +24,7 @@ class ScholarRepository(private val dslContext: DSLContext) {
         r.educationId = dto.educationId
         r.specializationId = dto.specializationId
         r.hideoutId = dto.hideoutId
+        r.monsterId = dto.monsterId
 
         r.store()
         return r.into(Scholars::class.java)

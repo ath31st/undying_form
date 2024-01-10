@@ -5,9 +5,13 @@ import sidim.doma.undying.generated.tables.pojos.Monsters
 import sidim.doma.undying.repository.monster.MonsterRepository
 
 @Service
-class MonsterService(private val monsterRepository: MonsterRepository) {
+class MonsterService(
+    private val monsterRepository: MonsterRepository,
+    private val setBodyPartsService: SetBodyPartsService
+) {
 
-    fun createMonster(scholarId: Long, setBodyPartsId: Long): Monsters {
-        return monsterRepository.saveNewMonster(scholarId, setBodyPartsId)
+    fun createMonster(): Monsters {
+        val setsBodyParts = setBodyPartsService.createEmptySet()
+        return monsterRepository.saveNewMonster(setsBodyParts.setBodyPartsId ?: 0)
     }
 }

@@ -9,9 +9,8 @@ import sidim.doma.undying.generated.tables.references.MONSTERS
 class MonsterRepository(private val dslContext: DSLContext) {
     private val m = MONSTERS
 
-    fun saveNewMonster(scholarId: Long, setBodyPartsId: Long): Monsters {
+    fun saveNewMonster(setBodyPartsId: Long): Monsters {
         val r = dslContext.newRecord(m)
-        r.scholarId = scholarId
         r.setBodyPartsId = setBodyPartsId
         r.invisibility = 0
         r.strength = 0

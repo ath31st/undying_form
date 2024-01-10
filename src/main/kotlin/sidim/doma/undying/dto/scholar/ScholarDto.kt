@@ -12,5 +12,6 @@ class ScholarDto(
     val successfulExperiments: Int,
     val educationId: Int,
     val specializationId: Int?,
-    val hideoutId: Long
+    val hideoutId: Long,
+    val monsterId: Long,
 )
