@@ -1,10 +1,7 @@
 CREATE TABLE sets_body_parts
 (
     set_body_parts_id BIGSERIAL PRIMARY KEY,
-    left_hand_id      BIGINT UNIQUE REFERENCES hands (hand_id),
-    right_hand_id     BIGINT UNIQUE REFERENCES hands (hand_id),
-    left_leg_id       BIGINT UNIQUE REFERENCES legs (leg_id),
-    right_leg_id      BIGINT UNIQUE REFERENCES legs (leg_id),
-    upper_body_id     BIGINT UNIQUE REFERENCES upper_bodies (upper_body_id),
-    head_id           BIGINT UNIQUE REFERENCES heads (head_id)
+    body_parts_count  INTEGER NOT NULL CHECK (body_parts_count >= 0),
+    set_is_completed  BOOLEAN NOT NULL,
+    bonus_set         INTEGER NOT NULL
 );
