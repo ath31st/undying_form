@@ -11,8 +11,11 @@ class SetBodyPartsRepository(private val dslContext: DSLContext) {
 
     fun saveEmptySetBodyParts(): SetsBodyParts {
         val r = dslContext.newRecord(sbp)
-        r.store()
+        r.bodyPartsCount = 0
+        r.bonusSet = 0
+        r.setIsCompleted = false
 
+        r.store()
         return r.into(SetsBodyParts::class.java)
     }
 }
