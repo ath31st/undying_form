@@ -29,8 +29,7 @@ class SecurityConfig {
             .authorizeHttpRequests {
                 it
                     .requestMatchers(*authWhitelist).permitAll()
-                    .requestMatchers("/api/v1/users/**").permitAll()
-                    .requestMatchers("/api/v1/traits/**").permitAll()
+                    .requestMatchers("/api/v1/**").permitAll()
                     //.requestMatchers("/api/users/info/*").hasAuthority(Role.ROLE_GAMER.name)
                     .anyRequest().authenticated()
             }

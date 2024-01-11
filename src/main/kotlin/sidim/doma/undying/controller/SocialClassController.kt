@@ -12,7 +12,7 @@ import sidim.doma.undying.service.monster.SocialClassService
 
 @RestController
 @Validated
-@RequestMapping("/api/v1/social_class")
+@RequestMapping("/api/v1/social_classes")
 class SocialClassController(
     private val socialClassService: SocialClassService
 ) {
