@@ -14,6 +14,7 @@ class HideoutService(
     private val hideoutRepository: HideoutRepository,
     private val generatorRandomValuesUtil: GeneratorRandomValuesUtil,
     private val districtService: DistrictService,
+    private val storageService: StorageService,
 ) {
     fun createHideout(): Hideouts {
         val name = namingService.generateHideoutName()
@@ -21,7 +22,9 @@ class HideoutService(
             COUNT_EQUIPMENT, MIN_BONUS_VALUE, BONUSES_SUM
         )
         val districtId = districtService.getRandomDistrictId()
+        val storage = storageService.createStorage()
 
-        return hideoutRepository.saveHideout(name, districtId, randomValues)
+        return hideoutRepository.saveHideout(
+            name, storage.storageId ?: 0, districtId, randomValues)
     }
 }

@@ -10,7 +10,7 @@ import sidim.doma.undying.util.constant.StorageConstants.CAPACITY
 class StorageRepository(private val dslContext: DSLContext) {
     private val s = STORAGES
 
-    fun saveStorage(name: String, districtId: Int, randomValues: List<Int>): Storages {
+    fun saveStorage(): Storages {
         val r = dslContext.newRecord(s)
         r.capacity = CAPACITY
 
