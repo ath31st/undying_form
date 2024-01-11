@@ -12,6 +12,7 @@ import sidim.doma.undying.exceptionhandler.exception.MonsterException
 import sidim.doma.undying.exceptionhandler.exception.NamingException
 import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
 import sidim.doma.undying.exceptionhandler.exception.SpecializationException
+import sidim.doma.undying.exceptionhandler.exception.StorageException
 import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.exceptionhandler.exception.UserException
 
@@ -119,6 +120,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleMonsterException(ex: MonsterException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleStorageException(ex: StorageException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
