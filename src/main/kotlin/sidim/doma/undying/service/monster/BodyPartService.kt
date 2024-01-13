@@ -6,7 +6,14 @@ import sidim.doma.undying.model.Hand
 import sidim.doma.undying.repository.monster.BodyPartRepository
 
 @Service
-class BodyPartService(private val bodyPartRepository: BodyPartRepository) {
+class BodyPartService(
+    private val bodyPartRepository: BodyPartRepository,
+    private val bodyPartsTemplateService: BodyPartsTemplateService,
+) {
+    fun generateRandomBodyPartsByGraveyardId(graveyardId: Int) {
+        val check = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId)
+        println(check)
+    }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
         val bodyParts = mutableListOf<BodyPart>()
