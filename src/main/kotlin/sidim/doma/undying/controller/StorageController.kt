@@ -13,7 +13,7 @@ import sidim.doma.undying.service.StorageService
 @Validated
 @RequestMapping("/api/v1/storages")
 class StorageController(
-    private val storageService: StorageService
+    private val storageService: StorageService,
 ) {
     @GetMapping("/storage_by_scholar_id/{id}")
     fun getStorageByScholarId(@PathVariable id: Long): ResponseEntity<Storage> {
