@@ -31,13 +31,13 @@ class BodyPartRepository(private val dslContext: DSLContext) {
         r.store()
         return r.into(
             Hand(
-                r.handId ?: 0,
-                r.quality ?: 0,
-                r.integrity ?: 0,
-                r.storageId,
-                r.setBodyPartsId,
-                r.handTemplateId ?: 0,
-                r.side ?: ""
+                id = r.handId ?: 0,
+                quality = r.quality ?: 0,
+                integrity = r.integrity ?: 0,
+                storageId = r.storageId,
+                setBodyPartsId = r.setBodyPartsId,
+                bodyPartTemplateId = r.handTemplateId ?: 0,
+                side = r.side ?: ""
             )
         )
     }
