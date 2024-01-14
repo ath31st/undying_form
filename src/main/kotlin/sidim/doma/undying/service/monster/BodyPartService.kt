@@ -16,7 +16,7 @@ class BodyPartService(
 ) {
     fun generateRandomHandByGraveyardId(graveyardId: Int, storageId: Long): Hand {
         val handDto = NewHandDto(
-            quality = generator.generateRandomInteger(1, 3), // TODO rework this generation
+            quality = generator.generateRandomWithProbabilities(1, 75, 2, 20, 3, 5), // TODO rework this generation
             integrity = generator.generateRandomInteger(85, 100), // TODO rework this generation
             side = listOf("left", "right").random(),
             handTemplateId = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId),

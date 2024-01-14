@@ -32,4 +32,23 @@ class GeneratorRandomValuesUtil {
         random.setSeed(Date().time)
         return random.nextInt((max - min) + 1) + min
     }
+
+    fun generateRandomWithProbabilities(
+        firstValue: Int,
+        firstChance: Int,
+        secondValue: Int,
+        secondChance: Int,
+        thirdValue: Int,
+        thirdChance: Int
+    ): Int {
+        val randomInt = generateRandomInteger(0, 100)
+
+        return when {
+            randomInt <= firstChance -> firstValue
+            randomInt <= firstChance + secondChance -> secondValue
+            randomInt <= firstChance + secondChance + thirdChance -> thirdValue
+            else -> 0
+        }
+    }
+
 }
