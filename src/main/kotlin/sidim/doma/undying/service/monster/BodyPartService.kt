@@ -46,9 +46,12 @@ class BodyPartService(
     fun generateRandomBodyPartsByGraveyardIdAndSaveInStorage(graveyardId: Int, storageId: Long, countBodyParts: Int) {
         val generateBodyParts: List<KFunction2<Int, Long, Hand>> =
             listOf(::generateRandomHandByGraveyardId)
+
+        generateBodyParts.forEach { it.invoke(graveyardId, storageId) } // todo delete this
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
+        generateRandomBodyPartsByGraveyardIdAndSaveInStorage(2, 1, 1) // todo delete this
         val bodyParts = mutableListOf<BodyPart>()
         bodyParts.addAll(findHandsByStorageId(storageId))
 
