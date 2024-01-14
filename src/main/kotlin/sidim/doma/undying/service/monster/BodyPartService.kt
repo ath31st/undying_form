@@ -7,6 +7,16 @@ import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.model.Hand
 import sidim.doma.undying.repository.monster.BodyPartRepository
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
+import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_HIGH_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_LOW_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_MID_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.HIGH_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.LEFT_SIDE
+import sidim.doma.undying.util.constant.BodyPartConstants.LOW_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.MAX_INTEGRITY
+import sidim.doma.undying.util.constant.BodyPartConstants.MID_QUALITY
+import sidim.doma.undying.util.constant.BodyPartConstants.MIN_INTEGRITY
+import sidim.doma.undying.util.constant.BodyPartConstants.RIGHT_SIDE
 
 @Service
 class BodyPartService(
@@ -16,9 +26,16 @@ class BodyPartService(
 ) {
     fun generateRandomHandByGraveyardId(graveyardId: Int, storageId: Long): Hand {
         val handDto = NewHandDto(
-            quality = generator.generateRandomWithProbabilities(1, 75, 2, 20, 3, 5), // TODO rework this generation
-            integrity = generator.generateRandomInteger(85, 100), // TODO rework this generation
-            side = listOf("left", "right").random(),
+            quality = generator.generateRandomWithProbabilities(
+                LOW_QUALITY,
+                CHANCE_LOW_QUALITY,
+                MID_QUALITY,
+                CHANCE_MID_QUALITY,
+                HIGH_QUALITY,
+                CHANCE_HIGH_QUALITY
+            ),
+            integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
+            side = listOf(LEFT_SIDE, RIGHT_SIDE).random(),
             handTemplateId = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId),
             storageId = storageId
         )
