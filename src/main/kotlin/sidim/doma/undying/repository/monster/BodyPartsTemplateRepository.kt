@@ -19,7 +19,7 @@ class BodyPartsTemplateRepository(private val dslContext: DSLContext) {
     private val gsc = GRAVEYARD_SOCIAL_CLASSES
     private val sc = SOCIAL_CLASSES
 
-    fun getRandomHandTemplateIdByGraveyardId(graveyardId: Int, count: Int = 1): Int? {
+    fun getRandomHandTemplateByGraveyardId(graveyardId: Int, count: Int = 1): Int? {
         return dslContext.select(th.HAND_TEMPLATE_ID).from(th)
             .join(sc).on(sc.SOCIAL_CLASS_ID.eq(th.SOCIAL_CLASS_ID))
             .join(gsc).on(gsc.SOCIAL_CLASS_ID.eq(th.SOCIAL_CLASS_ID))
