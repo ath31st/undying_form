@@ -54,13 +54,13 @@ class BodyPartRepository(private val dslContext: DSLContext) {
 
     private fun mapHandFromRecord(r: Record1<HandsRecord>): Hand {
         return Hand(
-            id = r[ha.HAND_ID] ?: 0,
-            quality = r[ha.QUALITY] ?: 0,
-            integrity = r[ha.INTEGRITY] ?: 0,
-            storageId = r[ha.STORAGE_ID],
-            setBodyPartsId = r[ha.SET_BODY_PARTS_ID],
-            bodyPartTemplateId = r[ha.HAND_TEMPLATE_ID] ?: 0,
-            side = r[ha.SIDE] ?: ""
+            id = r.value1()[ha.HAND_ID] ?: 0,
+            quality = r.value1()[ha.QUALITY] ?: 0,
+            integrity = r.value1()[ha.INTEGRITY] ?: 0,
+            storageId = r.value1()[ha.STORAGE_ID],
+            setBodyPartsId = r.value1()[ha.SET_BODY_PARTS_ID],
+            bodyPartTemplateId = r.value1()[ha.HAND_TEMPLATE_ID] ?: 0,
+            side = r.value1()[ha.SIDE] ?: ""
         )
     }
 }
