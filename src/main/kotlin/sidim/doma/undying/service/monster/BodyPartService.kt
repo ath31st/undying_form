@@ -6,7 +6,9 @@ import sidim.doma.undying.dto.bodyparts.NewHandDto
 import sidim.doma.undying.dto.bodyparts.NewLegDto
 import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.model.Hand
+import sidim.doma.undying.model.Head
 import sidim.doma.undying.model.Leg
+import sidim.doma.undying.model.UpperBody
 import sidim.doma.undying.repository.monster.BodyPartRepository
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_HIGH_QUALITY
@@ -75,11 +77,26 @@ class BodyPartService(
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
         val bodyParts = mutableListOf<BodyPart>()
         bodyParts.addAll(findHandsByStorageId(storageId))
+        bodyParts.addAll(findLegsByStorageId(storageId))
+        bodyParts.addAll(findUpperBodiesByStorageId(storageId))
+        bodyParts.addAll(findHeadsByStorageId(storageId))
 
         return bodyParts
     }
 
-    fun findHandsByStorageId(storageId: Long): List<Hand> {
+    private fun findHandsByStorageId(storageId: Long): List<Hand> {
         return bodyPartRepository.findHandsByStorageId(storageId)
+    }
+
+    private fun findLegsByStorageId(storageId: Long): List<Leg> {
+        return bodyPartRepository.findLegsByStorageId(storageId)
+    }
+
+    private fun findUpperBodiesByStorageId(storageId: Long): List<UpperBody> {
+        return bodyPartRepository.findUpperBodiesByStorageId(storageId)
+    }
+
+    private fun findHeadsByStorageId(storageId: Long): List<Head> {
+        return bodyPartRepository.findHeadsByStorageId(storageId)
     }
 }
