@@ -14,4 +14,28 @@ class BodyPartsTemplateService(private val bodyPartsTemplateRepository: BodyPart
                 HttpStatus.NOT_FOUND
             )
     }
+
+    fun getRandomLegTemplateIdByGraveyardId(graveyardId: Int): Int {
+        return bodyPartsTemplateRepository.getRandomLegTemplateIdByGraveyardId(graveyardId)
+            ?: throw BodyPartsTemplateException(
+                "Graveyard with id: $graveyardId does not have compatible body parts templates",
+                HttpStatus.NOT_FOUND
+            )
+    }
+
+    fun getRandomUpperBodyTemplateIdByGraveyardId(graveyardId: Int): Int {
+        return bodyPartsTemplateRepository.getRandomUpperBodyTemplateIdByGraveyardId(graveyardId)
+            ?: throw BodyPartsTemplateException(
+                "Graveyard with id: $graveyardId does not have compatible body parts templates",
+                HttpStatus.NOT_FOUND
+            )
+    }
+
+    fun getRandomHeadTemplateIdByGraveyardId(graveyardId: Int): Int {
+        return bodyPartsTemplateRepository.getRandomHeadTemplateIdByGraveyardId(graveyardId)
+            ?: throw BodyPartsTemplateException(
+                "Graveyard with id: $graveyardId does not have compatible body parts templates",
+                HttpStatus.NOT_FOUND
+            )
+    }
 }
