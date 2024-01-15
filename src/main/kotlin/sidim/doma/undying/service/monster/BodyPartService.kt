@@ -70,12 +70,9 @@ class BodyPartService(
                 ::generateRandomHandByGraveyardId,
                 ::generateRandomLegByGraveyardId,
             )
-
-        generateBodyParts.forEach { println(it.invoke(graveyardId, storageId)) } // todo delete this
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
-        generateRandomBodyPartsByGraveyardIdAndSaveInStorage(2, 1, 1) // todo delete this
         val bodyParts = mutableListOf<BodyPart>()
         bodyParts.addAll(findHandsByStorageId(storageId))
 

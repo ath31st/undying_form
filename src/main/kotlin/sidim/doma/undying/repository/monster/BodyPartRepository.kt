@@ -4,7 +4,9 @@ import org.jooq.DSLContext
 import org.jooq.Record1
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewHandDto
+import sidim.doma.undying.dto.bodyparts.NewHeadDto
 import sidim.doma.undying.dto.bodyparts.NewLegDto
+import sidim.doma.undying.dto.bodyparts.NewUpperBodyDto
 import sidim.doma.undying.generated.tables.records.HandsRecord
 import sidim.doma.undying.generated.tables.references.HANDS
 import sidim.doma.undying.generated.tables.references.HEADS
@@ -12,7 +14,9 @@ import sidim.doma.undying.generated.tables.references.LEGS
 import sidim.doma.undying.generated.tables.references.STORAGES
 import sidim.doma.undying.generated.tables.references.UPPER_BODIES
 import sidim.doma.undying.model.Hand
+import sidim.doma.undying.model.Head
 import sidim.doma.undying.model.Leg
+import sidim.doma.undying.model.UpperBody
 
 @Repository
 class BodyPartRepository(private val dslContext: DSLContext) {
@@ -62,6 +66,46 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.legTemplateId ?: 0,
                 side = r.side ?: ""
+            )
+        )
+    }
+
+    fun saveGeneratedUpperBodyInStorage(dto: NewUpperBodyDto): UpperBody {
+        val r = dslContext.newRecord(ub)
+        r.quality = dto.quality
+        r.integrity = dto.integrity
+        r.upperBodyTemplateId = dto.upperBodyTemplateId
+        r.storageId = dto.storageId
+
+        r.store()
+        return r.into(
+            UpperBody(
+                id = r.upperBodyId ?: 0,
+                quality = r.quality ?: 0,
+                integrity = r.integrity ?: 0,
+                storageId = r.storageId,
+                setBodyPartsId = r.setBodyPartsId,
+                bodyPartTemplateId = r.upperBodyTemplateId ?: 0,
+            )
+        )
+    }
+
+    fun saveGeneratedHeadInStorage(dto: NewHeadDto): Head {
+        val r = dslContext.newRecord(he)
+        r.quality = dto.quality
+        r.integrity = dto.integrity
+        r.headTemplateId = dto.headTemplateId
+        r.storageId = dto.storageId
+
+        r.store()
+        return r.into(
+            Head(
+                id = r.headId ?: 0,
+                quality = r.quality ?: 0,
+                integrity = r.integrity ?: 0,
+                storageId = r.storageId,
+                setBodyPartsId = r.setBodyPartsId,
+                bodyPartTemplateId = r.headTemplateId ?: 0,
             )
         )
     }
