@@ -8,6 +8,9 @@ import sidim.doma.undying.dto.bodyparts.NewHeadDto
 import sidim.doma.undying.dto.bodyparts.NewLegDto
 import sidim.doma.undying.dto.bodyparts.NewUpperBodyDto
 import sidim.doma.undying.generated.tables.records.HandsRecord
+import sidim.doma.undying.generated.tables.records.HeadsRecord
+import sidim.doma.undying.generated.tables.records.LegsRecord
+import sidim.doma.undying.generated.tables.records.UpperBodiesRecord
 import sidim.doma.undying.generated.tables.references.HANDS
 import sidim.doma.undying.generated.tables.references.HEADS
 import sidim.doma.undying.generated.tables.references.LEGS
@@ -129,6 +132,70 @@ class BodyPartRepository(private val dslContext: DSLContext) {
             setBodyPartsId = r.value1()[ha.SET_BODY_PARTS_ID],
             bodyPartTemplateId = r.value1()[ha.HAND_TEMPLATE_ID] ?: 0,
             side = r.value1()[ha.SIDE] ?: ""
+        )
+    }
+
+    fun findLegsByStorageId(storageId: Long): List<Leg> {
+        return dslContext.select(l)
+            .from(l)
+            .join(s)
+            .on(s.STORAGE_ID.eq(l.STORAGE_ID))
+            .where(s.STORAGE_ID.eq(storageId))
+            .fetch()
+            .map(::mapLegFromRecord)
+    }
+
+    private fun mapLegFromRecord(r: Record1<LegsRecord>): Leg {
+        return Leg(
+            id = r.value1()[l.LEG_ID] ?: 0,
+            quality = r.value1()[l.QUALITY] ?: 0,
+            integrity = r.value1()[l.INTEGRITY] ?: 0,
+            storageId = r.value1()[l.STORAGE_ID],
+            setBodyPartsId = r.value1()[l.SET_BODY_PARTS_ID],
+            bodyPartTemplateId = r.value1()[l.LEG_TEMPLATE_ID] ?: 0,
+            side = r.value1()[l.SIDE] ?: ""
+        )
+    }
+
+    fun findUpperBodiesByStorageId(storageId: Long): List<UpperBody> {
+        return dslContext.select(ub)
+            .from(ub)
+            .join(s)
+            .on(s.STORAGE_ID.eq(ub.STORAGE_ID))
+            .where(s.STORAGE_ID.eq(storageId))
+            .fetch()
+            .map(::mapUpperBodyFromRecord)
+    }
+
+    private fun mapUpperBodyFromRecord(r: Record1<UpperBodiesRecord>): UpperBody {
+        return UpperBody(
+            id = r.value1()[ub.UPPER_BODY_ID] ?: 0,
+            quality = r.value1()[ub.QUALITY] ?: 0,
+            integrity = r.value1()[ub.INTEGRITY] ?: 0,
+            storageId = r.value1()[ub.STORAGE_ID],
+            setBodyPartsId = r.value1()[ub.SET_BODY_PARTS_ID],
+            bodyPartTemplateId = r.value1()[ub.UPPER_BODY_TEMPLATE_ID] ?: 0,
+        )
+    }
+
+    fun findHeadsByStorageId(storageId: Long): List<Head> {
+        return dslContext.select(he)
+            .from(he)
+            .join(s)
+            .on(s.STORAGE_ID.eq(he.STORAGE_ID))
+            .where(s.STORAGE_ID.eq(storageId))
+            .fetch()
+            .map(::mapHeadFromRecord)
+    }
+
+    private fun mapHeadFromRecord(r: Record1<HeadsRecord>): Head {
+        return Head(
+            id = r.value1()[he.HEAD_ID] ?: 0,
+            quality = r.value1()[he.QUALITY] ?: 0,
+            integrity = r.value1()[he.INTEGRITY] ?: 0,
+            storageId = r.value1()[he.STORAGE_ID],
+            setBodyPartsId = r.value1()[he.SET_BODY_PARTS_ID],
+            bodyPartTemplateId = r.value1()[he.HEAD_TEMPLATE_ID] ?: 0,
         )
     }
 }
