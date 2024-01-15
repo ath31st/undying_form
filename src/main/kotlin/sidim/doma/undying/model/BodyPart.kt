@@ -1,5 +1,7 @@
 package sidim.doma.undying.model
 
+import sidim.doma.undying.util.BodyPartsGroup
+
 interface BodyPart {
     val id: Long
     val quality: Int
@@ -7,6 +9,7 @@ interface BodyPart {
     val storageId: Long?
     val setBodyPartsId: Long?
     val bodyPartTemplateId: Int
+    val bodyPartsGroup: BodyPartsGroup
 }
 
 data class Hand(
@@ -16,6 +19,7 @@ data class Hand(
     override val storageId: Long?,
     override val setBodyPartsId: Long?,
     override val bodyPartTemplateId: Int,
+    override val bodyPartsGroup: BodyPartsGroup,
     val side: String,
 ) : BodyPart
 
@@ -26,6 +30,7 @@ data class Leg(
     override val storageId: Long?,
     override val setBodyPartsId: Long?,
     override val bodyPartTemplateId: Int,
+    override val bodyPartsGroup: BodyPartsGroup,
     val side: String,
 ) : BodyPart
 
@@ -36,6 +41,7 @@ data class UpperBody(
     override val storageId: Long?,
     override val setBodyPartsId: Long?,
     override val bodyPartTemplateId: Int,
+    override val bodyPartsGroup: BodyPartsGroup,
 ) : BodyPart
 
 data class Head(
@@ -45,4 +51,5 @@ data class Head(
     override val storageId: Long?,
     override val setBodyPartsId: Long?,
     override val bodyPartTemplateId: Int,
+    override val bodyPartsGroup: BodyPartsGroup,
 ) : BodyPart

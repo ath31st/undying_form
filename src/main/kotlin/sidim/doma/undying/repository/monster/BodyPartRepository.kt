@@ -20,6 +20,7 @@ import sidim.doma.undying.model.Hand
 import sidim.doma.undying.model.Head
 import sidim.doma.undying.model.Leg
 import sidim.doma.undying.model.UpperBody
+import sidim.doma.undying.util.BodyPartsGroup
 
 @Repository
 class BodyPartRepository(private val dslContext: DSLContext) {
@@ -46,6 +47,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 storageId = r.storageId,
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.handTemplateId ?: 0,
+                bodyPartsGroup = BodyPartsGroup.HANDS,
                 side = r.side ?: ""
             )
         )
@@ -68,6 +70,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 storageId = r.storageId,
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.legTemplateId ?: 0,
+                bodyPartsGroup = BodyPartsGroup.LEGS,
                 side = r.side ?: ""
             )
         )
@@ -89,6 +92,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 storageId = r.storageId,
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.upperBodyTemplateId ?: 0,
+                bodyPartsGroup = BodyPartsGroup.UPPER_BODIES,
             )
         )
     }
@@ -109,6 +113,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 storageId = r.storageId,
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.headTemplateId ?: 0,
+                bodyPartsGroup = BodyPartsGroup.HEADS,
             )
         )
     }
@@ -131,7 +136,8 @@ class BodyPartRepository(private val dslContext: DSLContext) {
             storageId = r.value1()[ha.STORAGE_ID],
             setBodyPartsId = r.value1()[ha.SET_BODY_PARTS_ID],
             bodyPartTemplateId = r.value1()[ha.HAND_TEMPLATE_ID] ?: 0,
-            side = r.value1()[ha.SIDE] ?: ""
+            side = r.value1()[ha.SIDE] ?: "",
+            bodyPartsGroup = BodyPartsGroup.HANDS,
         )
     }
 
@@ -153,7 +159,8 @@ class BodyPartRepository(private val dslContext: DSLContext) {
             storageId = r.value1()[l.STORAGE_ID],
             setBodyPartsId = r.value1()[l.SET_BODY_PARTS_ID],
             bodyPartTemplateId = r.value1()[l.LEG_TEMPLATE_ID] ?: 0,
-            side = r.value1()[l.SIDE] ?: ""
+            side = r.value1()[l.SIDE] ?: "",
+            bodyPartsGroup = BodyPartsGroup.LEGS,
         )
     }
 
@@ -175,6 +182,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
             storageId = r.value1()[ub.STORAGE_ID],
             setBodyPartsId = r.value1()[ub.SET_BODY_PARTS_ID],
             bodyPartTemplateId = r.value1()[ub.UPPER_BODY_TEMPLATE_ID] ?: 0,
+            bodyPartsGroup = BodyPartsGroup.UPPER_BODIES,
         )
     }
 
@@ -196,6 +204,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
             storageId = r.value1()[he.STORAGE_ID],
             setBodyPartsId = r.value1()[he.SET_BODY_PARTS_ID],
             bodyPartTemplateId = r.value1()[he.HEAD_TEMPLATE_ID] ?: 0,
+            bodyPartsGroup = BodyPartsGroup.HEADS,
         )
     }
 }
