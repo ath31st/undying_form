@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.Record1
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewHandDto
+import sidim.doma.undying.dto.bodyparts.NewLegDto
 import sidim.doma.undying.generated.tables.records.HandsRecord
 import sidim.doma.undying.generated.tables.references.HANDS
 import sidim.doma.undying.generated.tables.references.HEADS
@@ -11,6 +12,7 @@ import sidim.doma.undying.generated.tables.references.LEGS
 import sidim.doma.undying.generated.tables.references.STORAGES
 import sidim.doma.undying.generated.tables.references.UPPER_BODIES
 import sidim.doma.undying.model.Hand
+import sidim.doma.undying.model.Leg
 
 @Repository
 class BodyPartRepository(private val dslContext: DSLContext) {
@@ -37,6 +39,28 @@ class BodyPartRepository(private val dslContext: DSLContext) {
                 storageId = r.storageId,
                 setBodyPartsId = r.setBodyPartsId,
                 bodyPartTemplateId = r.handTemplateId ?: 0,
+                side = r.side ?: ""
+            )
+        )
+    }
+
+    fun saveGeneratedLegInStorage(dto: NewLegDto): Leg {
+        val r = dslContext.newRecord(l)
+        r.quality = dto.quality
+        r.integrity = dto.integrity
+        r.side = dto.side
+        r.legTemplateId = dto.legTemplateId
+        r.storageId = dto.storageId
+
+        r.store()
+        return r.into(
+            Leg(
+                id = r.legId ?: 0,
+                quality = r.quality ?: 0,
+                integrity = r.integrity ?: 0,
+                storageId = r.storageId,
+                setBodyPartsId = r.setBodyPartsId,
+                bodyPartTemplateId = r.legTemplateId ?: 0,
                 side = r.side ?: ""
             )
         )
