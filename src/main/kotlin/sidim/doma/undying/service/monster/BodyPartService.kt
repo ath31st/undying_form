@@ -30,7 +30,7 @@ class BodyPartService(
     private val bodyPartsTemplateService: BodyPartsTemplateService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun generateRandomHandByGraveyardId(graveyardId: Int, storageId: Long): Hand {
+    private fun generateRandomHandByGraveyardId(graveyardId: Int, storageId: Long): Hand {
         val handDto = NewHandDto(
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
@@ -49,7 +49,7 @@ class BodyPartService(
         return bodyPartRepository.saveGeneratedHandInStorage(handDto)
     }
 
-    fun generateRandomLegByGraveyardId(graveyardId: Int, storageId: Long): Leg {
+    private fun generateRandomLegByGraveyardId(graveyardId: Int, storageId: Long): Leg {
         val legDto = NewLegDto(
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
@@ -68,7 +68,7 @@ class BodyPartService(
         return bodyPartRepository.saveGeneratedLegInStorage(legDto)
     }
 
-    fun generateRandomUpperBodyByGraveyardId(graveyardId: Int, storageId: Long): UpperBody {
+    private fun generateRandomUpperBodyByGraveyardId(graveyardId: Int, storageId: Long): UpperBody {
         val upperBodyDto = NewUpperBodyDto(
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
@@ -86,7 +86,7 @@ class BodyPartService(
         return bodyPartRepository.saveGeneratedUpperBodyInStorage(upperBodyDto)
     }
 
-    fun generateRandomHeadByGraveyardId(graveyardId: Int, storageId: Long): Head {
+    private fun generateRandomHeadByGraveyardId(graveyardId: Int, storageId: Long): Head {
         val headDto = NewHeadDto(
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
@@ -104,14 +104,29 @@ class BodyPartService(
         return bodyPartRepository.saveGeneratedHeadInStorage(headDto)
     }
 
-    fun generateRandomBodyPartsByGraveyardIdAndSaveInStorage(graveyardId: Int, storageId: Long, countBodyParts: Int) {
-        val generateBodyParts: List<KFunction2<Int, Long, BodyPart>> =
+    fun generateRandomBodyPartsByGraveyardIdAndSaveInStorage(
+        graveyardId: Int,
+        storageId: Long,
+        countBodyParts: Int
+    ): List<BodyPart> {
+        val generateBodyPartsMethods: List<KFunction2<Int, Long, BodyPart>> =
             listOf(
                 ::generateRandomHandByGraveyardId,
                 ::generateRandomLegByGraveyardId,
                 ::generateRandomUpperBodyByGraveyardId,
                 ::generateRandomHeadByGraveyardId
             )
+
+        val generatedBodyParts = mutableListOf<BodyPart>()
+        for (i in 0 until countBodyParts) {
+            generatedBodyParts.add(
+                generateBodyPartsMethods.shuffled()
+                    .first()
+                    .invoke(graveyardId, storageId)
+            )
+        }
+
+        return generatedBodyParts
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
