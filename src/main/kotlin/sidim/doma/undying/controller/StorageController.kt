@@ -15,8 +15,8 @@ import sidim.doma.undying.service.StorageService
 class StorageController(
     private val storageService: StorageService,
 ) {
-    @GetMapping("/storage_by_scholar_id/{id}")
-    fun getStorageByScholarId(@PathVariable id: Long): ResponseEntity<Storage> {
+    @GetMapping("/storage_contents_by_scholar_id/{id}")
+    fun getStorageContentsByScholarId(@PathVariable id: Long): ResponseEntity<Storage> {
         return ResponseEntity.ok(storageService.getStorageByScholarId(id))
     }
 }

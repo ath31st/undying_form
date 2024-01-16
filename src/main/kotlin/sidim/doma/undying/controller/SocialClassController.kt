@@ -17,7 +17,7 @@ class SocialClassController(
     private val socialClassService: SocialClassService
 ) {
     @PostMapping("/new_social_class")
-    fun createPositiveTrait(@RequestBody dto: NewSocialClassDto): ResponseEntity<HttpStatus> {
+    fun createSocialClass(@RequestBody dto: NewSocialClassDto): ResponseEntity<HttpStatus> {
         socialClassService.createSocialClass(dto)
         return ResponseEntity(HttpStatus.CREATED)
     }
