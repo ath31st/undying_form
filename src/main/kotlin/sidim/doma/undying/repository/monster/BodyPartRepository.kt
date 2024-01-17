@@ -1,7 +1,6 @@
 package sidim.doma.undying.repository.monster
 
 import org.jooq.DSLContext
-import org.jooq.Record1
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
 import sidim.doma.undying.generated.tables.records.BodyPartTemplatesRecord
