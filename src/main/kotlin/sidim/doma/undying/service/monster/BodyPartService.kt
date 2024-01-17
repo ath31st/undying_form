@@ -1,17 +1,10 @@
 package sidim.doma.undying.service.monster
 
-import kotlin.reflect.KFunction2
 import org.springframework.stereotype.Service
-import sidim.doma.undying.dto.bodyparts.NewHandDto
-import sidim.doma.undying.dto.bodyparts.NewHeadDto
-import sidim.doma.undying.dto.bodyparts.NewLegDto
-import sidim.doma.undying.dto.bodyparts.NewUpperBodyDto
+import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
 import sidim.doma.undying.model.BodyPart
-import sidim.doma.undying.model.Hand
-import sidim.doma.undying.model.Head
-import sidim.doma.undying.model.Leg
-import sidim.doma.undying.model.UpperBody
 import sidim.doma.undying.repository.monster.BodyPartRepository
+import sidim.doma.undying.util.BodyPartGroup
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_HIGH_QUALITY
 import sidim.doma.undying.util.constant.BodyPartConstants.CHANCE_LOW_QUALITY
@@ -30,8 +23,14 @@ class BodyPartService(
     private val bodyPartsTemplateService: BodyPartsTemplateService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    private fun generateRandomHandByGraveyardId(graveyardId: Int, storageId: Long): Hand {
-        val handDto = NewHandDto(
+    private fun generateRandomBodyPartByGraveyardId(graveyardId: Int, storageId: Long): BodyPart {
+        val bodyPartGroup = BodyPartGroup.entries.random()
+        var side: String? = null
+        if (bodyPartGroup == BodyPartGroup.HANDS || bodyPartGroup == BodyPartGroup.LEGS) {
+            side = listOf(LEFT_SIDE, RIGHT_SIDE).random()
+        }
+
+        val dto = NewBodyPartDto(
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
                 CHANCE_LOW_QUALITY,
@@ -41,67 +40,12 @@ class BodyPartService(
                 CHANCE_HIGH_QUALITY
             ),
             integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
-            side = listOf(LEFT_SIDE, RIGHT_SIDE).random(),
-            handTemplateId = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId),
+            side = side,
+            templateId = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId),
             storageId = storageId
         )
 
-        return bodyPartRepository.saveGeneratedHandInStorage(handDto)
-    }
-
-    private fun generateRandomLegByGraveyardId(graveyardId: Int, storageId: Long): Leg {
-        val legDto = NewLegDto(
-            quality = generator.generateRandomWithProbabilities(
-                LOW_QUALITY,
-                CHANCE_LOW_QUALITY,
-                MID_QUALITY,
-                CHANCE_MID_QUALITY,
-                HIGH_QUALITY,
-                CHANCE_HIGH_QUALITY
-            ),
-            integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
-            side = listOf(LEFT_SIDE, RIGHT_SIDE).random(),
-            legTemplateId = bodyPartsTemplateService.getRandomLegTemplateIdByGraveyardId(graveyardId),
-            storageId = storageId
-        )
-
-        return bodyPartRepository.saveGeneratedLegInStorage(legDto)
-    }
-
-    private fun generateRandomUpperBodyByGraveyardId(graveyardId: Int, storageId: Long): UpperBody {
-        val upperBodyDto = NewUpperBodyDto(
-            quality = generator.generateRandomWithProbabilities(
-                LOW_QUALITY,
-                CHANCE_LOW_QUALITY,
-                MID_QUALITY,
-                CHANCE_MID_QUALITY,
-                HIGH_QUALITY,
-                CHANCE_HIGH_QUALITY
-            ),
-            integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
-            upperBodyTemplateId = bodyPartsTemplateService.getRandomUpperBodyTemplateIdByGraveyardId(graveyardId),
-            storageId = storageId
-        )
-
-        return bodyPartRepository.saveGeneratedUpperBodyInStorage(upperBodyDto)
-    }
-
-    private fun generateRandomHeadByGraveyardId(graveyardId: Int, storageId: Long): Head {
-        val headDto = NewHeadDto(
-            quality = generator.generateRandomWithProbabilities(
-                LOW_QUALITY,
-                CHANCE_LOW_QUALITY,
-                MID_QUALITY,
-                CHANCE_MID_QUALITY,
-                HIGH_QUALITY,
-                CHANCE_HIGH_QUALITY
-            ),
-            integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
-            headTemplateId = bodyPartsTemplateService.getRandomHeadTemplateIdByGraveyardId(graveyardId),
-            storageId = storageId
-        )
-
-        return bodyPartRepository.saveGeneratedHeadInStorage(headDto)
+        return bodyPartRepository.saveGeneratedBodyPartInStorage(dto)
     }
 
     fun generateRandomBodyPartsByGraveyardIdAndSaveInStorage(
@@ -109,21 +53,9 @@ class BodyPartService(
         storageId: Long,
         countBodyParts: Int
     ): List<BodyPart> {
-        val generateBodyPartsMethods: List<KFunction2<Int, Long, BodyPart>> =
-            listOf(
-                ::generateRandomHandByGraveyardId,
-                ::generateRandomLegByGraveyardId,
-                ::generateRandomUpperBodyByGraveyardId,
-                ::generateRandomHeadByGraveyardId
-            )
-
         val generatedBodyParts = mutableListOf<BodyPart>()
         for (i in 0 until countBodyParts) {
-            generatedBodyParts.add(
-                generateBodyPartsMethods.shuffled()
-                    .first()
-                    .invoke(graveyardId, storageId)
-            )
+            generatedBodyParts.add(generateRandomBodyPartByGraveyardId(graveyardId, storageId))
         }
 
         return generatedBodyParts

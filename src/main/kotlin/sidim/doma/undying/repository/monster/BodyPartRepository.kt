@@ -15,7 +15,7 @@ class BodyPartRepository(private val dslContext: DSLContext) {
     private val bp = BODY_PARTS
     private val s = STORAGES
 
-    fun saveGeneratedHandInStorage(dto: NewBodyPartDto): BodyPart {
+    fun saveGeneratedBodyPartInStorage(dto: NewBodyPartDto): BodyPart {
         val r = dslContext.newRecord(bp)
         r.quality = dto.quality
         r.integrity = dto.integrity
