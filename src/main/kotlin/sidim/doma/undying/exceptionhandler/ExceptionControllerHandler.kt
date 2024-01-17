@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import sidim.doma.undying.exceptionhandler.exception.BodyPartException
-import sidim.doma.undying.exceptionhandler.exception.BodyPartsTemplateException
+import sidim.doma.undying.exceptionhandler.exception.BodyPartTemplateException
 import sidim.doma.undying.exceptionhandler.exception.DistrictException
 import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
@@ -99,7 +99,7 @@ class ExceptionControllerHandler {
     }
 
     @ExceptionHandler
-    fun handleBodyPartsTemplateException(ex: BodyPartsTemplateException):
+    fun handleBodyPartsTemplateException(ex: BodyPartTemplateException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),

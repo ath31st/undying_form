@@ -20,7 +20,7 @@ import sidim.doma.undying.util.constant.BodyPartConstants.RIGHT_SIDE
 @Service
 class BodyPartService(
     private val bodyPartRepository: BodyPartRepository,
-    private val bodyPartsTemplateService: BodyPartsTemplateService,
+    private val bodyPartTemplateService: BodyPartTemplateService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
     private fun generateRandomBodyPartByGraveyardId(graveyardId: Int, storageId: Long): BodyPart {
@@ -41,7 +41,7 @@ class BodyPartService(
             ),
             integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
             side = side,
-            templateId = bodyPartsTemplateService.getRandomHandTemplateIdByGraveyardId(graveyardId),
+            templateId = bodyPartTemplateService.getRandomBodyPartTemplateIdByGraveyardId(graveyardId),
             storageId = storageId
         )
 
@@ -62,28 +62,6 @@ class BodyPartService(
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
-        val bodyParts = mutableListOf<BodyPart>()
-        bodyParts.addAll(findHandsByStorageId(storageId))
-        bodyParts.addAll(findLegsByStorageId(storageId))
-        bodyParts.addAll(findUpperBodiesByStorageId(storageId))
-        bodyParts.addAll(findHeadsByStorageId(storageId))
-
-        return bodyParts
-    }
-
-    private fun findHandsByStorageId(storageId: Long): List<Hand> {
-        return bodyPartRepository.findHandsByStorageId(storageId)
-    }
-
-    private fun findLegsByStorageId(storageId: Long): List<Leg> {
-        return bodyPartRepository.findLegsByStorageId(storageId)
-    }
-
-    private fun findUpperBodiesByStorageId(storageId: Long): List<UpperBody> {
-        return bodyPartRepository.findUpperBodiesByStorageId(storageId)
-    }
-
-    private fun findHeadsByStorageId(storageId: Long): List<Head> {
-        return bodyPartRepository.findHeadsByStorageId(storageId)
+        return bodyPartRepository.findBodyPartsByStorageId(storageId)
     }
 }
