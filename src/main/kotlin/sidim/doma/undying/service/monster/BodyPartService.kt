@@ -23,7 +23,7 @@ class BodyPartService(
     private val bodyPartTemplateService: BodyPartTemplateService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    private fun generateRandomBodyPartByGraveyardId(graveyardId: Int, storageId: Long): BodyPart {
+    private fun generateRandomBodyPartByGraveyardId(graveyardId: Int): Long {
         val bodyPartGroup = BodyPartGroup.entries.random()
         var side: String? = null
         if (bodyPartGroup == BodyPartGroup.HANDS || bodyPartGroup == BodyPartGroup.LEGS) {
@@ -42,26 +42,28 @@ class BodyPartService(
             integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
             side = side,
             templateId = bodyPartTemplateService.getRandomBodyPartTemplateIdByGraveyardId(graveyardId),
-            storageId = storageId
         )
 
-        return bodyPartRepository.saveGeneratedBodyPartInStorage(dto)
+        return bodyPartRepository.saveGeneratedBodyPart(dto)
     }
 
-    fun generateRandomBodyPartsByGraveyardIdAndSaveInStorage(
+    fun generateRandomBodyPartsByGraveyardId(
         graveyardId: Int,
-        storageId: Long,
         countBodyParts: Int
     ): List<BodyPart> {
-        val generatedBodyParts = mutableListOf<BodyPart>()
+        val generatedBodyParts = mutableListOf<Long>()
         for (i in 0 until countBodyParts) {
-            generatedBodyParts.add(generateRandomBodyPartByGraveyardId(graveyardId, storageId))
+            generatedBodyParts.add(generateRandomBodyPartByGraveyardId(graveyardId))
         }
 
-        return generatedBodyParts
+        return findBodyPartsByIds(generatedBodyParts)
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
         return bodyPartRepository.findBodyPartsByStorageId(storageId)
+    }
+
+    fun findBodyPartsByIds(listIds: List<Long>): List<BodyPart> {
+        return bodyPartRepository.findBodyPartsByIds(listIds)
     }
 }
