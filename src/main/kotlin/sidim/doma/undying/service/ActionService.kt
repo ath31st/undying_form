@@ -21,7 +21,6 @@ class ActionService(
         graveyardId: Int,
         scholarId: Long
     ): List<BodyPart> {
-        val storage = storageService.getStorageByScholarId(scholarId)
         val bodyPartsCount = generator.generateRandomWithProbabilities(
             LOW_VALUE_CAUNT,
             CHANCE_LOW_VALUE_CAUNT,
@@ -31,9 +30,8 @@ class ActionService(
             CHANCE_HIGH_VALUE_CAUNT
         )
 
-        val foundedBodyParts = bodyPartsService.generateRandomBodyPartsByGraveyardIdAndSaveInStorage(
+        val foundedBodyParts = bodyPartsService.generateRandomBodyPartsByGraveyardId(
             graveyardId,
-            storage.storageId,
             bodyPartsCount
         )
 
