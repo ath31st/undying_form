@@ -7,6 +7,7 @@ import sidim.doma.undying.exceptionhandler.exception.BodyPartException
 import sidim.doma.undying.exceptionhandler.exception.BodyPartTemplateException
 import sidim.doma.undying.exceptionhandler.exception.DistrictException
 import sidim.doma.undying.exceptionhandler.exception.EducationException
+import sidim.doma.undying.exceptionhandler.exception.GraveyardException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
 import sidim.doma.undying.exceptionhandler.exception.MonsterException
 import sidim.doma.undying.exceptionhandler.exception.NamingException
@@ -141,6 +142,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleScholarException(ex: ScholarException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleGraveyardException(ex: GraveyardException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
