@@ -17,6 +17,7 @@ class ActionService(
     private val storageService: StorageService,
     private val bodyPartsService: BodyPartService,
     private val scholarService: ScholarService,
+    private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
     fun findBodyPartsInGraveyard(
@@ -24,6 +25,7 @@ class ActionService(
         scholarId: Long
     ): List<BodyPart> {
         scholarService.checkExistsScholarById(scholarId)
+        graveyardService.checkExistsGraveyardWithId(graveyardId)
 
         val bodyPartsCount = generator.generateRandomWithProbabilities(
             LOW_VALUE_CAUNT,

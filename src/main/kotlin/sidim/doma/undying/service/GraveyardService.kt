@@ -18,7 +18,7 @@ class GraveyardService(
     }
 
     fun checkExistsGraveyardWithId(graveyardId: Int) {
-        if (graveyardRepository.existsGraveyardWithId(graveyardId)) {
+        if (!graveyardRepository.existsGraveyardWithId(graveyardId)) {
             throw GraveyardException("Graveyard with id: $graveyardId not found.", HttpStatus.NOT_FOUND)
         }
     }
