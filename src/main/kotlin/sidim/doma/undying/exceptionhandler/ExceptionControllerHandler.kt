@@ -10,6 +10,7 @@ import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
 import sidim.doma.undying.exceptionhandler.exception.MonsterException
 import sidim.doma.undying.exceptionhandler.exception.NamingException
+import sidim.doma.undying.exceptionhandler.exception.ScholarException
 import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
 import sidim.doma.undying.exceptionhandler.exception.SpecializationException
 import sidim.doma.undying.exceptionhandler.exception.StorageException
@@ -130,6 +131,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleStorageException(ex: StorageException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleScholarException(ex: ScholarException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
