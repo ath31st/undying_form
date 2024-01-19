@@ -19,7 +19,7 @@ class UserRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun isUserExistById(id: Long): Boolean {
+    fun existsUserWithId(id: Long): Boolean {
         return dslContext.selectCount()
             .from(u)
             .where(u.USER_ID.eq(id))

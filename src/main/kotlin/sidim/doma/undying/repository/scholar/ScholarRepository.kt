@@ -30,7 +30,7 @@ class ScholarRepository(private val dslContext: DSLContext) {
         return r.into(Scholars::class.java)
     }
 
-    fun existsScholarById(scholarId: Long): Boolean {
+    fun existsScholarWithId(scholarId: Long): Boolean {
         return dslContext.selectCount()
             .from(s)
             .where(s.SCHOLAR_ID.eq(scholarId))

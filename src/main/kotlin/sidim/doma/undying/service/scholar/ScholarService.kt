@@ -51,7 +51,7 @@ class ScholarService(
     }
 
     fun checkExistsScholarById(scholarId: Long) {
-        if (scholarRepository.existsScholarById(scholarId)) {
+        if (scholarRepository.existsScholarWithId(scholarId)) {
             throw ScholarException("Scholar with id: $scholarId not found", HttpStatus.NOT_FOUND)
         }
     }

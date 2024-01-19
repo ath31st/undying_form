@@ -53,7 +53,7 @@ class UserService(
     }
 
     private fun checkIsUserExistById(id: Long) {
-        if (!userRepository.isUserExistById(id)) {
+        if (!userRepository.existsUserWithId(id)) {
             throw UserException("User with id $id not found", HttpStatus.NOT_FOUND)
         }
     }
