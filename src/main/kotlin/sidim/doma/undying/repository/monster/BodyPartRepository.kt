@@ -3,7 +3,6 @@ package sidim.doma.undying.repository.monster
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
-import sidim.doma.undying.generated.tables.records.BodyPartsRecord
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.BODY_PART_TEMPLATES
 import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
@@ -20,6 +19,7 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
 
     fun saveGeneratedBodyPart(dto: NewBodyPartDto): Long {
         val r = dslContext.newRecord(bp)
+        r.scholarId = dto.scholarId
         r.quality = dto.quality
         r.integrity = dto.integrity
         r.side = dto.side

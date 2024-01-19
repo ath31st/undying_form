@@ -23,7 +23,7 @@ class BodyPartService(
     private val bodyPartTemplateService: BodyPartTemplateService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    private fun generateRandomBodyPartByGraveyardId(graveyardId: Int): Long {
+    private fun generateRandomBodyPartByGraveyardId(scholarId: Long, graveyardId: Int): Long {
         val bodyPartGroup = BodyPartGroup.entries.random()
         var side: String? = null
         if (bodyPartGroup == BodyPartGroup.HANDS || bodyPartGroup == BodyPartGroup.LEGS) {
@@ -31,6 +31,7 @@ class BodyPartService(
         }
 
         val dto = NewBodyPartDto(
+            scholarId = scholarId,
             quality = generator.generateRandomWithProbabilities(
                 LOW_QUALITY,
                 CHANCE_LOW_QUALITY,
@@ -48,12 +49,13 @@ class BodyPartService(
     }
 
     fun generateRandomBodyPartsByGraveyardId(
+        scholarId: Long,
         graveyardId: Int,
         countBodyParts: Int
     ): List<BodyPart> {
         val generatedBodyParts = mutableListOf<Long>()
         for (i in 0 until countBodyParts) {
-            generatedBodyParts.add(generateRandomBodyPartByGraveyardId(graveyardId))
+            generatedBodyParts.add(generateRandomBodyPartByGraveyardId(scholarId, graveyardId))
         }
 
         return findBodyPartsByIds(generatedBodyParts)

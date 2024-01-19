@@ -31,6 +31,7 @@ class ActionService(
         )
 
         val foundedBodyParts = bodyPartsService.generateRandomBodyPartsByGraveyardId(
+            scholarId,
             graveyardId,
             bodyPartsCount
         )
