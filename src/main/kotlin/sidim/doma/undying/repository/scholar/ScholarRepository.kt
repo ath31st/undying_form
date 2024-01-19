@@ -29,4 +29,11 @@ class ScholarRepository(private val dslContext: DSLContext) {
         r.store()
         return r.into(Scholars::class.java)
     }
+
+    fun existsScholarById(scholarId: Long): Boolean {
+        return dslContext.selectCount()
+            .from(s)
+            .where(s.SCHOLAR_ID.eq(scholarId))
+            .fetchOneInto(Int::class.java) == 1
+    }
 }

@@ -1,7 +1,9 @@
 package sidim.doma.undying.service.scholar
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.scholar.ScholarDto
+import sidim.doma.undying.exceptionhandler.exception.ScholarException
 import sidim.doma.undying.generated.tables.pojos.Scholars
 import sidim.doma.undying.repository.scholar.ScholarRepository
 import sidim.doma.undying.service.HideoutService
@@ -46,5 +48,11 @@ class ScholarService(
             monsterId = monsterService.createMonster().monsterId.let { it ?: 0 }
         )
         return scholarRepository.saveScholar(dto)
+    }
+
+    fun checkExistsScholarById(scholarId: Long) {
+        if (scholarRepository.existsScholarById(scholarId)) {
+            throw ScholarException("Scholar with id: $scholarId not found", HttpStatus.NOT_FOUND)
+        }
     }
 }
