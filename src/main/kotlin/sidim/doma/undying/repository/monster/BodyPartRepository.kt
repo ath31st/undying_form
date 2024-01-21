@@ -58,7 +58,11 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
             .join(sch).on(sch.SCHOLAR_ID.eq(bp.SCHOLAR_ID))
             .join(bpt).on(bpt.BODY_PART_TEMPLATE_ID.eq(bp.BODY_PART_TEMPLATE_ID))
             .join(sc).on(sc.SOCIAL_CLASS_ID.eq(bpt.SOCIAL_CLASS_ID))
-            .where(sch.SCHOLAR_ID.eq(scholarId)).and(bp.STORAGE_ID.isNull).and(bp.SET_BODY_PARTS_ID.isNull)
+            .where(
+                sch.SCHOLAR_ID.eq(scholarId)
+                    .and(bp.STORAGE_ID.isNull)
+                    .and(bp.SET_BODY_PARTS_ID.isNull)
+            )
             .fetch()
             .map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
@@ -66,7 +70,13 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
     fun existsBodyPartIdsForScholarId(bodyPartIds: Set<Long>, scholarId: Long): Boolean {
         val count = dslContext.selectCount()
             .from(bp)
-            .where(bp.BODY_PART_ID.`in`(bodyPartIds).and(bp.SCHOLAR_ID.eq(scholarId)))
+            .where(
+                bp.BODY_PART_ID.`in`(bodyPartIds).and(
+                    bp.SCHOLAR_ID.eq(scholarId)
+                        .and(bp.STORAGE_ID.isNull)
+                        .and(bp.SET_BODY_PARTS_ID.isNull)
+                )
+            )
             .fetchOneInto(Int::class.java) ?: 0
 
         return count == bodyPartIds.size
