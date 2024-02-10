@@ -7,6 +7,10 @@ import sidim.doma.undying.repository.monster.SocialClassRepository
 
 @Service
 class SocialClassService(private val socialClassRepository: SocialClassRepository) {
+    fun getSocialClasses(isActive: Boolean?): List<SocialClasses> {
+        return socialClassRepository.getSocialClasses(isActive)
+    }
+
     fun createSocialClass(dto: NewSocialClassDto): SocialClasses {
         return socialClassRepository.saveNewSocialClass(dto)
     }

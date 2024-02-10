@@ -20,6 +20,18 @@ class SocialClassRepository(private val dslContext: DSLContext) {
         return r.into(SocialClasses::class.java)
     }
 
+    fun getSocialClasses(isActive: Boolean?): List<SocialClasses> {
+        val classes: List<SocialClasses> = if (isActive != null)
+            dslContext.select(sc)
+                .from(sc)
+                .where(sc.IS_ACTIVE.eq(isActive))
+                .fetchInto(SocialClasses::class.java)
+        else dslContext.select(sc)
+            .from(sc)
+            .fetchInto(SocialClasses::class.java)
+        return classes
+    }
+
     fun getRandomSocialClassId(): Int? {
         return dslContext.select(sc.SOCIAL_CLASS_ID)
             .from(sc)
