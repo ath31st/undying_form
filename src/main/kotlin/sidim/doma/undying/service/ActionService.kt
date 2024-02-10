@@ -20,7 +20,7 @@ class ActionService(
     private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun findBodyPartsInGraveyard(
+    fun generateRandomBodyPartsByGraveyardForScholar(
         graveyardId: Int,
         scholarId: Long
     ): List<BodyPart> {
