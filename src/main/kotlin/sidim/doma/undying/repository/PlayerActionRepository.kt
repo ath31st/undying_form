@@ -1,5 +1,6 @@
 package sidim.doma.undying.repository
 
+import java.time.LocalDateTime
 import java.util.UUID
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
@@ -11,11 +12,15 @@ import sidim.doma.undying.util.ActionTypes
 class PlayerActionRepository(private val dslContext: DSLContext) {
     private val pa = PLAYER_ACTIONS
 
-    fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes): PlayerActions {
+    fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes, duration: Long): PlayerActions {
+        val currentTime = LocalDateTime.now()
+
         val r = dslContext.newRecord(pa)
         r.playerActionId = uuid
         r.scholarId = scholarId
         r.actionType = actionType.ordinal
+        r.createdAt = currentTime
+        r.endAt = currentTime.plusMinutes(duration)
 
         r.store()
         return r.into(PlayerActions::class.java)
