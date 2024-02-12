@@ -24,7 +24,7 @@ class ActionController(
 ) {
     @PostMapping("/find_body_parts")
     fun findBodyPartsInGraveyard(@RequestBody req: NewFindingBodyPartsInGraveyardReq): ResponseEntity<HttpStatus> {
-        actionService.checkUuidAction(req.scholarId, req.uuid)
+        actionService.checkExistsPlayerAction(req.scholarId, req.uuid)
         actionService.generateRandomBodyPartsByGraveyardForScholar(req.graveyardId, req.scholarId)
         actionService.savePlayerAction(
             req.scholarId, req.uuid,
@@ -38,7 +38,7 @@ class ActionController(
         @RequestParam scholarId: Long,
         @RequestParam uuid: UUID
     ): ResponseEntity<List<BodyPart>> {
-        actionService.checkUuidAction(scholarId, uuid)
+        actionService.checkStatusPlayerAction(scholarId, uuid)
         return ResponseEntity.ok(actionService.getResultFindingBodyParts(scholarId))
     }
 }

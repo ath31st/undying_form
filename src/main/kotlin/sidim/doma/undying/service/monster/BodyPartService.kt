@@ -65,6 +65,10 @@ class BodyPartService(
         return bodyPartRepository.findBodyPartsByStorageId(storageId)
     }
 
+    fun findBodyPartsByScholarId(scholarId: Long): List<BodyPart> {
+        return bodyPartRepository.findBodyPartsByScholarId(scholarId)
+    }
+
     fun findBodyPartsByIds(listIds: List<Long>): List<BodyPart> {
         return bodyPartRepository.findBodyPartsByIds(listIds)
     }
