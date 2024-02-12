@@ -1,7 +1,11 @@
 package sidim.doma.undying.service
 
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.UUID
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
 import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.repository.PlayerActionRepository
 import sidim.doma.undying.service.monster.BodyPartService
@@ -24,8 +28,32 @@ class ActionService(
     private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun checkUuidAction(scholarId: Long, uuid: UUID) {
+    fun checkExistsPlayerAction(scholarId: Long, uuid: UUID) {
+        if (playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, uuid)) {
+            throw PlayerActionException(
+                "Player action for scholar ID: $scholarId with uuid: $uuid already exists",
+                HttpStatus.CONFLICT
+            )
+        }
+    }
 
+    fun checkStatusPlayerAction(scholarId: Long, uuid: UUID) {
+        val optionPa = playerActionRepository.findPlayerActionByScholarIdAndUuid(scholarId, uuid)
+        val pa = optionPa ?: throw PlayerActionException(
+            "Player action for scholar ID: $scholarId and uuid: $uuid not found",
+            HttpStatus.NOT_FOUND
+        )
+
+        val currentTime = LocalDateTime.now()
+        if (pa.endAt!!.isBefore(currentTime)) {
+            val duration = Duration.between(pa.endAt, currentTime)
+            val minutesDifference = duration.toMinutes()
+
+            throw PlayerActionException(
+                "Player action for scholar ID: $scholarId and uuid: $uuid expired $minutesDifference minutes ago",
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
     fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes, duration: Long) {
