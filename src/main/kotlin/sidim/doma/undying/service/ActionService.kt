@@ -3,6 +3,7 @@ package sidim.doma.undying.service
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.UUID
+import kotlin.math.absoluteValue
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
@@ -45,12 +46,12 @@ class ActionService(
         )
 
         val currentTime = LocalDateTime.now()
-        if (pa.endAt!!.isBefore(currentTime)) {
+        if (pa.endAt!!.isAfter(currentTime)) {
             val duration = Duration.between(pa.endAt, currentTime)
-            val minutesDifference = duration.toMinutes()
+            val minutesDifference = duration.toMinutes().absoluteValue
 
             throw PlayerActionException(
-                "Player action for scholar ID: $scholarId and uuid: $uuid expired $minutesDifference minutes ago",
+                "Player action for scholar ID: $scholarId and uuid: $uuid will be able after $minutesDifference minutes",
                 HttpStatus.BAD_REQUEST
             )
         }
@@ -83,5 +84,9 @@ class ActionService(
         )
 
         return foundedBodyParts
+    }
+
+    fun getResultFindingBodyParts(scholarId: Long): List<BodyPart> {
+        return bodyPartsService.findBodyPartsByScholarId(scholarId)
     }
 }
