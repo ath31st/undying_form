@@ -12,6 +12,20 @@ import sidim.doma.undying.util.ActionTypes
 class PlayerActionRepository(private val dslContext: DSLContext) {
     private val pa = PLAYER_ACTIONS
 
+    fun existsPlayerActionWithUuidAndScholarId(scholarId: Long, uuid: UUID): Boolean {
+        return dslContext.selectCount()
+            .from(pa)
+            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(uuid))
+            .fetchOneInto(Int::class.java) == 1
+    }
+
+    fun findPlayerActionByScholarIdAndUuid(scholarId: Long, uuid: UUID): PlayerActions? {
+        return dslContext.select(pa)
+            .from(pa)
+            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(uuid))
+            .fetchOneInto(PlayerActions::class.java)
+    }
+
     fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes, duration: Long): PlayerActions {
         val currentTime = LocalDateTime.now()
 
