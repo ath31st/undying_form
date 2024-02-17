@@ -7,8 +7,11 @@ import sidim.doma.undying.repository.monster.BodyPartTemplateRepository
 
 @Service
 class BodyPartTemplateService(private val bodyPartTemplateRepository: BodyPartTemplateRepository) {
-    fun getRandomBodyPartTemplateIdByGraveyardId(graveyardId: Int): Int {
-        val templateId = bodyPartTemplateRepository.getRandomTemplateIdByGraveyardId(graveyardId)
+    fun getRandomBodyPartTemplateIdByGraveyardIdAndBodyPartGroup(graveyardId: Int, bodyPartGroup: Int): Int {
+        val templateId = bodyPartTemplateRepository.getRandomBodyPartTemplateIdByGraveyardIdAndBodyPartGroup(
+            graveyardId,
+            bodyPartGroup
+        )
         checkExistsBodyPartTemplate(templateId, graveyardId)
         return templateId!!
     }

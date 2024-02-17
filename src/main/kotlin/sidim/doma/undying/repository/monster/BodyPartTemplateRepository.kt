@@ -13,12 +13,16 @@ class BodyPartTemplateRepository(private val dslContext: DSLContext) {
     private val gsc = GRAVEYARD_SOCIAL_CLASSES
     private val sc = SOCIAL_CLASSES
 
-    fun getRandomTemplateIdByGraveyardId(graveyardId: Int, count: Int = 1): Int? {
+    fun getRandomBodyPartTemplateIdByGraveyardIdAndBodyPartGroup(
+        graveyardId: Int,
+        bodyPartGroup: Int,
+        count: Int = 1
+    ): Int? {
         return dslContext.select(bpt.BODY_PART_TEMPLATE_ID)
             .from(bpt)
             .join(sc).on(sc.SOCIAL_CLASS_ID.eq(bpt.SOCIAL_CLASS_ID))
             .join(gsc).on(gsc.SOCIAL_CLASS_ID.eq(bpt.SOCIAL_CLASS_ID))
-            .where(gsc.GRAVEYARD_ID.eq(graveyardId))
+            .where(gsc.GRAVEYARD_ID.eq(graveyardId).and(bpt.BODY_PART_GROUP.eq(bodyPartGroup)))
             .orderBy(DSL.rand())
             .limit(count)
             .fetchOneInto(Int::class.java)

@@ -42,7 +42,10 @@ class BodyPartService(
             ),
             integrity = generator.generateRandomInteger(MIN_INTEGRITY, MAX_INTEGRITY),
             side = side,
-            templateId = bodyPartTemplateService.getRandomBodyPartTemplateIdByGraveyardId(graveyardId),
+            templateId = bodyPartTemplateService.getRandomBodyPartTemplateIdByGraveyardIdAndBodyPartGroup(
+                graveyardId,
+                bodyPartGroup.ordinal
+            ),
         )
 
         return bodyPartRepository.saveGeneratedBodyPart(dto)
