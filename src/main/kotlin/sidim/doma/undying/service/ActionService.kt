@@ -29,19 +29,19 @@ class ActionService(
     private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun checkExistsPlayerAction(scholarId: Long, uuid: UUID) {
-        if (playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, uuid)) {
+    fun checkExistsPlayerAction(scholarId: Long, actionUuid: UUID) {
+        if (playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, actionUuid)) {
             throw PlayerActionException(
-                "Player action for scholar ID: $scholarId with uuid: $uuid already exists",
+                "Player action for scholar ID: $scholarId with uuid: $actionUuid already exists",
                 HttpStatus.CONFLICT
             )
         }
     }
 
-    fun checkStatusPlayerAction(scholarId: Long, uuid: UUID) {
-        val optionPa = playerActionRepository.findPlayerActionByScholarIdAndUuid(scholarId, uuid)
+    fun checkStatusPlayerAction(scholarId: Long, actionUuid: UUID) {
+        val optionPa = playerActionRepository.findPlayerActionByScholarIdAndUuid(scholarId, actionUuid)
         val pa = optionPa ?: throw PlayerActionException(
-            "Player action for scholar ID: $scholarId and uuid: $uuid not found",
+            "Player action for scholar ID: $scholarId and uuid: $actionUuid not found",
             HttpStatus.NOT_FOUND
         )
 
@@ -51,14 +51,14 @@ class ActionService(
             val minutesDifference = duration.toMinutes().absoluteValue
 
             throw PlayerActionException(
-                "Player action for scholar ID: $scholarId and uuid: $uuid will be able after $minutesDifference minutes",
+                "Player action for scholar ID: $scholarId and uuid: $actionUuid will be able after $minutesDifference minutes",
                 HttpStatus.BAD_REQUEST
             )
         }
     }
 
-    fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes, duration: Long) {
-        playerActionRepository.savePlayerAction(scholarId, uuid, actionType, duration)
+    fun savePlayerAction(scholarId: Long, actionUuid: UUID, actionType: ActionTypes, duration: Long) {
+        playerActionRepository.savePlayerAction(scholarId, actionUuid, actionType, duration)
     }
 
     fun generateRandomBodyPartsByGraveyardForScholar(
