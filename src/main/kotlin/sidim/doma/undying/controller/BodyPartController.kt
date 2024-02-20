@@ -22,7 +22,7 @@ class BodyPartController(
     @PostMapping("/transfer_body_parts_to_storage")
     @Transactional
     fun transferBodyPartsToStorage(@RequestBody dto: TransferBodyPartsDto): ResponseEntity<HttpStatus> {
-        actionService.checkExistsPlayerAction(dto.scholarId, dto.actionUuid)
+        actionService.checkIfNoExistsPlayerAction(dto.scholarId, dto.actionUuid)
         bodyPartService.transferBodyPartsFromScholarToStorage(dto)
         actionService.deleteActionUuidByScholarId(dto.scholarId, dto.actionUuid)
         return ResponseEntity.ok(HttpStatus.OK)

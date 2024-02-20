@@ -24,7 +24,7 @@ class ActionController(
 ) {
     @PostMapping("/find_body_parts")
     fun findBodyPartsInGraveyard(@RequestBody req: NewFindingBodyPartsInGraveyardReq): ResponseEntity<HttpStatus> {
-        actionService.checkExistsPlayerAction(req.scholarId, req.actionUuid)
+        actionService.checkIfExistsPlayerAction(req.scholarId, req.actionUuid)
         actionService.generateRandomBodyPartsByGraveyardForScholar(req.graveyardId, req.scholarId)
         actionService.savePlayerAction(
             req.scholarId, req.actionUuid,

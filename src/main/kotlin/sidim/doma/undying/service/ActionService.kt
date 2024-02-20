@@ -29,11 +29,20 @@ class ActionService(
     private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun checkExistsPlayerAction(scholarId: Long, actionUuid: UUID) {
+    fun checkIfExistsPlayerAction(scholarId: Long, actionUuid: UUID) {
         if (playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, actionUuid)) {
             throw PlayerActionException(
                 "Player action for scholar ID: $scholarId with uuid: $actionUuid already exists",
                 HttpStatus.CONFLICT
+            )
+        }
+    }
+
+    fun checkIfNoExistsPlayerAction(scholarId: Long, actionUuid: UUID) {
+        if (!playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, actionUuid)) {
+            throw PlayerActionException(
+                "Player action for scholar ID: $scholarId with uuid: $actionUuid not found",
+                HttpStatus.NOT_FOUND
             )
         }
     }
