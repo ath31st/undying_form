@@ -5,6 +5,6 @@ import java.util.UUID
 
 data class TransferBodyPartsDto(
     val scholarId: Long,
-    val actionUUID: UUID,
+    val actionUuid: UUID,
     val bodyPartIds: List<Long>,
 ) : Serializable
