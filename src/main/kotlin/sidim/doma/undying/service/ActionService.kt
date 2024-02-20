@@ -89,4 +89,8 @@ class ActionService(
     fun getResultFindingBodyParts(scholarId: Long): List<BodyPart> {
         return bodyPartsService.findBodyPartsByScholarId(scholarId)
     }
+
+    fun deleteActionUuidByScholarId(scholarId: Long, actionUuid: UUID) {
+        playerActionRepository.deletePlayerAction(scholarId, actionUuid)
+    }
 }

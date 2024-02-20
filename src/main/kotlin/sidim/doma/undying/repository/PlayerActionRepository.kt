@@ -12,25 +12,25 @@ import sidim.doma.undying.util.ActionTypes
 class PlayerActionRepository(private val dslContext: DSLContext) {
     private val pa = PLAYER_ACTIONS
 
-    fun existsPlayerActionWithUuidAndScholarId(scholarId: Long, uuid: UUID): Boolean {
+    fun existsPlayerActionWithUuidAndScholarId(scholarId: Long, actionUuid: UUID): Boolean {
         return dslContext.selectCount()
             .from(pa)
-            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(uuid))
+            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(actionUuid))
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun findPlayerActionByScholarIdAndUuid(scholarId: Long, uuid: UUID): PlayerActions? {
+    fun findPlayerActionByScholarIdAndUuid(scholarId: Long, actionUuid: UUID): PlayerActions? {
         return dslContext.select(pa)
             .from(pa)
-            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(uuid))
+            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.PLAYER_ACTION_ID.eq(actionUuid))
             .fetchOneInto(PlayerActions::class.java)
     }
 
-    fun savePlayerAction(scholarId: Long, uuid: UUID, actionType: ActionTypes, duration: Long): PlayerActions {
+    fun savePlayerAction(scholarId: Long, actionUuid: UUID, actionType: ActionTypes, duration: Long): PlayerActions {
         val currentTime = LocalDateTime.now()
 
         val r = dslContext.newRecord(pa)
-        r.playerActionId = uuid
+        r.playerActionId = actionUuid
         r.scholarId = scholarId
         r.actionType = actionType.ordinal
         r.createdAt = currentTime
@@ -38,5 +38,12 @@ class PlayerActionRepository(private val dslContext: DSLContext) {
 
         r.store()
         return r.into(PlayerActions::class.java)
+    }
+
+    fun deletePlayerAction(scholarId: Long, actionUuid: UUID) {
+        dslContext.deleteFrom(pa)
+            .where(pa.SCHOLAR_ID.eq(scholarId))
+            .and(pa.PLAYER_ACTION_ID.eq(actionUuid))
+            .execute()
     }
 }
