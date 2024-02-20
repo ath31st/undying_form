@@ -2,6 +2,7 @@ package sidim.doma.undying.service.monster
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
+import sidim.doma.undying.dto.storage.TransferBodyPartsDto
 import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.repository.monster.BodyPartRepository
 import sidim.doma.undying.util.BodyPartGroup
@@ -74,5 +75,9 @@ class BodyPartService(
 
     fun findBodyPartsByIds(listIds: List<Long>): List<BodyPart> {
         return bodyPartRepository.findBodyPartsByIds(listIds)
+    }
+
+    fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto) {
+        bodyPartRepository.transferBodyPartsIntoStorage(dto)
     }
 }

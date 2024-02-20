@@ -2,7 +2,6 @@ package sidim.doma.undying.service
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import sidim.doma.undying.dto.storage.TransferBodyPartsDto
 import sidim.doma.undying.exceptionhandler.exception.StorageException
 import sidim.doma.undying.generated.tables.pojos.Storages
 import sidim.doma.undying.mapper.StorageMapper
@@ -26,9 +25,5 @@ class StorageService(
                 HttpStatus.NOT_FOUND
             )
         )
-    }
-
-    fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto) {
-
     }
 }
