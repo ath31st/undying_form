@@ -118,4 +118,13 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
 
         dslContext.batchStore(records).execute()
     }
+
+    fun deleteExtraBodyPartsWithScholarId(scholarId: Long) {
+        dslContext.deleteFrom(bp)
+            .where(
+                bp.SCHOLAR_ID.eq(scholarId)
+                    .and(bp.STORAGE_ID.isNull)
+            )
+            .execute()
+    }
 }

@@ -80,4 +80,8 @@ class BodyPartService(
     fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto) {
         bodyPartRepository.updateBodyPartLocationToStorageWithScholarId(dto.bodyPartIds.toSet(), dto.scholarId)
     }
+
+    fun deleteExtraBodyPartsAfterTransfer(scholarId: Long) {
+        bodyPartRepository.deleteExtraBodyPartsWithScholarId(scholarId)
+    }
 }
