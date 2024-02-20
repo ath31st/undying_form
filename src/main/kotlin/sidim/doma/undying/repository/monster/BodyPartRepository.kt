@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.BODY_PART_TEMPLATES
+import sidim.doma.undying.generated.tables.references.HIDEOUTS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
 import sidim.doma.undying.generated.tables.references.STORAGES
@@ -15,6 +16,7 @@ import sidim.doma.undying.model.BodyPart
 class BodyPartRepository(private val dslContext: DSLContext, private val bodyPartMapper: BodyPartMapper) {
     private val bp = BODY_PARTS
     private val bpt = BODY_PART_TEMPLATES
+    private val h = HIDEOUTS
     private val st = STORAGES
     private val sc = SOCIAL_CLASSES
     private val sch = SCHOLARS
@@ -82,7 +84,7 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
         return count == bodyPartIds.size
     }
 
-    fun updateBodyPartLocationToStorage(bodyPartIds: Set<Long>, storageId: Long) {
+    fun updateBodyPartLocationToStorageWithStorageId(bodyPartIds: Set<Long>, storageId: Long) {
         val records = dslContext.selectFrom(bp)
             .where(bp.BODY_PART_ID.`in`(bodyPartIds))
             .fetch()
@@ -96,5 +98,24 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
         dslContext.batchStore(records).execute()
     }
 
+    fun updateBodyPartLocationToStorageWithScholarId(bodyPartIds: Set<Long>, scholarId: Long) {
+        val records = dslContext.selectFrom(bp)
+            .where(bp.BODY_PART_ID.`in`(bodyPartIds))
+            .fetch()
 
+        val storageId = dslContext.select(st.STORAGE_ID)
+            .from(st)
+            .join(h).on(st.STORAGE_ID.eq(h.STORAGE_ID))
+            .join(sch).on(h.HIDEOUT_ID.eq(sch.HIDEOUT_ID))
+            .where(sch.SCHOLAR_ID.eq(scholarId))
+            .fetchOneInto(Long::class.java)
+
+        records.map { r ->
+            r.storageId = storageId
+            r.scholarId = null
+            r.setBodyPartsId = null
+        }
+
+        dslContext.batchStore(records).execute()
+    }
 }

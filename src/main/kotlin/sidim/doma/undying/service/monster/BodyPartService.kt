@@ -78,6 +78,6 @@ class BodyPartService(
     }
 
     fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto) {
-        bodyPartRepository.transferBodyPartsIntoStorage(dto)
+        bodyPartRepository.updateBodyPartLocationToStorageWithScholarId(dto.bodyPartIds.toSet(), dto.scholarId)
     }
 }

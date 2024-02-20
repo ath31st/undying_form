@@ -15,7 +15,7 @@ import sidim.doma.undying.service.monster.BodyPartService
 @RestController
 @Validated
 @RequestMapping("/api/v1/body_parts")
-class BodyPartsController(
+class BodyPartController(
     private val bodyPartService: BodyPartService,
     private val actionService: ActionService,
 ) {
