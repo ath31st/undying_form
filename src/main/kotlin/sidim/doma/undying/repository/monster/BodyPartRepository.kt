@@ -124,6 +124,7 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
             .where(
                 bp.SCHOLAR_ID.eq(scholarId)
                     .and(bp.STORAGE_ID.isNull)
+                    .and(bp.SET_BODY_PARTS_ID.isNull)
             )
             .execute()
     }
