@@ -5,11 +5,15 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.generated.tables.pojos.Monsters
 import sidim.doma.undying.generated.tables.references.MONSTERS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
+import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
+import sidim.doma.undying.mapper.MonsterMapper
+import sidim.doma.undying.model.Monster
 
 @Repository
-class MonsterRepository(private val dslContext: DSLContext) {
+class MonsterRepository(private val dslContext: DSLContext, private val monsterMapper: MonsterMapper) {
     private val m = MONSTERS
     private val s = SCHOLARS
+    private val sbp = SETS_BODY_PARTS
 
     fun saveNewMonster(setBodyPartsId: Long): Monsters {
         val r = dslContext.newRecord(m)
@@ -31,11 +35,13 @@ class MonsterRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Monsters::class.java)
     }
 
-    fun findMonsterByScholarId(scholarId: Long): Monsters? {
-        return dslContext.select(m)
+    fun findMonsterByScholarId(scholarId: Long): Monster? {
+        return dslContext.select(m, sbp)
             .from(m)
             .join(s).on(s.MONSTER_ID.eq(m.MONSTER_ID))
+            .join(sbp).on(sbp.SET_BODY_PARTS_ID.eq(m.SET_BODY_PARTS_ID))
             .where(s.SCHOLAR_ID.eq(scholarId))
-            .fetchOneInto(Monsters::class.java)
+            .fetchOne()
+            ?.let { monsterMapper.fromMonsterRecToModel(it.value1(), it.value2()) }
     }
 }
