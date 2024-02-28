@@ -5,7 +5,6 @@ data class BodyPartShort(
     val quality: Int,
     val integrity: Int,
     val side: String?,
-    val nameBodyPartTemplate: String,
 )
 
 

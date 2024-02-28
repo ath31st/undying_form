@@ -7,5 +7,5 @@ data class Monster(
     val agility: Int,
     val endurance: Int,
     val stability: Int,
-    val setBodyPartsId: SetBodyParts,
+    val setBodyParts: SetBodyParts,
 )
