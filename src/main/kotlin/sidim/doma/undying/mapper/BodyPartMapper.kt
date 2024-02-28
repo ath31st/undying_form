@@ -6,6 +6,7 @@ import sidim.doma.undying.generated.tables.records.BodyPartsRecord
 import sidim.doma.undying.generated.tables.records.SocialClassesRecord
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.model.BodyPart
+import sidim.doma.undying.model.BodyPartShort
 
 @Component
 class BodyPartMapper(private val bodyPartTemplateMapper: BodyPartTemplateMapper) {
@@ -20,6 +21,19 @@ class BodyPartMapper(private val bodyPartTemplateMapper: BodyPartTemplateMapper)
             storageId = r1[bp.STORAGE_ID],
             setBodyPartsId = r1[bp.SET_BODY_PARTS_ID],
             bodyPartTemplate = bodyPartTemplateMapper.fromBodyPartTemplateRecordToModel(r2, r3)
+        )
+    }
+
+    fun fromBodyPartRecordToShortModel(r1: BodyPartsRecord): BodyPartShort? {
+        if (r1.bodyPartId == null) {
+            return null
+        }
+
+        return BodyPartShort(
+            id = r1[bp.BODY_PART_ID] ?: 0,
+            quality = r1[bp.QUALITY] ?: 0,
+            integrity = r1[bp.INTEGRITY] ?: 0,
+            side = r1[bp.SIDE],
         )
     }
 }
