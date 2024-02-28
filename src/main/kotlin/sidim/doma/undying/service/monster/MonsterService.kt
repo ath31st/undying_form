@@ -18,7 +18,12 @@ class MonsterService(
     }
 
     fun getMonsterInfoByScholarId(scholarId: Long): Monster {
-        return monsterRepository.findMonsterByScholarId(scholarId)
+        val monsterId = monsterRepository.findMonsterIdByScholarId(scholarId)
+            ?: throw MonsterException("Monster for scholar id: $scholarId not found", HttpStatus.NOT_FOUND)
+
+        val setBodyParts = setBodyPartsService.getSetBodyPartsByMonsterId(monsterId)
+
+        return monsterRepository.findMonsterByScholarId(scholarId, setBodyParts)
             ?: throw MonsterException("Monster for scholar id: $scholarId not found", HttpStatus.NOT_FOUND)
     }
 }
