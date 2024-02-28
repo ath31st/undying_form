@@ -5,10 +5,10 @@ data class SetBodyParts(
     var bodyPartsCount: Int,
     var setIsCompleted: Boolean,
     var bonusSet: Int,
-    var leftHandSlot: BodyPart? = null,
-    var rightHandSlot: BodyPart? = null,
-    var leftLegSlot: BodyPart? = null,
-    var rightLegSlot: BodyPart? = null,
-    var upperBodySlot: BodyPart? = null,
-    var headSlot: BodyPart? = null
+    var leftHandSlot: BodyPartShort? = null,
+    var rightHandSlot: BodyPartShort? = null,
+    var leftLegSlot: BodyPartShort? = null,
+    var rightLegSlot: BodyPartShort? = null,
+    var upperBodySlot: BodyPartShort? = null,
+    var headSlot: BodyPartShort? = null
 )
