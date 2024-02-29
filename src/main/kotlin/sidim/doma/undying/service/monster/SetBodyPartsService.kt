@@ -13,6 +13,12 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
         return setBodyPartsRepository.saveEmptySetBodyParts()
     }
 
+    fun checkIsSetBodyPartsExistById(id: Long) {
+        if (!setBodyPartsRepository.existsSetBodyPartsWithId(id)) {
+            throw SetBodyPartsException("Set body parts with id $id not found", HttpStatus.NOT_FOUND)
+        }
+    }
+
     fun getSetBodyPartsByMonsterId(monsterId: Long): SetBodyParts {
         return setBodyPartsRepository.findSetBodyPartsByMonsterId(monsterId)
             ?: throw SetBodyPartsException(

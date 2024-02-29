@@ -15,6 +15,13 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
     private val m = MONSTERS
     private val bp = BODY_PARTS
 
+    fun existsSetBodyPartsWithId(id: Long): Boolean {
+        return dslContext.selectCount()
+            .from(sbp)
+            .where(sbp.SET_BODY_PARTS_ID.eq(id))
+            .fetchOneInto(Int::class.java) == 1
+    }
+
     fun saveEmptySetBodyParts(): SetsBodyParts {
         val r = dslContext.newRecord(sbp)
         r.bodyPartsCount = 0

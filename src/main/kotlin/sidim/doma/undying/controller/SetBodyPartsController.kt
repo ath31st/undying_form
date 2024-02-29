@@ -15,7 +15,7 @@ import sidim.doma.undying.service.monster.SetBodyPartsService
 @RequestMapping("/api/v1/set_body_parts")
 class SetBodyPartsController(private val setBodyPartsService: SetBodyPartsService) {
     @PostMapping("/update_slots")
-    fun updateSetBodyParts(@RequestBody setBodyPartsUpdateDto: SetBodyPartsUpdateDto): ResponseEntity<HttpStatus> {
-        setBodyPartsService.
+    fun updateSetBodyParts(@RequestBody dto: SetBodyPartsUpdateDto): ResponseEntity<HttpStatus> {
+        setBodyPartsService.checkIsSetBodyPartsExistById(dto.setBodyPartsId)
     }
 }
