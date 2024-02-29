@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.generated.tables.pojos.SetsBodyParts
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.MONSTERS
+import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
 import sidim.doma.undying.mapper.SetBodyPartsMapper
 import sidim.doma.undying.model.SetBodyParts
@@ -14,6 +15,7 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
     private val sbp = SETS_BODY_PARTS
     private val m = MONSTERS
     private val bp = BODY_PARTS
+    private val sch = SCHOLARS
 
     fun existsSetBodyPartsWithId(id: Long): Boolean {
         return dslContext.selectCount()
@@ -54,5 +56,14 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOne()
 
         return set?.let { setBodyPartsMapper.fromRecordToModel(it) }
+    }
+
+    fun findScholarIdBySetBodyPartsId(setBodyPartsId: Long): Long? {
+        return dslContext.select(sch.SCHOLAR_ID)
+            .from(sbp)
+            .join(m).on(m.SET_BODY_PARTS_ID.eq(sbp.SET_BODY_PARTS_ID))
+            .join(sch).on(sch.MONSTER_ID.eq(m.MONSTER_ID))
+            .where(sbp.SET_BODY_PARTS_ID.eq(setBodyPartsId))
+            .fetchOneInto(Long::class.java)
     }
 }

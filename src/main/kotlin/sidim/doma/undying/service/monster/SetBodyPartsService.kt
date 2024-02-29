@@ -26,4 +26,12 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
                 HttpStatus.NOT_FOUND
             )
     }
+
+    fun getScholarIdBySetBodyParts(setBodyPartsId: Long): Long {
+        return setBodyPartsRepository.findScholarIdBySetBodyPartsId(setBodyPartsId)
+            ?: throw SetBodyPartsException(
+                "Scholar id for set body parts with id $setBodyPartsId not found",
+                HttpStatus.NOT_FOUND
+            )
+    }
 }
