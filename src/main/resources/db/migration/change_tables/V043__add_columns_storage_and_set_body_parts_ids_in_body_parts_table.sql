@@ -5,4 +5,4 @@ ALTER TABLE body_parts
     ADD COLUMN scholar_id BIGINT REFERENCES scholars (scholar_id);
 
 ALTER TABLE body_parts
-    ADD COLUMN set_body_parts_id BIGINT UNIQUE REFERENCES sets_body_parts (set_body_parts_id);
+    ADD COLUMN set_body_parts_id BIGINT REFERENCES sets_body_parts (set_body_parts_id);
