@@ -1,11 +1,11 @@
 package sidim.doma.undying.dto.setbodyparts
 
 class SetBodyPartsUpdateDto(
-    var setBodyPartsId: Long,
-    var leftHandIdForSlot: Long?,
-    var rightHandIdForSlot: Long?,
-    var leftLegIdForSlot: Long?,
-    var rightLegIdForSlot: Long?,
-    var upperBodyIdForSlot: Long?,
-    var headIdForSlot: Long?,
+    val setBodyPartsId: Long,
+    val leftHandIdForSlot: Long?,
+    val rightHandIdForSlot: Long?,
+    val leftLegIdForSlot: Long?,
+    val rightLegIdForSlot: Long?,
+    val upperBodyIdForSlot: Long?,
+    val headIdForSlot: Long?,
 )
