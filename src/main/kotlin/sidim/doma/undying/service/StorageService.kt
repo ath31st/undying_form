@@ -2,6 +2,7 @@ package sidim.doma.undying.service
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.exceptionhandler.exception.StorageException
 import sidim.doma.undying.generated.tables.pojos.Storages
 import sidim.doma.undying.mapper.StorageMapper
@@ -25,5 +26,11 @@ class StorageService(
                 HttpStatus.NOT_FOUND
             )
         )
+    }
+
+    fun checkExistsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long) {
+        if (!storageRepository.existsBodyPartIdsInStorageByScholarId(dto, scholarId)) {
+            throw StorageException("In storage absent some body parts from dto.", HttpStatus.BAD_REQUEST)
+        }
     }
 }
