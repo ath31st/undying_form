@@ -2,6 +2,7 @@ package sidim.doma.undying.service.monster
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
 import sidim.doma.undying.generated.tables.pojos.SetsBodyParts
 import sidim.doma.undying.model.SetBodyParts
@@ -33,5 +34,22 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
                 "Scholar id for set body parts with id $setBodyPartsId not found",
                 HttpStatus.NOT_FOUND
             )
+    }
+
+    fun checkUniqueBodyPartsInUpdateDto(dto: SetBodyPartsUpdateDto) {
+        val bodyParts = setOf(
+            dto.leftHandIdForSlot,
+            dto.rightHandIdForSlot,
+            dto.leftLegIdForSlot,
+            dto.rightLegIdForSlot,
+            dto.upperBodyIdForSlot,
+            dto.headIdForSlot
+        )
+
+        val distinctSize = bodyParts.filterNotNull().toSet().size
+
+        if (distinctSize != bodyParts.filterNotNull().size) {
+            throw SetBodyPartsException("Body parts in dto not unique", HttpStatus.BAD_REQUEST)
+        }
     }
 }

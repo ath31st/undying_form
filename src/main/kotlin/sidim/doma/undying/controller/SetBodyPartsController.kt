@@ -21,6 +21,7 @@ class SetBodyPartsController(
     @PostMapping("/update_slots")
     fun updateSetBodyParts(@RequestBody dto: SetBodyPartsUpdateDto): ResponseEntity<HttpStatus> {
         setBodyPartsService.checkIsSetBodyPartsExistById(dto.setBodyPartsId)
+        setBodyPartsService.checkUniqueBodyPartsInUpdateDto(dto)
         val scholarId = setBodyPartsService.getScholarIdBySetBodyParts(dto.setBodyPartsId)
         storageService.checkExistsBodyPartIdsInStorageByScholarId(dto, scholarId)
 
