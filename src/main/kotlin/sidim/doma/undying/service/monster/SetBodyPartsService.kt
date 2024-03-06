@@ -52,4 +52,8 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
             throw SetBodyPartsException("Body parts in dto not unique", HttpStatus.BAD_REQUEST)
         }
     }
+
+    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto) {
+        setBodyPartsRepository.updateSlotsSetBodyParts(dto)
+    }
 }

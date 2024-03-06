@@ -2,6 +2,7 @@ package sidim.doma.undying.repository.monster
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
+import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.generated.tables.pojos.SetsBodyParts
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.MONSTERS
@@ -65,5 +66,17 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .join(sch).on(sch.MONSTER_ID.eq(m.MONSTER_ID))
             .where(sbp.SET_BODY_PARTS_ID.eq(setBodyPartsId))
             .fetchOneInto(Long::class.java)
+    }
+
+    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto) {
+        dslContext.update(sbp)
+            .set(sbp.LEFT_HAND_SLOT, dto.leftHandIdForSlot)
+            .set(sbp.RIGHT_HAND_SLOT, dto.rightHandIdForSlot)
+            .set(sbp.LEFT_LEG_SLOT, dto.leftLegIdForSlot)
+            .set(sbp.RIGHT_LEG_SLOT, dto.rightLegIdForSlot)
+            .set(sbp.UPPER_BODY_SLOT, dto.upperBodyIdForSlot)
+            .set(sbp.HEAD_SLOT, dto.headIdForSlot)
+            .where(sbp.SET_BODY_PARTS_ID.eq(dto.setBodyPartsId))
+            .execute()
     }
 }
