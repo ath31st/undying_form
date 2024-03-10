@@ -68,6 +68,18 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOneInto(Long::class.java)
     }
 
+    fun prepareIdsForDeleting(
+        currentSlot: Long?,
+        newSlotId: Long?,
+        idsForDeleting: MutableList<Long>
+    ) {
+        currentSlot?.let { slot ->
+            if (newSlotId == null) {
+                idsForDeleting.add(slot)
+            }
+        }
+    }
+
     fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): List<Long> {
         val idsForDeleting = mutableListOf<Long>()
 
@@ -76,22 +88,23 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOne()
 
         currentRecord?.let { r ->
-            if (dto.leftLegIdForSlot == null) {
-                r.leftHandSlot?.let { idsForDeleting.add(it) }
-                r.leftHandSlot = null
-            } else if (dto.leftHandIdForSlot != r.leftHandSlot) {
-                r.leftHandSlot?.let { idsForDeleting.add(it) }
-                r.leftHandSlot = dto.leftHandIdForSlot
-            }
+            prepareIdsForDeleting(r.leftHandSlot, dto.leftHandIdForSlot, idsForDeleting)
+            r.leftHandSlot = dto.leftHandIdForSlot
 
-            if (dto.rightHandIdForSlot == null) {
-                r.rightHandSlot?.let { idsForDeleting.add(it) }
-                r.rightHandSlot = null
-            } else if (dto.rightHandIdForSlot != r.rightHandSlot) {
-                r.rightHandSlot?.let { idsForDeleting.add(it) }
-                r.rightHandSlot = dto.rightHandIdForSlot
-            }
+            prepareIdsForDeleting(r.rightHandSlot, dto.rightHandIdForSlot, idsForDeleting)
+            r.rightHandSlot = dto.rightHandIdForSlot
 
+            prepareIdsForDeleting(r.leftLegSlot, dto.leftLegIdForSlot, idsForDeleting)
+            r.leftLegSlot = dto.leftLegIdForSlot
+
+            prepareIdsForDeleting(r.rightLegSlot, dto.rightLegIdForSlot, idsForDeleting)
+            r.rightLegSlot = dto.rightLegIdForSlot
+
+            prepareIdsForDeleting(r.upperBodySlot, dto.upperBodyIdForSlot, idsForDeleting)
+            r.upperBodySlot = dto.upperBodyIdForSlot
+
+            prepareIdsForDeleting(r.headSlot, dto.headIdForSlot, idsForDeleting)
+            r.headSlot = dto.headIdForSlot
 
             dslContext.update(sbp)
                 .set(r)
