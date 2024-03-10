@@ -53,7 +53,7 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
         }
     }
 
-    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto) {
-        setBodyPartsRepository.updateSlotsSetBodyParts(dto)
+    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): Pair<List<Long>, List<Long>> {
+        return setBodyPartsRepository.updateSlotsSetBodyParts(dto)
     }
 }

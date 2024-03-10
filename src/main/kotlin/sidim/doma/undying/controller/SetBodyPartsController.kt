@@ -16,7 +16,8 @@ import sidim.doma.undying.service.monster.SetBodyPartsService
 @RequestMapping("/api/v1/set_body_parts")
 class SetBodyPartsController(
     private val setBodyPartsService: SetBodyPartsService,
-    private val storageService: StorageService
+    private val storageService: StorageService,
+    private val bodyPartsService: SetBodyPartsService
 ) {
     @PostMapping("/update_slots")
     fun updateSetBodyParts(@RequestBody dto: SetBodyPartsUpdateDto): ResponseEntity<HttpStatus> {
@@ -24,6 +25,8 @@ class SetBodyPartsController(
         setBodyPartsService.checkUniqueBodyPartsInUpdateDto(dto)
         val scholarId = setBodyPartsService.getScholarIdBySetBodyParts(dto.setBodyPartsId)
         storageService.checkExistsBodyPartIdsInStorageByScholarId(dto, scholarId)
+        val bpIdsForDeletingAndUpdateing = setBodyPartsService.updateSlotsSetBodyParts(dto)
+
 
         return ResponseEntity.ok(HttpStatus.INTERNAL_SERVER_ERROR)
     }
