@@ -68,15 +68,37 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOneInto(Long::class.java)
     }
 
-    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto) {
-        dslContext.update(sbp)
-            .set(sbp.LEFT_HAND_SLOT, dto.leftHandIdForSlot)
-            .set(sbp.RIGHT_HAND_SLOT, dto.rightHandIdForSlot)
-            .set(sbp.LEFT_LEG_SLOT, dto.leftLegIdForSlot)
-            .set(sbp.RIGHT_LEG_SLOT, dto.rightLegIdForSlot)
-            .set(sbp.UPPER_BODY_SLOT, dto.upperBodyIdForSlot)
-            .set(sbp.HEAD_SLOT, dto.headIdForSlot)
+    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): List<Long> {
+        val idsForDeleting = mutableListOf<Long>()
+
+        val currentRecord = dslContext.selectFrom(sbp)
             .where(sbp.SET_BODY_PARTS_ID.eq(dto.setBodyPartsId))
-            .execute()
+            .fetchOne()
+
+        currentRecord?.let { r ->
+            if (dto.leftLegIdForSlot == null) {
+                r.leftHandSlot?.let { idsForDeleting.add(it) }
+                r.leftHandSlot = null
+            } else if (dto.leftHandIdForSlot != r.leftHandSlot) {
+                r.leftHandSlot?.let { idsForDeleting.add(it) }
+                r.leftHandSlot = dto.leftHandIdForSlot
+            }
+
+            if (dto.rightHandIdForSlot == null) {
+                r.rightHandSlot?.let { idsForDeleting.add(it) }
+                r.rightHandSlot = null
+            } else if (dto.rightHandIdForSlot != r.rightHandSlot) {
+                r.rightHandSlot?.let { idsForDeleting.add(it) }
+                r.rightHandSlot = dto.rightHandIdForSlot
+            }
+
+
+            dslContext.update(sbp)
+                .set(r)
+                .where(sbp.SET_BODY_PARTS_ID.eq(dto.setBodyPartsId))
+                .execute()
+        }
+
+        return idsForDeleting
     }
 }
