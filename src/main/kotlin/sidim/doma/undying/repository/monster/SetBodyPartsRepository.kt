@@ -68,42 +68,46 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOneInto(Long::class.java)
     }
 
-    fun prepareIdsForDeleting(
+    fun prepareIdsForDeletingAndUpdating(
         currentSlot: Long?,
         newSlotId: Long?,
-        idsForDeleting: MutableList<Long>
+        idsForDelBodyParts: MutableList<Long>,
+        idsForUpdBodyParts: MutableList<Long>,
     ) {
-        currentSlot?.let { slot ->
+        currentSlot?.let {
             if (newSlotId == null) {
-                idsForDeleting.add(slot)
-            }
+                idsForDelBodyParts.add(it)
+            } else if (newSlotId != currentSlot) {
+                idsForUpdBodyParts.add(newSlotId)
+            } else null
         }
     }
 
-    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): List<Long> {
-        val idsForDeleting = mutableListOf<Long>()
+    fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): Pair<List<Long>, List<Long>> {
+        val idsForDelBodyParts = mutableListOf<Long>()
+        val idsForUpdBodyParts = mutableListOf<Long>()
 
         val currentRecord = dslContext.selectFrom(sbp)
             .where(sbp.SET_BODY_PARTS_ID.eq(dto.setBodyPartsId))
             .fetchOne()
 
         currentRecord?.let { r ->
-            prepareIdsForDeleting(r.leftHandSlot, dto.leftHandIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.leftHandSlot, dto.leftHandIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.leftHandSlot = dto.leftHandIdForSlot
 
-            prepareIdsForDeleting(r.rightHandSlot, dto.rightHandIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.rightHandSlot, dto.rightHandIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.rightHandSlot = dto.rightHandIdForSlot
 
-            prepareIdsForDeleting(r.leftLegSlot, dto.leftLegIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.leftLegSlot, dto.leftLegIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.leftLegSlot = dto.leftLegIdForSlot
 
-            prepareIdsForDeleting(r.rightLegSlot, dto.rightLegIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.rightLegSlot, dto.rightLegIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.rightLegSlot = dto.rightLegIdForSlot
 
-            prepareIdsForDeleting(r.upperBodySlot, dto.upperBodyIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.upperBodySlot, dto.upperBodyIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.upperBodySlot = dto.upperBodyIdForSlot
 
-            prepareIdsForDeleting(r.headSlot, dto.headIdForSlot, idsForDeleting)
+            prepareIdsForDeletingAndUpdating(r.headSlot, dto.headIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.headSlot = dto.headIdForSlot
 
             dslContext.update(sbp)
@@ -112,6 +116,6 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
                 .execute()
         }
 
-        return idsForDeleting
+        return Pair(idsForDelBodyParts, idsForUpdBodyParts)
     }
 }
