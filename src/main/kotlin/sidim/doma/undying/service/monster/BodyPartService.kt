@@ -84,4 +84,12 @@ class BodyPartService(
     fun deleteExtraBodyPartsAfterTransfer(scholarId: Long) {
         bodyPartRepository.deleteExtraBodyPartsWithScholarId(scholarId)
     }
+
+    fun deleteExtraBodyPartsAfterUpdateSet(idsForDeleting: List<Long>) {
+        bodyPartRepository.deleteExtraBodyPartsAfterUpdateSet(idsForDeleting)
+    }
+
+    fun transferBodyPartsFromStorageToSet(idsForTransferring: List<Long>, setBodyPartsId: Long) {
+        bodyPartRepository.updateBodyPartLocationToSetWithSetId(idsForTransferring, setBodyPartsId)
+    }
 }
