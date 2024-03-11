@@ -45,7 +45,7 @@ class StorageRepository(private val dslContext: DSLContext) {
         ).filterNotNull().toSet()
 
         val count = dslContext.selectCount()
-            .from(st)
+            .from(bp)
             .join(h).on(h.HIDEOUT_ID.eq(scholarId))
             .where(
                 bp.BODY_PART_ID.`in`(bodyPartIds).and(

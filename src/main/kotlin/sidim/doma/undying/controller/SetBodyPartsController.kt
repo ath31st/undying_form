@@ -32,6 +32,6 @@ class SetBodyPartsController(
         bodyPartService.deleteExtraBodyPartsAfterUpdateSet(bpIdsForDeletingAndUpdating.first)
         bodyPartService.transferBodyPartsFromStorageToSet(bpIdsForDeletingAndUpdating.second, dto.setBodyPartsId)
 
-        return ResponseEntity.ok(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.ok(HttpStatus.OK)
     }
 }
