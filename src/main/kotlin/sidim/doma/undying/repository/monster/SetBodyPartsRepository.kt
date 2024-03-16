@@ -74,12 +74,18 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
         idsForDelBodyParts: MutableList<Long>,
         idsForUpdBodyParts: MutableList<Long>,
     ) {
-        currentSlot?.let {
-            if (newSlotId == null) {
-                idsForDelBodyParts.add(it)
-            } else if (newSlotId != currentSlot) {
+        when {
+            newSlotId == null && currentSlot != null -> {
+                idsForDelBodyParts.add(currentSlot)
+            }
+
+            currentSlot == null && newSlotId != null -> {
                 idsForUpdBodyParts.add(newSlotId)
-            } else null
+            }
+
+            currentSlot != null && newSlotId != currentSlot -> {
+                idsForUpdBodyParts.add(newSlotId!!)
+            }
         }
     }
 
@@ -92,19 +98,44 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .fetchOne()
 
         currentRecord?.let { r ->
-            prepareIdsForDeletingAndUpdating(r.leftHandSlot, dto.leftHandIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
+            prepareIdsForDeletingAndUpdating(
+                r.leftHandSlot,
+                dto.leftHandIdForSlot,
+                idsForDelBodyParts,
+                idsForUpdBodyParts
+            )
             r.leftHandSlot = dto.leftHandIdForSlot
 
-            prepareIdsForDeletingAndUpdating(r.rightHandSlot, dto.rightHandIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
+            prepareIdsForDeletingAndUpdating(
+                r.rightHandSlot,
+                dto.rightHandIdForSlot,
+                idsForDelBodyParts,
+                idsForUpdBodyParts
+            )
             r.rightHandSlot = dto.rightHandIdForSlot
 
-            prepareIdsForDeletingAndUpdating(r.leftLegSlot, dto.leftLegIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
+            prepareIdsForDeletingAndUpdating(
+                r.leftLegSlot,
+                dto.leftLegIdForSlot,
+                idsForDelBodyParts,
+                idsForUpdBodyParts
+            )
             r.leftLegSlot = dto.leftLegIdForSlot
 
-            prepareIdsForDeletingAndUpdating(r.rightLegSlot, dto.rightLegIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
+            prepareIdsForDeletingAndUpdating(
+                r.rightLegSlot,
+                dto.rightLegIdForSlot,
+                idsForDelBodyParts,
+                idsForUpdBodyParts
+            )
             r.rightLegSlot = dto.rightLegIdForSlot
 
-            prepareIdsForDeletingAndUpdating(r.upperBodySlot, dto.upperBodyIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
+            prepareIdsForDeletingAndUpdating(
+                r.upperBodySlot,
+                dto.upperBodyIdForSlot,
+                idsForDelBodyParts,
+                idsForUpdBodyParts
+            )
             r.upperBodySlot = dto.upperBodyIdForSlot
 
             prepareIdsForDeletingAndUpdating(r.headSlot, dto.headIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
