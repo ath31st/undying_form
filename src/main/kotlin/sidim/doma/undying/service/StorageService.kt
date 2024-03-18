@@ -28,6 +28,13 @@ class StorageService(
         )
     }
 
+    fun getStorageIdByScholarId(scholarId: Long): Long {
+        return storageRepository.findStorageByScholarId(scholarId)?.storageId ?: throw StorageException(
+            "Storage bounded with scholar id: $scholarId not found.",
+            HttpStatus.NOT_FOUND
+        )
+    }
+
     fun checkExistsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long) {
         if (!storageRepository.existsBodyPartIdsInStorageByScholarId(dto, scholarId)) {
             throw StorageException("In storage absent some body parts from dto.", HttpStatus.BAD_REQUEST)
