@@ -1,4 +1,4 @@
-package sidim.doma.undying.dto.storage
+package sidim.doma.undying.dto.bodyparts
 
 import java.io.Serializable
 import java.util.UUID
