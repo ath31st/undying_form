@@ -148,4 +148,10 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
             .where(bp.BODY_PART_ID.`in`(idsForDeleting))
             .execute()
     }
+
+    fun deleteBodyPartsFromStorage(storageId: Long, bodyPartIds: List<Long>) {
+        dslContext.deleteFrom(bp)
+            .where(bp.STORAGE_ID.eq(storageId).and(bp.BODY_PART_ID.`in`(bodyPartIds)))
+            .execute()
+    }
 }
