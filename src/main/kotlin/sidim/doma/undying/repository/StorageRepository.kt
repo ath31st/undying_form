@@ -6,7 +6,9 @@ import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.generated.tables.pojos.Storages
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.HIDEOUTS
+import sidim.doma.undying.generated.tables.references.MONSTERS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
+import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
 import sidim.doma.undying.generated.tables.references.STORAGES
 import sidim.doma.undying.util.constant.StorageConstants.CAPACITY
 
@@ -16,6 +18,8 @@ class StorageRepository(private val dslContext: DSLContext) {
     private val h = HIDEOUTS
     private val sc = SCHOLARS
     private val bp = BODY_PARTS
+    private val sbp = SETS_BODY_PARTS
+    private val m = MONSTERS
 
     fun saveStorage(): Storages {
         val r = dslContext.newRecord(st)
@@ -35,7 +39,7 @@ class StorageRepository(private val dslContext: DSLContext) {
     }
 
     fun existsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long): Boolean {
-        val bodyPartIds = setOf(
+        var bodyPartIds = setOf(
             dto.leftHandIdForSlot,
             dto.rightHandIdForSlot,
             dto.leftLegIdForSlot,
@@ -43,6 +47,18 @@ class StorageRepository(private val dslContext: DSLContext) {
             dto.upperBodyIdForSlot,
             dto.headIdForSlot
         ).filterNotNull().toSet()
+
+        val bodyPartsInSet = dslContext
+            .select(bp.BODY_PART_ID)
+            .from(bp)
+            .join(sbp).on(sbp.SET_BODY_PARTS_ID.eq(bp.SET_BODY_PARTS_ID))
+            .join(m).on(m.SET_BODY_PARTS_ID.eq(sbp.SET_BODY_PARTS_ID))
+            .join(sc).on(sc.MONSTER_ID.eq(m.MONSTER_ID))
+            .where(sc.SCHOLAR_ID.eq(scholarId))
+            .fetchInto(Long::class.java)
+            .toSet()
+
+        bodyPartIds = bodyPartIds.minus(bodyPartsInSet)
 
         val count = dslContext.selectCount()
             .from(bp)
