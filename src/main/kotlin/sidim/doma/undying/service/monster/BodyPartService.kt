@@ -77,8 +77,11 @@ class BodyPartService(
         return bodyPartRepository.findBodyPartsByIds(listIds)
     }
 
-    fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto) {
-        bodyPartRepository.updateBodyPartLocationToStorageWithScholarId(dto.bodyPartIds.toSet(), dto.scholarId)
+    fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto, storageId: Long) {
+        bodyPartRepository.updateBodyPartLocationToStorageWithStorageId(
+            dto.bodyPartIds.toSet(),
+            storageId
+        )
     }
 
     fun deleteExtraBodyPartsAfterTransfer(scholarId: Long) {

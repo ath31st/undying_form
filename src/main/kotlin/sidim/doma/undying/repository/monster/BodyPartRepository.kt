@@ -112,27 +112,6 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
         dslContext.batchStore(records).execute()
     }
 
-    fun updateBodyPartLocationToStorageWithScholarId(bodyPartIds: Set<Long>, scholarId: Long) {
-        val records = dslContext.selectFrom(bp)
-            .where(bp.BODY_PART_ID.`in`(bodyPartIds))
-            .fetch()
-
-        val storageId = dslContext.select(st.STORAGE_ID)
-            .from(st)
-            .join(h).on(st.STORAGE_ID.eq(h.STORAGE_ID))
-            .join(sch).on(h.HIDEOUT_ID.eq(sch.HIDEOUT_ID))
-            .where(sch.SCHOLAR_ID.eq(scholarId))
-            .fetchOneInto(Long::class.java)
-
-        records.map { r ->
-            r.storageId = storageId
-            r.scholarId = null
-            r.setBodyPartsId = null
-        }
-
-        dslContext.batchStore(records).execute()
-    }
-
     fun deleteExtraBodyPartsWithScholarId(scholarId: Long) {
         dslContext.deleteFrom(bp)
             .where(
