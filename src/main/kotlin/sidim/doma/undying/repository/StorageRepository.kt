@@ -10,7 +10,6 @@ import sidim.doma.undying.generated.tables.references.MONSTERS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
 import sidim.doma.undying.generated.tables.references.STORAGES
-import sidim.doma.undying.util.constant.StorageConstants.CAPACITY
 
 @Repository
 class StorageRepository(private val dslContext: DSLContext) {
@@ -21,9 +20,9 @@ class StorageRepository(private val dslContext: DSLContext) {
     private val sbp = SETS_BODY_PARTS
     private val m = MONSTERS
 
-    fun saveStorage(): Storages {
+    fun saveStorage(capacity: Int): Storages {
         val r = dslContext.newRecord(st)
-        r.capacity = CAPACITY
+        r.capacity = capacity
 
         r.store()
         return r.into(Storages::class.java)

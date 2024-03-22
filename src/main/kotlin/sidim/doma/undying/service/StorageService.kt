@@ -8,6 +8,7 @@ import sidim.doma.undying.generated.tables.pojos.Storages
 import sidim.doma.undying.mapper.StorageMapper
 import sidim.doma.undying.model.Storage
 import sidim.doma.undying.repository.StorageRepository
+import sidim.doma.undying.util.constant.StorageConstants.CAPACITY
 
 @Service
 class StorageService(
@@ -15,7 +16,7 @@ class StorageService(
     private val storageMapper: StorageMapper,
 ) {
     fun createStorage(): Storages {
-        return storageRepository.saveStorage()
+        return storageRepository.saveStorage(CAPACITY)
     }
 
     fun getStorageByScholarId(scholarId: Long): Storage {
