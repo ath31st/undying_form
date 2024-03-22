@@ -93,7 +93,7 @@ class BodyPartService(
         bodyPartRepository.updateBodyPartLocationToSetWithSetId(idsForTransferring, setBodyPartsId)
     }
 
-    fun deleteBodyPartsFromStorage(storageId: Long, bodyPartIds: List<Long>) {
-        bodyPartRepository.deleteBodyPartsFromStorage(storageId, bodyPartIds)
+    fun deleteBodyPartsFromStorage(storageId: Long, bodyPartIds: List<Long>): Int {
+        return bodyPartRepository.deleteBodyPartsFromStorage(storageId, bodyPartIds)
     }
 }
