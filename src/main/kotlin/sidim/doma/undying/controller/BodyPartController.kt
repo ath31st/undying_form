@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,16 +28,9 @@ class BodyPartController(
         val storageId = storageService.getStorageIdByScholarId(dto.scholarId)
         storageService.checkCountEmptySlotsForTransferBodyPartsByStorageId(storageId, dto.bodyPartIds.size)
         bodyPartService.transferBodyPartsFromScholarToStorage(dto, storageId)
+        storageService.decreaseCountEmptySlotsByStorageId(storageId, dto.bodyPartIds.size)
         bodyPartService.deleteExtraBodyPartsAfterTransfer(dto.scholarId)
         actionService.deleteActionUuidByScholarId(dto.scholarId, dto.actionUuid)
         return ResponseEntity.ok(HttpStatus.OK)
-    }
-
-    @DeleteMapping("/delete_body_parts_from_storage")
-    fun deleteBodyPartsFromStorage(@RequestBody dto: TransferBodyPartsDto): ResponseEntity<HttpStatus> {
-        actionService.checkIfNoExistsPlayerAction(dto.scholarId, dto.actionUuid)
-        val storageId = storageService.getStorageIdByScholarId(dto.scholarId)
-        bodyPartService.deleteBodyPartsFromStorage(storageId, dto.bodyPartIds)
-        return ResponseEntity.ok(HttpStatus.NO_CONTENT)
     }
 }
