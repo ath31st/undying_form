@@ -31,7 +31,10 @@ class SetBodyPartsController(
         val bpIdsForDeletingAndUpdating = setBodyPartsService.updateSlotsSetBodyParts(dto)
         bodyPartService.deleteExtraBodyPartsAfterUpdateSet(bpIdsForDeletingAndUpdating.first)
         bodyPartService.transferBodyPartsFromStorageToSet(bpIdsForDeletingAndUpdating.second, dto.setBodyPartsId)
-
+        storageService.increaseCountEmptySlotsByStorageId(
+            storageService.getStorageIdByScholarId(scholarId),
+            bpIdsForDeletingAndUpdating.second.size
+        )
         return ResponseEntity.ok(HttpStatus.OK)
     }
 }
