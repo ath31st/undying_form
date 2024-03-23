@@ -36,9 +36,25 @@ class StorageService(
         )
     }
 
+    fun getCountEmptySlotsByStorageId(storageId: Long): Int {
+        return storageRepository.getCountEmptySlotsByStorageId(storageId)
+    }
+
     fun checkExistsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long) {
         if (!storageRepository.existsBodyPartIdsInStorageByScholarId(dto, scholarId)) {
-            throw StorageException("In storage absent some body parts from dto.", HttpStatus.BAD_REQUEST)
+            throw StorageException("In the storage absent some body parts from dto.", HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    fun checkCountEmptySlotsForTransferBodyPartsByStorageId(neededSlots: Int, storageId: Long) {
+        val emptySlots = getCountEmptySlotsByStorageId(storageId)
+        if (emptySlots < 0) {
+            throw StorageException("Storage with id: $storageId not found.", HttpStatus.NOT_FOUND)
+        } else if (emptySlots - neededSlots < 0) {
+            throw StorageException(
+                "There is not enough empty slots in the storage with id: $storageId. "
+                        + "There are $emptySlots, $neededSlots are needed", HttpStatus.BAD_REQUEST
+            )
         }
     }
 }

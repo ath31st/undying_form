@@ -27,6 +27,7 @@ class BodyPartController(
     fun transferBodyPartsToStorage(@RequestBody dto: TransferBodyPartsDto): ResponseEntity<HttpStatus> {
         actionService.checkIfNoExistsPlayerAction(dto.scholarId, dto.actionUuid)
         val storageId = storageService.getStorageIdByScholarId(dto.scholarId)
+        storageService.checkCountEmptySlotsForTransferBodyPartsByStorageId(dto.bodyPartIds.size, storageId)
         bodyPartService.transferBodyPartsFromScholarToStorage(dto, storageId)
         bodyPartService.deleteExtraBodyPartsAfterTransfer(dto.scholarId)
         actionService.deleteActionUuidByScholarId(dto.scholarId, dto.actionUuid)
