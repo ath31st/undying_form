@@ -46,6 +46,10 @@ class StorageRepository(private val dslContext: DSLContext) {
     }
 
     fun updateCountEmptySlotsByStorageId(storageId: Long, changeCount: Int) {
+        if (changeCount == 0) {
+            return
+        }
+
         val currentEmptySlots = getCountEmptySlotsByStorageId(storageId)
 
         dslContext.update(st)
