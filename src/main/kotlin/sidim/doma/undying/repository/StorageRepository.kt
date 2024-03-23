@@ -45,6 +45,15 @@ class StorageRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) ?: -1
     }
 
+    fun updateCountEmptySlotsByStorageId(storageId: Long, changeCount: Int) {
+        val currentEmptySlots = getCountEmptySlotsByStorageId(storageId)
+
+        dslContext.update(st)
+            .set(st.EMPTY_SLOTS, currentEmptySlots + changeCount)
+            .where(st.STORAGE_ID.eq(storageId))
+            .execute()
+    }
+
     fun existsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long): Boolean {
         var bodyPartIds = setOf(
             dto.leftHandIdForSlot,

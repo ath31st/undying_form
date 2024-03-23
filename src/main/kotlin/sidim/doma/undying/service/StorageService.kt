@@ -40,13 +40,21 @@ class StorageService(
         return storageRepository.getCountEmptySlotsByStorageId(storageId)
     }
 
+    fun increaseCountEmptySlotsByStorageId(storageId: Long, changeCount: Int) {
+        storageRepository.updateCountEmptySlotsByStorageId(storageId, changeCount)
+    }
+
+    fun decreaseCountEmptySlotsByStorageId(storageId: Long, changeCount: Int) {
+        storageRepository.updateCountEmptySlotsByStorageId(storageId, -(changeCount))
+    }
+
     fun checkExistsBodyPartIdsInStorageByScholarId(dto: SetBodyPartsUpdateDto, scholarId: Long) {
         if (!storageRepository.existsBodyPartIdsInStorageByScholarId(dto, scholarId)) {
             throw StorageException("In the storage absent some body parts from dto.", HttpStatus.BAD_REQUEST)
         }
     }
 
-    fun checkCountEmptySlotsForTransferBodyPartsByStorageId(neededSlots: Int, storageId: Long) {
+    fun checkCountEmptySlotsForTransferBodyPartsByStorageId(storageId: Long, neededSlots: Int) {
         val emptySlots = getCountEmptySlotsByStorageId(storageId)
         if (emptySlots < 0) {
             throw StorageException("Storage with id: $storageId not found.", HttpStatus.NOT_FOUND)
