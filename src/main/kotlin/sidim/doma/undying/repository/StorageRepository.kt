@@ -20,9 +20,10 @@ class StorageRepository(private val dslContext: DSLContext) {
     private val sbp = SETS_BODY_PARTS
     private val m = MONSTERS
 
-    fun saveStorage(capacity: Int): Storages {
+    fun saveNewStorage(capacity: Int): Storages {
         val r = dslContext.newRecord(st)
         r.capacity = capacity
+        r.emptySlots = capacity
 
         r.store()
         return r.into(Storages::class.java)

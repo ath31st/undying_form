@@ -16,7 +16,7 @@ class StorageService(
     private val storageMapper: StorageMapper,
 ) {
     fun createStorage(): Storages {
-        return storageRepository.saveStorage(CAPACITY)
+        return storageRepository.saveNewStorage(CAPACITY)
     }
 
     fun getStorageByScholarId(scholarId: Long): Storage {
