@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.bodyparts.TransferBodyPartsDto
 import sidim.doma.undying.service.ActionService
-import sidim.doma.undying.service.StorageService
+import sidim.doma.undying.service.storage.StorageService
 import sidim.doma.undying.service.monster.BodyPartService
 
 @RestController

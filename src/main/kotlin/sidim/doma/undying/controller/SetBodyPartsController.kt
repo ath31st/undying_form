@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
-import sidim.doma.undying.service.StorageService
+import sidim.doma.undying.service.storage.StorageService
 import sidim.doma.undying.service.monster.BodyPartService
 import sidim.doma.undying.service.monster.SetBodyPartsService
 

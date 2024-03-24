@@ -1,4 +1,4 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.storage
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service

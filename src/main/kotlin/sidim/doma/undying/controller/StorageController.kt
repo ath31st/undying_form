@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.storage.DeleteBodyPartsDto
 import sidim.doma.undying.model.Storage
-import sidim.doma.undying.service.StorageService
+import sidim.doma.undying.service.storage.StorageService
 import sidim.doma.undying.service.monster.BodyPartService
 
 @RestController
