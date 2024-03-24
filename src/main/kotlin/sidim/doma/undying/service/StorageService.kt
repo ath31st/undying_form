@@ -7,7 +7,7 @@ import sidim.doma.undying.exceptionhandler.exception.StorageException
 import sidim.doma.undying.generated.tables.pojos.Storages
 import sidim.doma.undying.mapper.StorageMapper
 import sidim.doma.undying.model.Storage
-import sidim.doma.undying.repository.StorageRepository
+import sidim.doma.undying.repository.storage.StorageRepository
 import sidim.doma.undying.util.constant.StorageConstants.CAPACITY
 
 @Service
