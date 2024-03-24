@@ -24,10 +24,25 @@ class ItemRepository(private val dslContext: DSLContext) {
     }
 
     fun getAllItems(pageNumber: Int, size: Int): PageDto<Items> {
+        val offset = pageNumber * size
+        val totalElements = dslContext.fetchCount(i)
+
+        val items = dslContext.selectFrom(i)
+            .orderBy(i.ITEM_ID.asc())
+            .limit(size)
+            .offset(offset)
+            .fetchInto(Items::class.java)
+
+        val totalPages = if (totalElements % size == 0) {
+            totalElements / size
+        } else {
+            (totalElements / size) + 1
+        }
+
         return PageDto(
-            content = ,
-            totalElements = ,
-            totalPages = ,
+            content = items,
+            totalElements = totalElements,
+            totalPages = totalPages,
             currentNumberPage = pageNumber
         )
     }
