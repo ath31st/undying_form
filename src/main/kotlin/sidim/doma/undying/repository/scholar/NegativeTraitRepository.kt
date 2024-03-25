@@ -33,8 +33,8 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
 
     fun saveNewTrait(dto: NewTraitDto) {
         val r = dslContext.newRecord(nt)
-        r.name = dto.name
-        r.description = dto.description
+        r.name = dto.name.trim()
+        r.description = dto.description.trim()
         r.isActive = true
         r.alchemyPenalty = dto.alchemyValue
         r.biologyPenalty = dto.biologyValue
@@ -45,6 +45,13 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
         r.traitGroupId = dto.traitGroupId
 
         r.store()
+    }
+
+    fun isNegativeTraitExistByName(name: String): Boolean {
+        return dslContext.selectCount()
+            .from(nt)
+            .where(nt.NAME.eq(name.trim()))
+            .fetchOneInto(Int::class.java) == 1
     }
 
     fun findTraitsByScholarId(id: Long): List<NegativeTraits> {

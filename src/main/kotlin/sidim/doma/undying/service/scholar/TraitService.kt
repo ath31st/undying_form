@@ -1,8 +1,11 @@
 package sidim.doma.undying.service.scholar
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.dto.trait.ScholarTraitsDto
+import sidim.doma.undying.exceptionhandler.exception.ItemException
+import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.mapper.TraitMapper
@@ -81,7 +84,14 @@ class TraitService(
     }
 
     fun createNegativeTrait(dto: NewTraitDto) {
+        checkExistsNegativeTraitByName(dto.name)
         negativeTraitRepository.saveNewTrait(dto)
+    }
+
+    fun checkExistsNegativeTraitByName(name: String) {
+        if (negativeTraitRepository.isNegativeTraitExistByName(name)) {
+            throw TraitException("Negative with name $name already exists", HttpStatus.CONFLICT)
+        }
     }
 
     fun getTraitsByScholarId(id: Long): ScholarTraitsDto {
