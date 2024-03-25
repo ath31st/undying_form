@@ -16,6 +16,7 @@ import sidim.doma.undying.exceptionhandler.exception.DistrictException
 import sidim.doma.undying.exceptionhandler.exception.EducationException
 import sidim.doma.undying.exceptionhandler.exception.GraveyardException
 import sidim.doma.undying.exceptionhandler.exception.HideoutException
+import sidim.doma.undying.exceptionhandler.exception.ItemException
 import sidim.doma.undying.exceptionhandler.exception.MonsterException
 import sidim.doma.undying.exceptionhandler.exception.NamingException
 import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
@@ -210,5 +211,15 @@ class ExceptionControllerHandler {
     protected fun handleException(e: PropertyReferenceException): ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(message = e.message, status = HttpStatus.BAD_REQUEST.value())
         return ResponseEntity<ErrorMessageModel>(errorMessage, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler
+    fun handleItemException(ex: ItemException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
     }
 }
