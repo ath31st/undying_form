@@ -1,5 +1,11 @@
 package sidim.doma.undying.exceptionhandler
 
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.ConstraintViolationException
+import java.time.LocalDateTime
+import java.util.stream.Collectors
+import org.springframework.data.mapping.PropertyReferenceException
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -19,6 +25,7 @@ import sidim.doma.undying.exceptionhandler.exception.SpecializationException
 import sidim.doma.undying.exceptionhandler.exception.StorageException
 import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.exceptionhandler.exception.UserException
+
 
 @ControllerAdvice
 class ExceptionControllerHandler {
@@ -180,5 +187,20 @@ class ExceptionControllerHandler {
             ex.message
         )
         return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    protected fun handleValidException(e: ConstraintViolationException): ResponseEntity<ErrorMessageModel> {
+        val errorString = e.constraintViolations.stream()
+            .map { obj: ConstraintViolation<*> -> obj.message }
+            .collect(Collectors.joining(", "))
+        val errorMessage = ErrorMessageModel(message = errorString, status = HttpStatus.BAD_REQUEST.value())
+        return ResponseEntity<ErrorMessageModel>(errorMessage, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler
+    protected fun handleException(e: PropertyReferenceException): ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(message = e.message, status = HttpStatus.BAD_REQUEST.value())
+        return ResponseEntity<ErrorMessageModel>(errorMessage, HttpStatus.BAD_REQUEST)
     }
 }

@@ -1,5 +1,6 @@
 package sidim.doma.undying.controller
 
+import jakarta.validation.constraints.Min
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -29,8 +30,14 @@ class ItemController(
 
     @GetMapping("/all")
     fun getAllItems(
-        @RequestParam(defaultValue = "0") pageNumber: Int,
-        @RequestParam(defaultValue = "10") size: Int
+        @RequestParam(defaultValue = "0") @Min(
+            value = 1,
+            message = "Page number must not be less than one"
+        ) pageNumber: Int,
+        @RequestParam(defaultValue = "10") @Min(
+            value = 1,
+            message = "Page size must not be less than one"
+        ) size: Int
     ): ResponseEntity<PageDto<Items>> {
         val itemPage: PageDto<Items> = itemService.getAllItems(PageRequest.of(pageNumber - 1, size))
         return ResponseEntity(itemPage, HttpStatus.OK)
