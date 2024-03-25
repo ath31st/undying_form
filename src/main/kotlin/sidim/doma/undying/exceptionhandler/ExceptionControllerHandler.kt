@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation
 import jakarta.validation.ConstraintViolationException
 import java.time.LocalDateTime
 import java.util.stream.Collectors
+import org.jooq.exception.IntegrityConstraintViolationException
 import org.springframework.data.mapping.PropertyReferenceException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -195,6 +196,13 @@ class ExceptionControllerHandler {
             .map { obj: ConstraintViolation<*> -> obj.message }
             .collect(Collectors.joining(", "))
         val errorMessage = ErrorMessageModel(message = errorString, status = HttpStatus.BAD_REQUEST.value())
+        return ResponseEntity<ErrorMessageModel>(errorMessage, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler
+    protected fun handleValidException(e: IntegrityConstraintViolationException): ResponseEntity<ErrorMessageModel> {
+        val errorMessage =
+            ErrorMessageModel(message = e.message?.substringAfter("ERROR: "), status = HttpStatus.BAD_REQUEST.value())
         return ResponseEntity<ErrorMessageModel>(errorMessage, HttpStatus.BAD_REQUEST)
     }
 
