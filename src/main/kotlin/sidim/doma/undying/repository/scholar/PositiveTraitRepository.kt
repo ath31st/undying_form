@@ -33,8 +33,8 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
 
     fun saveNewTrait(dto: NewTraitDto) {
         val r = dslContext.newRecord(pt)
-        r.name = dto.name
-        r.description = dto.description
+        r.name = dto.name.trim()
+        r.description = dto.description.trim()
         r.isActive = true
         r.alchemyBonus = dto.alchemyValue
         r.biologyBonus = dto.biologyValue
@@ -45,6 +45,13 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
         r.traitGroupId = dto.traitGroupId
 
         r.store()
+    }
+
+    fun isPositiveTraitExistByName(name: String): Boolean {
+        return dslContext.selectCount()
+            .from(pt)
+            .where(pt.NAME.eq(name.trim()))
+            .fetchOneInto(Int::class.java) == 1
     }
 
     fun findTraitsByScholarId(id: Long): List<PositiveTraits> {

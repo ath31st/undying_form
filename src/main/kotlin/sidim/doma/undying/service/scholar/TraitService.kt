@@ -80,7 +80,14 @@ class TraitService(
     }
 
     fun createPositiveTrait(dto: NewTraitDto) {
+        checkExistsPositiveTraitByName(dto.name)
         positiveTraitRepository.saveNewTrait(dto)
+    }
+
+    fun checkExistsPositiveTraitByName(name: String) {
+        if (positiveTraitRepository.isPositiveTraitExistByName(name)) {
+            throw TraitException("Positive with name $name already exists", HttpStatus.CONFLICT)
+        }
     }
 
     fun createNegativeTrait(dto: NewTraitDto) {
