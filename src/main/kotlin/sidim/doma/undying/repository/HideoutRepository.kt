@@ -16,7 +16,7 @@ class HideoutRepository(private val dslContext: DSLContext) {
         randomValues: List<Int>
     ): Hideouts {
         val r = dslContext.newRecord(h)
-        r.name = name
+        r.name = name.trim()
         r.alchemyEquipment = randomValues[0]
         r.biologyEquipment = randomValues[1]
         r.engineeringEquipment = randomValues[2]

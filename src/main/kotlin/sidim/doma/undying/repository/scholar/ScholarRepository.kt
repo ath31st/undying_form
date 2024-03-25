@@ -12,7 +12,7 @@ class ScholarRepository(private val dslContext: DSLContext) {
 
     fun saveScholar(dto: ScholarDto): Scholars {
         val r = dslContext.newRecord(s)
-        r.name = dto.name
+        r.name = dto.name.trim()
         r.age = dto.age
         r.physicalHealth = dto.physicalHealth
         r.mentalHealth = dto.mentalHealth
