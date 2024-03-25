@@ -54,6 +54,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-rest:$starterVersion")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$starterVersion")
 
     jooqGenerator("org.postgresql:postgresql:$postgresVersion")
