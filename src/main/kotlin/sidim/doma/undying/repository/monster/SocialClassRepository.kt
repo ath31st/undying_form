@@ -13,11 +13,18 @@ class SocialClassRepository(private val dslContext: DSLContext) {
 
     fun saveNewSocialClass(dto: NewSocialClassDto): SocialClasses {
         val r = dslContext.newRecord(sc)
-        r.name = dto.name
-        r.description = dto.description
+        r.name = dto.name.trim()
+        r.description = dto.description.trim()
 
         r.store()
         return r.into(SocialClasses::class.java)
+    }
+
+    fun isSocialClassExistByName(name: String): Boolean {
+        return dslContext.selectCount()
+            .from(sc)
+            .where(sc.NAME.eq(name.trim()))
+            .fetchOneInto(Int::class.java) == 1
     }
 
     fun getSocialClasses(isActive: Boolean?): List<SocialClasses> {
