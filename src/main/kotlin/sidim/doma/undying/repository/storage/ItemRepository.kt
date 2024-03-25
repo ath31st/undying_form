@@ -1,6 +1,7 @@
 package sidim.doma.undying.repository.storage
 
 import org.jooq.DSLContext
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.item.NewItemDto
@@ -23,27 +24,27 @@ class ItemRepository(private val dslContext: DSLContext) {
         return r.into(Items::class.java)
     }
 
-    fun getAllItems(pageNumber: Int, size: Int): PageDto<Items> {
-        val offset = pageNumber * size
+    fun getAllItems(req: PageRequest): PageDto<Items> {
+        val offset = req.offset
         val totalElements = dslContext.fetchCount(i)
 
         val items = dslContext.selectFrom(i)
             .orderBy(i.ITEM_ID.asc())
-            .limit(size)
+            .limit(req.pageSize)
             .offset(offset)
             .fetchInto(Items::class.java)
 
-        val totalPages = if (totalElements % size == 0) {
-            totalElements / size
+        val totalPages = if (totalElements % req.pageSize == 0) {
+            totalElements / req.pageSize
         } else {
-            (totalElements / size) + 1
+            (totalElements / req.pageSize) + 1
         }
 
         return PageDto(
             content = items,
             totalElements = totalElements,
             totalPages = totalPages,
-            currentNumberPage = pageNumber
+            currentNumberPage = req.pageNumber + 1
         )
     }
 }

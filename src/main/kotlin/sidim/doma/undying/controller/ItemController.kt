@@ -1,5 +1,6 @@
 package sidim.doma.undying.controller
 
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -31,7 +32,7 @@ class ItemController(
         @RequestParam(defaultValue = "0") pageNumber: Int,
         @RequestParam(defaultValue = "10") size: Int
     ): ResponseEntity<PageDto<Items>> {
-        val itemsPage: PageDto<Items> = itemService.getAllItems(pageNumber, size)
-        return ResponseEntity(itemsPage, HttpStatus.OK)
+        val itemPage: PageDto<Items> = itemService.getAllItems(PageRequest.of(pageNumber - 1, size))
+        return ResponseEntity(itemPage, HttpStatus.OK)
     }
 }

@@ -1,5 +1,6 @@
 package sidim.doma.undying.service.storage
 
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.item.NewItemDto
@@ -12,7 +13,7 @@ class ItemService(private val itemRepository: ItemRepository) {
         return itemRepository.saveNewItem(dto)
     }
 
-    fun getAllItems(pageNumber: Int, size: Int): PageDto<Items> {
-        return itemRepository.getAllItems(pageNumber, size)
+    fun getAllItems(req: PageRequest): PageDto<Items> {
+        return itemRepository.getAllItems(req)
     }
 }
