@@ -16,12 +16,19 @@ class ItemRepository(private val dslContext: DSLContext) {
 
     fun saveNewItem(dto: NewItemDto): Items {
         val r = dslContext.newRecord(i)
-        r.name = dto.name
-        r.description = dto.description
+        r.name = dto.name.trim()
+        r.description = dto.description.trim()
         r.rarity = dto.rarity
 
         r.store()
         return r.into(Items::class.java)
+    }
+
+    fun isItemExistByName(name: String): Boolean {
+        return dslContext.selectCount()
+            .from(i)
+            .where(i.NAME.eq(name.trim()))
+            .fetchOneInto(Int::class.java) == 1
     }
 
     fun getAllItems(req: PageRequest): PageDto<Items> {
