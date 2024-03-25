@@ -36,14 +36,14 @@ repositories {
     mavenCentral()
 }
 
-val starterVersion = "3.2.0"
+val starterVersion = "3.2.4"
 val jooqPluginVersion = "8.2.1"
-val kotlinVersion = "1.9.20"
+val kotlinVersion = "1.9.23"
 val flywayVersion = "9.21.1"
-val jooqApiVersion = "3.19.0"
-val jacksonVersion = "2.14.2"
+val jooqApiVersion = "3.19.3"
+val jacksonVersion = "2.16.1"
 val slf4jVersion = "2.0.9"
-val securityTestVersion = "6.0.2"
+val securityTestVersion = "6.1.5"
 val postgresVersion = "42.7.1"
 val springdocVersion = "2.3.0"
 val opencsvVersion = "5.9"
