@@ -1,7 +1,9 @@
 package sidim.doma.undying.controller
 
 import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.Pattern
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -37,9 +39,21 @@ class ItemController(
         @RequestParam(defaultValue = "10") @Min(
             value = 1,
             message = "Page size must not be less than one"
-        ) size: Int
+        ) size: Int,
+        @RequestParam(defaultValue = "asc") @Pattern(
+            regexp = "(asc|desc)",
+            message = "The sorting direction is indicated by asc or desc"
+        ) direction: String,
+        @RequestParam(defaultValue = "item_id") @Pattern(
+            regexp = "[a-z][a-zA-Z0-9_]{1,100}",
+            message = "The key format is incorrect, or the requested list does not have such a key"
+        ) key: String,
     ): ResponseEntity<PageDto<Items>> {
-        val itemPage: PageDto<Items> = itemService.getAllItems(PageRequest.of(pageNumber - 1, size))
+        val directionEnum = if (direction == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+        val sort = Sort.by(directionEnum, key)
+        val req = PageRequest.of(pageNumber - 1, size, sort)
+
+        val itemPage: PageDto<Items> = itemService.getAllItems(req)
         return ResponseEntity(itemPage, HttpStatus.OK)
     }
 }
