@@ -2,6 +2,7 @@ package sidim.doma.undying.repository.storage
 
 import org.jooq.DSLContext
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.item.NewItemDto
@@ -35,8 +36,12 @@ class ItemRepository(private val dslContext: DSLContext) {
         val offset = req.offset
         val totalElements = dslContext.fetchCount(i)
 
+        val fieldName = req.sort.get().toList().firstOrNull()?.property?.let { i.field(it) } ?: i.ITEM_ID
+        val sortField =
+            if (req.sort.get().anyMatch { it.direction == Sort.Direction.ASC }) fieldName.asc() else fieldName.desc()
+
         val items = dslContext.selectFrom(i)
-            .orderBy(i.ITEM_ID.asc())
+            .orderBy(sortField)
             .limit(req.pageSize)
             .offset(offset)
             .fetchInto(Items::class.java)
