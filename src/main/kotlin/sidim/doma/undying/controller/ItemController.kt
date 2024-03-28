@@ -30,8 +30,12 @@ class ItemController(
         return ResponseEntity(HttpStatus.CREATED)
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all_with_search")
     fun getAllItems(
+        @RequestParam @Pattern(
+            regexp = "[А-Яа-я0-9- ]{1,100}",
+            message = "The name for the search must be from 1 to 100 characters"
+        ) searchName: String?,
         @RequestParam(defaultValue = "0") @Min(
             value = 1,
             message = "Page number must not be less than one"
@@ -53,7 +57,7 @@ class ItemController(
         val sort = Sort.by(directionEnum, key)
         val req = PageRequest.of(pageNumber - 1, size, sort)
 
-        val itemPage: PageDto<Items> = itemService.getAllItems(req)
+        val itemPage: PageDto<Items> = itemService.getAllItemsWithSearch(req, searchName)
         return ResponseEntity(itemPage, HttpStatus.OK)
     }
 }

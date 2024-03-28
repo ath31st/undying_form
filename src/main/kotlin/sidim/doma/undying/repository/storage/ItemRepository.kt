@@ -32,15 +32,22 @@ class ItemRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun getAllItems(req: PageRequest): PageDto<Items> {
+    fun getItemsWithPaginationAndSorting(req: PageRequest, name: String?): PageDto<Items> {
         val offset = req.offset
-        val totalElements = dslContext.fetchCount(i)
+
+        val selectCondition = if (name != null) i.NAME.likeIgnoreCase("%${name.trim()}%") else null
+
+        val totalElements = dslContext.selectCount()
+            .from(i)
+            .apply { if (selectCondition != null) where(selectCondition) }
+            .fetchOneInto(Int::class.java) ?: 0
 
         val fieldName = req.sort.get().toList().firstOrNull()?.property?.let { i.field(it) } ?: i.ITEM_ID
         val sortField =
             if (req.sort.get().anyMatch { it.direction == Sort.Direction.ASC }) fieldName.asc() else fieldName.desc()
 
         val items = dslContext.selectFrom(i)
+            .apply { if (selectCondition != null) where(selectCondition) }
             .orderBy(sortField)
             .limit(req.pageSize)
             .offset(offset)

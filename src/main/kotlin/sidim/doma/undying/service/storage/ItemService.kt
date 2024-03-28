@@ -16,8 +16,8 @@ class ItemService(private val itemRepository: ItemRepository) {
         return itemRepository.saveNewItem(dto)
     }
 
-    fun getAllItems(req: PageRequest): PageDto<Items> {
-        return itemRepository.getAllItems(req)
+    fun getAllItemsWithSearch(req: PageRequest, name: String?): PageDto<Items> {
+        return itemRepository.getItemsWithPaginationAndSorting(req, name)
     }
 
     fun checkExistsItemByName(name: String) {
