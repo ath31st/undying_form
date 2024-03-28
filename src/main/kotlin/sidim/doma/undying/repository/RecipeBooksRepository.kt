@@ -28,4 +28,13 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
             .where(u.USER_ID.eq(userId))
             .fetchOneInto(Int::class.java) == 1
     }
+
+    fun getFirstLastNameCurrentScholarByUserId(userId: Long): Pair<String, String> {
+        return dslContext.select(rb.PREVIOUS_OWNER_FIRST_NAME, rb.PREVIOUS_OWNER_LAST_NAME)
+            .from(rb)
+            .join(u).on(u.RECIPE_BOOK_ID.eq(rb.RECIPE_BOOK_ID))
+            .where(u.USER_ID.eq(userId))
+            .fetchOne()
+            ?.let { Pair(it.value1() ?: "", it.value2() ?: "") } ?: Pair("", "")
+    }
 }
