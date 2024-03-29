@@ -2,6 +2,7 @@ package sidim.doma.undying.repository
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
+import sidim.doma.undying.generated.tables.pojos.RecipeBooks
 import sidim.doma.undying.generated.tables.references.RECIPE_BOOKS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.USERS
@@ -11,6 +12,16 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
     private val rb = RECIPE_BOOKS
     private val u = USERS
     private val sc = SCHOLARS
+
+    fun saveEmptyRecipeBook(title: String): RecipeBooks {
+        val r = dslContext.newRecord(rb)
+        r.title = title
+        r.previousOwnerFirstName = ""
+        r.previousOwnerLastName = ""
+
+        r.store()
+        return r.into(RecipeBooks::class.java)
+    }
 
     fun isRecipeBookExistByScholarId(scholarId: Long): Boolean {
         return dslContext.selectCount()
@@ -29,7 +40,21 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun getFirstLastNameCurrentScholarByUserId(userId: Long): Pair<String, String> {
+    fun setFirstLastNameCurrentScholarByUserId(userId: Long, firstName: String, lastName: String) {
+        dslContext.update(rb)
+            .set(rb.PREVIOUS_OWNER_FIRST_NAME, firstName)
+            .set(rb.PREVIOUS_OWNER_LAST_NAME, lastName)
+            .where(
+                rb.RECIPE_BOOK_ID.eq(
+                    dslContext.select(u.RECIPE_BOOK_ID)
+                        .from(u)
+                        .where(u.USER_ID.eq(userId))
+                        .fetchOneInto(Long::class.java)
+                )
+            ).execute()
+    }
+
+    fun getFirstLastNamePreviousScholarByUserId(userId: Long): Pair<String, String> {
         return dslContext.select(rb.PREVIOUS_OWNER_FIRST_NAME, rb.PREVIOUS_OWNER_LAST_NAME)
             .from(rb)
             .join(u).on(u.RECIPE_BOOK_ID.eq(rb.RECIPE_BOOK_ID))
