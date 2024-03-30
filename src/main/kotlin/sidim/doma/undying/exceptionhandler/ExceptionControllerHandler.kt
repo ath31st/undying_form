@@ -20,6 +20,7 @@ import sidim.doma.undying.exceptionhandler.exception.ItemException
 import sidim.doma.undying.exceptionhandler.exception.MonsterException
 import sidim.doma.undying.exceptionhandler.exception.NamingException
 import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
+import sidim.doma.undying.exceptionhandler.exception.RecipeBookException
 import sidim.doma.undying.exceptionhandler.exception.ScholarException
 import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
 import sidim.doma.undying.exceptionhandler.exception.SocialClassException
@@ -215,6 +216,16 @@ class ExceptionControllerHandler {
 
     @ExceptionHandler
     fun handleItemException(ex: ItemException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
+
+    @ExceptionHandler
+    fun handleRecipeBookException(ex: RecipeBookException):
             ResponseEntity<ErrorMessageModel> {
         val errorMessage = ErrorMessageModel(
             ex.status.value(),
