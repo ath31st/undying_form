@@ -21,4 +21,12 @@ class RecipeBookService(
         val title = namingService.generateRecipeBookTitle()
         return recipeBooksRepository.saveEmptyRecipeBook(title)
     }
+
+    fun setFirstLastNameCurrentScholarByUserId(userId: Long, firstName: String, lastName: String) {
+        recipeBooksRepository.setFirstLastNameCurrentScholarByUserId(userId, firstName, lastName)
+    }
+
+    fun getFirstLastNamePreviousScholarByUserId(userId: Long): Pair<String, String> {
+        return recipeBooksRepository.getFirstLastNamePreviousScholarByUserId(userId)
+    }
 }
