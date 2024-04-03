@@ -16,7 +16,8 @@ import sidim.doma.undying.util.Role
 class UserService(
     private val userRepository: UserRepository,
     private val scholarService: ScholarService,
-    private val traitService: TraitService
+    private val traitService: TraitService,
+    private val recipeBookService: RecipeBookService,
 ) {
     @Transactional
     fun registerUser(dto: UserRegDto): Users {
@@ -25,7 +26,9 @@ class UserService(
         }
         val scholar = scholarService.createScholar()
         traitService.generateAndSaveRandomSetTraits(scholar.scholarId ?: 0)
-        return userRepository.saveUser(dto, scholar.scholarId ?: 0)
+        val recipeBook = recipeBookService.createEmptyRecipeBook()
+
+        return userRepository.saveUser(dto, scholar.scholarId ?: 0, recipeBook.recipeBookId ?: 0)
     }
 
     fun getUserInfo(id: Long): UserInfoDto {
