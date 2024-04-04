@@ -20,7 +20,7 @@ class SecurityConfig {
         "/swagger-ui.html",  // -- Swagger UI v3 (OpenAPI)
         "/v3/api-docs/**",
         "/swagger-ui/**"
-    )
+    ) // http://localhost:8080/swagger-ui/index.html
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
