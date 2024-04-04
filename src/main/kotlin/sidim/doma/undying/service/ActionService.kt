@@ -30,7 +30,13 @@ class ActionService(
     private val graveyardService: GraveyardService,
     private val generator: GeneratorRandomValuesUtil,
 ) {
-    fun checkIfExistsPlayerAction(scholarId: Long, actionUuid: UUID) {
+    fun checkIfExistsPlayerAction(scholarId: Long, actionUuid: UUID, actionType: ActionTypes) {
+        if (playerActionRepository.existsPlayerActionWithActionTypeAndScholarId(scholarId, actionType)) {
+            throw PlayerActionException(
+                "Player action for scholar ID: $scholarId with action type: ${actionType.name} already exists",
+                HttpStatus.CONFLICT
+            )
+        }
         if (playerActionRepository.existsPlayerActionWithUuidAndScholarId(scholarId, actionUuid)) {
             throw PlayerActionException(
                 "Player action for scholar ID: $scholarId with uuid: $actionUuid already exists",

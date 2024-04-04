@@ -19,6 +19,13 @@ class PlayerActionRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
+    fun existsPlayerActionWithActionTypeAndScholarId(scholarId: Long, actionType: ActionTypes): Boolean {
+        return dslContext.selectCount()
+            .from(pa)
+            .where(pa.SCHOLAR_ID.eq(scholarId)).and(pa.ACTION_TYPE.eq(actionType.ordinal))
+            .fetchOneInto(Int::class.java) == 1
+    }
+
     fun findPlayerActionByScholarIdAndUuid(scholarId: Long, actionUuid: UUID): PlayerActions? {
         return dslContext.select(pa)
             .from(pa)
