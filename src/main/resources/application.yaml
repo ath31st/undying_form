@@ -13,6 +13,10 @@ spring:
     clean-on-validation-error: true
     clean-disabled: false
 
+springdoc:
+  swagger-ui:
+    enabled: true
+
 logging:
   level:
     org:
