@@ -34,4 +34,11 @@ class RecipeRepository(private val dslContext: DSLContext) {
 
         return recipeRecord.into(Recipes::class.java)
     }
+
+    fun isRecipeExistByName(name: String): Boolean {
+        return dslContext.selectCount()
+            .from(r)
+            .where(r.NAME.eq(name.trim()))
+            .fetchOneInto(Int::class.java) == 1
+    }
 }
