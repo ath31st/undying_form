@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.generated.tables.pojos.RecipeBooks
 import sidim.doma.undying.generated.tables.references.RECIPE_BOOKS
+import sidim.doma.undying.generated.tables.references.RECIPE_BOOK_RECIPES
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.USERS
 
@@ -12,6 +13,7 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
     private val rb = RECIPE_BOOKS
     private val u = USERS
     private val sc = SCHOLARS
+    private val rbr = RECIPE_BOOK_RECIPES
 
     fun saveEmptyRecipeBook(title: String): RecipeBooks {
         val r = dslContext.newRecord(rb)
