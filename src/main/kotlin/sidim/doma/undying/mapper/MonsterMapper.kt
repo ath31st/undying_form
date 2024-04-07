@@ -11,7 +11,7 @@ import sidim.doma.undying.model.SetBodyParts
 class MonsterMapper {
     private val m = MONSTERS
 
-    fun fromMonsterRecToModel(r1: MonstersRecord, r2: SetsBodyPartsRecord, setBodyParts: SetBodyParts): Monster? {
+    fun fromMonsterRecToModel(r1: MonstersRecord, r2: SetsBodyPartsRecord, setBodyParts: SetBodyParts): Monster {
         return Monster(
             monsterId = r1[m.MONSTER_ID] ?: 0,
             invisibility = r1[m.INVISIBILITY] ?: 0,
