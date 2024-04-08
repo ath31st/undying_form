@@ -1,19 +1,22 @@
 package sidim.doma.undying.repository.monster
 
 import org.jooq.DSLContext
+import org.jooq.Record3
+import org.jooq.Result
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
+import sidim.doma.undying.generated.tables.records.BodyPartTemplatesRecord
+import sidim.doma.undying.generated.tables.records.BodyPartsRecord
+import sidim.doma.undying.generated.tables.records.SocialClassesRecord
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.BODY_PART_TEMPLATES
 import sidim.doma.undying.generated.tables.references.HIDEOUTS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
 import sidim.doma.undying.generated.tables.references.STORAGES
-import sidim.doma.undying.mapper.BodyPartMapper
-import sidim.doma.undying.model.BodyPart
 
 @Repository
-class BodyPartRepository(private val dslContext: DSLContext, private val bodyPartMapper: BodyPartMapper) {
+class BodyPartRepository(private val dslContext: DSLContext) {
     private val bp = BODY_PARTS
     private val bpt = BODY_PART_TEMPLATES
     private val h = HIDEOUTS
@@ -33,7 +36,8 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
         return r.bodyPartId ?: -1
     }
 
-    fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
+    fun findBodyPartsByStorageId(storageId: Long):
+            Result<Record3<BodyPartsRecord, BodyPartTemplatesRecord, SocialClassesRecord>> {
         return dslContext.select(bp, bpt, sc)
             .from(bp)
             .join(st).on(st.STORAGE_ID.eq(bp.STORAGE_ID))
@@ -41,20 +45,20 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
             .join(sc).on(sc.SOCIAL_CLASS_ID.eq(bpt.SOCIAL_CLASS_ID))
             .where(st.STORAGE_ID.eq(storageId))
             .fetch()
-            .map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
-    fun findBodyPartsByIds(listIds: List<Long>): List<BodyPart> {
+    fun findBodyPartsByIds(listIds: List<Long>):
+            Result<Record3<BodyPartsRecord, BodyPartTemplatesRecord, SocialClassesRecord>> {
         return dslContext.select(bp, bpt, sc)
             .from(bp)
             .join(bpt).on(bpt.BODY_PART_TEMPLATE_ID.eq(bp.BODY_PART_TEMPLATE_ID))
             .join(sc).on(sc.SOCIAL_CLASS_ID.eq(bpt.SOCIAL_CLASS_ID))
             .where(bp.BODY_PART_ID.`in`(listIds))
             .fetch()
-            .map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
-    fun findBodyPartsByScholarId(scholarId: Long): List<BodyPart> {
+    fun findBodyPartsByScholarId(scholarId: Long):
+            Result<Record3<BodyPartsRecord, BodyPartTemplatesRecord, SocialClassesRecord>> {
         return dslContext.select(bp, bpt, sc)
             .from(bp)
             .join(sch).on(sch.SCHOLAR_ID.eq(bp.SCHOLAR_ID))
@@ -66,7 +70,6 @@ class BodyPartRepository(private val dslContext: DSLContext, private val bodyPar
                     .and(bp.SET_BODY_PARTS_ID.isNull)
             )
             .fetch()
-            .map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
     fun existsBodyPartIdsForScholarId(bodyPartIds: Set<Long>, scholarId: Long): Boolean {
