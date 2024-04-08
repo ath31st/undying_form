@@ -1,18 +1,19 @@
 package sidim.doma.undying.repository.monster
 
 import org.jooq.DSLContext
+import org.jooq.Record7
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.generated.tables.pojos.SetsBodyParts
+import sidim.doma.undying.generated.tables.records.BodyPartsRecord
+import sidim.doma.undying.generated.tables.records.SetsBodyPartsRecord
 import sidim.doma.undying.generated.tables.references.BODY_PARTS
 import sidim.doma.undying.generated.tables.references.MONSTERS
 import sidim.doma.undying.generated.tables.references.SCHOLARS
 import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
-import sidim.doma.undying.mapper.SetBodyPartsMapper
-import sidim.doma.undying.model.SetBodyParts
 
 @Repository
-class SetBodyPartsRepository(private val dslContext: DSLContext, private val setBodyPartsMapper: SetBodyPartsMapper) {
+class SetBodyPartsRepository(private val dslContext: DSLContext) {
     private val sbp = SETS_BODY_PARTS
     private val m = MONSTERS
     private val bp = BODY_PARTS
@@ -35,8 +36,10 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
         return r.into(SetsBodyParts::class.java)
     }
 
-    fun findSetBodyPartsByMonsterId(monsterId: Long): SetBodyParts? {
-        val set = dslContext.select(
+    fun findSetBodyPartsByMonsterId(monsterId: Long):
+            Record7<SetsBodyPartsRecord, BodyPartsRecord, BodyPartsRecord,
+                    BodyPartsRecord, BodyPartsRecord, BodyPartsRecord, BodyPartsRecord>? {
+        return dslContext.select(
             sbp,
             bp.`as`("left_hand_bp"),
             bp.`as`("right_hand_bp"),
@@ -55,8 +58,6 @@ class SetBodyPartsRepository(private val dslContext: DSLContext, private val set
             .leftJoin(bp.`as`("head_bp")).on(bp.`as`("head_bp").BODY_PART_ID.eq(sbp.HEAD_SLOT))
             .where(m.MONSTER_ID.eq(monsterId))
             .fetchOne()
-
-        return set?.let { setBodyPartsMapper.fromRecordToModel(it) }
     }
 
     fun findScholarIdBySetBodyPartsId(setBodyPartsId: Long): Long? {
