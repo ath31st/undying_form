@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.setbodyparts.SetBodyPartsUpdateDto
 import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
 import sidim.doma.undying.generated.tables.pojos.SetsBodyParts
+import sidim.doma.undying.mapper.SetBodyPartsMapper
 import sidim.doma.undying.model.SetBodyParts
 import sidim.doma.undying.repository.monster.SetBodyPartsRepository
 
 @Service
-class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsRepository) {
+class SetBodyPartsService(
+    private val setBodyPartsRepository: SetBodyPartsRepository,
+    private val setBodyPartsMapper: SetBodyPartsMapper,
+) {
     fun createEmptySet(): SetsBodyParts {
         return setBodyPartsRepository.saveEmptySetBodyParts()
     }
@@ -21,11 +25,13 @@ class SetBodyPartsService(private val setBodyPartsRepository: SetBodyPartsReposi
     }
 
     fun getSetBodyPartsByMonsterId(monsterId: Long): SetBodyParts {
-        return setBodyPartsRepository.findSetBodyPartsByMonsterId(monsterId)
+        val setBodyPartRecord = setBodyPartsRepository.findSetBodyPartsByMonsterId(monsterId)
             ?: throw SetBodyPartsException(
                 "Set body parts for monster id: $monsterId not found",
                 HttpStatus.NOT_FOUND
             )
+
+        return setBodyPartsMapper.fromRecordToModel(setBodyPartRecord)
     }
 
     fun getScholarIdBySetBodyParts(setBodyPartsId: Long): Long {
