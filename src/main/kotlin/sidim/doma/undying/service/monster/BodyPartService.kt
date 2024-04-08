@@ -3,6 +3,7 @@ package sidim.doma.undying.service.monster
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
 import sidim.doma.undying.dto.bodyparts.TransferBodyPartsDto
+import sidim.doma.undying.mapper.BodyPartMapper
 import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.repository.monster.BodyPartRepository
 import sidim.doma.undying.util.BodyPartGroup
@@ -23,6 +24,7 @@ class BodyPartService(
     private val bodyPartRepository: BodyPartRepository,
     private val bodyPartTemplateService: BodyPartTemplateService,
     private val generator: GeneratorRandomValuesUtil,
+    private val bodyPartMapper: BodyPartMapper,
 ) {
     private fun generateRandomBodyPartByGraveyardId(scholarId: Long, graveyardId: Int): Long {
         val bodyPartGroup = BodyPartGroup.entries.random()
@@ -66,15 +68,18 @@ class BodyPartService(
     }
 
     fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
-        return bodyPartRepository.findBodyPartsByStorageId(storageId)
+        val bodyPartRecords3 = bodyPartRepository.findBodyPartsByStorageId(storageId)
+        return bodyPartRecords3.map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
     fun findBodyPartsByScholarId(scholarId: Long): List<BodyPart> {
-        return bodyPartRepository.findBodyPartsByScholarId(scholarId)
+        val bodyPartRecords3 = bodyPartRepository.findBodyPartsByScholarId(scholarId)
+        return bodyPartRecords3.map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
     fun findBodyPartsByIds(listIds: List<Long>): List<BodyPart> {
-        return bodyPartRepository.findBodyPartsByIds(listIds)
+        val bodyPartRecords3 = bodyPartRepository.findBodyPartsByIds(listIds)
+        return bodyPartRecords3.map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
     fun transferBodyPartsFromScholarToStorage(dto: TransferBodyPartsDto, storageId: Long) {
