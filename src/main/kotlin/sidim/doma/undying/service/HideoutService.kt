@@ -26,6 +26,7 @@ class HideoutService(
         val storage = storageService.createStorage()
 
         return hideoutRepository.saveHideout(
-            name, storage.storageId ?: 0, districtId, randomValues)
+            name, storage.storageId ?: 0, districtId, randomValues
+        )
     }
 }

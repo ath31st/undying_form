@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.dto.trait.NewTraitDto
 import sidim.doma.undying.dto.trait.ScholarTraitsDto
-import sidim.doma.undying.exceptionhandler.exception.ItemException
 import sidim.doma.undying.exceptionhandler.exception.TraitException
 import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.pojos.PositiveTraits

@@ -8,12 +8,7 @@ import sidim.doma.undying.dto.bodyparts.NewBodyPartDto
 import sidim.doma.undying.generated.tables.records.BodyPartTemplatesRecord
 import sidim.doma.undying.generated.tables.records.BodyPartsRecord
 import sidim.doma.undying.generated.tables.records.SocialClassesRecord
-import sidim.doma.undying.generated.tables.references.BODY_PARTS
-import sidim.doma.undying.generated.tables.references.BODY_PART_TEMPLATES
-import sidim.doma.undying.generated.tables.references.HIDEOUTS
-import sidim.doma.undying.generated.tables.references.SCHOLARS
-import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
-import sidim.doma.undying.generated.tables.references.STORAGES
+import sidim.doma.undying.generated.tables.references.*
 
 @Repository
 class BodyPartRepository(private val dslContext: DSLContext) {

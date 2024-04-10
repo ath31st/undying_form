@@ -6,11 +6,7 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.generated.tables.pojos.Monsters
 import sidim.doma.undying.generated.tables.records.MonstersRecord
 import sidim.doma.undying.generated.tables.records.SetsBodyPartsRecord
-import sidim.doma.undying.generated.tables.references.BODY_PARTS
-import sidim.doma.undying.generated.tables.references.BODY_PART_TEMPLATES
-import sidim.doma.undying.generated.tables.references.MONSTERS
-import sidim.doma.undying.generated.tables.references.SCHOLARS
-import sidim.doma.undying.generated.tables.references.SETS_BODY_PARTS
+import sidim.doma.undying.generated.tables.references.*
 
 @Repository
 class MonsterRepository(private val dslContext: DSLContext) {

@@ -2,32 +2,14 @@ package sidim.doma.undying.exceptionhandler
 
 import jakarta.validation.ConstraintViolation
 import jakarta.validation.ConstraintViolationException
-import java.time.LocalDateTime
-import java.util.stream.Collectors
 import org.jooq.exception.IntegrityConstraintViolationException
 import org.springframework.data.mapping.PropertyReferenceException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import sidim.doma.undying.exceptionhandler.exception.BodyPartException
-import sidim.doma.undying.exceptionhandler.exception.BodyPartTemplateException
-import sidim.doma.undying.exceptionhandler.exception.DistrictException
-import sidim.doma.undying.exceptionhandler.exception.EducationException
-import sidim.doma.undying.exceptionhandler.exception.GraveyardException
-import sidim.doma.undying.exceptionhandler.exception.HideoutException
-import sidim.doma.undying.exceptionhandler.exception.ItemException
-import sidim.doma.undying.exceptionhandler.exception.MonsterException
-import sidim.doma.undying.exceptionhandler.exception.NamingException
-import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
-import sidim.doma.undying.exceptionhandler.exception.RecipeBookException
-import sidim.doma.undying.exceptionhandler.exception.ScholarException
-import sidim.doma.undying.exceptionhandler.exception.SetBodyPartsException
-import sidim.doma.undying.exceptionhandler.exception.SocialClassException
-import sidim.doma.undying.exceptionhandler.exception.SpecializationException
-import sidim.doma.undying.exceptionhandler.exception.StorageException
-import sidim.doma.undying.exceptionhandler.exception.TraitException
-import sidim.doma.undying.exceptionhandler.exception.UserException
+import sidim.doma.undying.exceptionhandler.exception.*
+import java.util.stream.Collectors
 
 
 @ControllerAdvice

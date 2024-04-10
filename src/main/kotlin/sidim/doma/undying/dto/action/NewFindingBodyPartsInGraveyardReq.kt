@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.action
 
-import java.util.UUID
+import java.util.*
 
 class NewFindingBodyPartsInGraveyardReq(
     val actionUuid: UUID,
