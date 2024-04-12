@@ -1,7 +1,7 @@
 package sidim.doma.undying.repository
 
 import org.jooq.DSLContext
-import org.jooq.Record2
+import org.jooq.Record1
 import org.jooq.Result
 import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.recipe.NewRecipeDto
@@ -46,12 +46,18 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Recipes::class.java)
     }
 
-    fun findFullRecipeById(id: Int): Result<Record2<RecipesRecord, ItemsRecord>> {
-        return dslContext.select(r, i)
-            .from(r)
-            .join(i).on(i.ITEM_ID.eq(r.items.ITEM_ID))
+    fun findFullRecipeById(id: Int): Pair<RecipesRecord?, Result<Record1<ItemsRecord>>> {
+        val recipeRecord = dslContext.selectFrom(r)
             .where(r.RECIPE_ID.eq(id))
+            .fetchOne()
+
+        val itemRecords = dslContext.select(i)
+            .from(i)
+            .join(ri).on(ri.ITEM_ID.eq(i.ITEM_ID))
+            .where(ri.RECIPE_ID.eq(id))
             .fetch()
+
+        return Pair(recipeRecord, itemRecords)
     }
 
     fun isRecipeExistByName(name: String): Boolean {
