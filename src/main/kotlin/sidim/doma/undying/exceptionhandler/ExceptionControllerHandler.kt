@@ -215,4 +215,14 @@ class ExceptionControllerHandler {
         )
         return ResponseEntity(errorMessage, ex.status)
     }
+
+    @ExceptionHandler
+    fun handleRecipeException(ex: RecipeException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
 }

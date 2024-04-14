@@ -2,6 +2,7 @@ package sidim.doma.undying.service
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import sidim.doma.undying.exceptionhandler.exception.RecipeException
 import sidim.doma.undying.mapper.RecipeMapper
 import sidim.doma.undying.repository.RecipeRepository
 
