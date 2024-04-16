@@ -11,6 +11,7 @@ import sidim.doma.undying.generated.tables.references.USERS
 @Repository
 class RecipeBooksRepository(private val dslContext: DSLContext) {
     private val rb = RECIPE_BOOKS
+    private val r = RECIPE_BOOK_RECIPES
     private val u = USERS
     private val sc = SCHOLARS
     private val rbr = RECIPE_BOOK_RECIPES
@@ -40,6 +41,14 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
             .join(u).on(u.RECIPE_BOOK_ID.eq(rb.RECIPE_BOOK_ID))
             .where(u.USER_ID.eq(userId))
             .fetchOneInto(Int::class.java) == 1
+    }
+
+    fun findRecipeBookByUserId(userId: Long): RecipeBooks? {
+        return dslContext.select(rb)
+            .from(rb)
+            .join(rb.users)
+            .where(rb.users.USER_ID.eq(userId))
+            .fetchOneInto(RecipeBooks::class.java)
     }
 
     fun setFirstLastNameCurrentScholarByUserId(userId: Long, firstName: String, lastName: String) {

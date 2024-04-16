@@ -22,6 +22,11 @@ class RecipeBookService(
         return recipeBooksRepository.saveEmptyRecipeBook(title)
     }
 
+    fun getRecipeBooksByUserId(userId: Long): RecipeBooks {
+        return recipeBooksRepository.findRecipeBookByUserId(userId)
+            ?: throw RecipeBookException("No recipe book found for user id: $userId", HttpStatus.NOT_FOUND)
+    }
+
     fun setFirstLastNameCurrentScholarByUserId(userId: Long, firstName: String, lastName: String) {
         recipeBooksRepository.setFirstLastNameCurrentScholarByUserId(userId, firstName, lastName)
     }
