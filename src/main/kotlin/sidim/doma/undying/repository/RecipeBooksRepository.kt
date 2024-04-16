@@ -43,12 +43,23 @@ class RecipeBooksRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Int::class.java) == 1
     }
 
-    fun findRecipeBookByUserId(userId: Long): RecipeBooks? {
-        return dslContext.select(rb)
+    fun findRecipeBookByUserId(userId: Long): Pair<RecipeBooks?, List<Int>> {
+        val recipeBook = dslContext.select(rb)
             .from(rb)
             .join(rb.users)
             .where(rb.users.USER_ID.eq(userId))
             .fetchOneInto(RecipeBooks::class.java)
+
+        val recipeIds = mutableListOf<Int>()
+        if (recipeBook != null) {
+            dslContext.select(r.RECIPE_ID)
+                .from(r)
+                .join(rb.recipes)
+                .where(r.RECIPE_BOOK_ID.eq(recipeBook.recipeBookId))
+                .fetch().map { it.value1()?.let { it1 -> recipeIds.add(it1) } }
+        }
+
+        return Pair(recipeBook, recipeIds)
     }
 
     fun setFirstLastNameCurrentScholarByUserId(userId: Long, firstName: String, lastName: String) {
