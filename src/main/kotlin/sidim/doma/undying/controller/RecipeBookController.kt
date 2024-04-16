@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import sidim.doma.undying.model.RecipeBook
 import sidim.doma.undying.service.RecipeBookService
 
 @RestController
@@ -14,7 +15,7 @@ import sidim.doma.undying.service.RecipeBookService
 class RecipeBookController(val recipeBookService: RecipeBookService) {
 
     @GetMapping("/recipe_book/{userId}")
-    fun getRecipeBookByUserId(@PathVariable userId: Long): ResponseEntity<Any> {
+    fun getRecipeBookByUserId(@PathVariable userId: Long): ResponseEntity<RecipeBook> {
         return ResponseEntity.ok(recipeBookService.getRecipeBooksByUserId(userId))
     }
 }
