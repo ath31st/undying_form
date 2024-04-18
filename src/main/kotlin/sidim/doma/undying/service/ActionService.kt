@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import sidim.doma.undying.exceptionhandler.exception.PlayerActionException
 import sidim.doma.undying.model.BodyPart
 import sidim.doma.undying.repository.PlayerActionRepository
+import sidim.doma.undying.service.location.GraveyardService
 import sidim.doma.undying.service.monster.BodyPartService
 import sidim.doma.undying.service.scholar.ScholarService
 import sidim.doma.undying.service.storage.StorageService

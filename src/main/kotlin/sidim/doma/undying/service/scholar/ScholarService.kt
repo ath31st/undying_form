@@ -6,7 +6,7 @@ import sidim.doma.undying.dto.scholar.ScholarDto
 import sidim.doma.undying.exceptionhandler.exception.ScholarException
 import sidim.doma.undying.generated.tables.pojos.Scholars
 import sidim.doma.undying.repository.scholar.ScholarRepository
-import sidim.doma.undying.service.HideoutService
+import sidim.doma.undying.service.location.HideoutService
 import sidim.doma.undying.service.NamingService
 import sidim.doma.undying.service.monster.MonsterService
 import sidim.doma.undying.util.GeneratorRandomValuesUtil

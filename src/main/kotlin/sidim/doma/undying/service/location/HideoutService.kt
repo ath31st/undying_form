@@ -1,8 +1,9 @@
-package sidim.doma.undying.service
+package sidim.doma.undying.service.location
 
 import org.springframework.stereotype.Service
 import sidim.doma.undying.generated.tables.pojos.Hideouts
 import sidim.doma.undying.repository.location.HideoutRepository
+import sidim.doma.undying.service.NamingService
 import sidim.doma.undying.service.storage.StorageService
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.HideoutConstants.BONUSES_SUM
