@@ -225,4 +225,14 @@ class ExceptionControllerHandler {
         )
         return ResponseEntity(errorMessage, ex.status)
     }
+
+    @ExceptionHandler
+    fun handleCityException(ex: CityException):
+            ResponseEntity<ErrorMessageModel> {
+        val errorMessage = ErrorMessageModel(
+            ex.status.value(),
+            ex.message
+        )
+        return ResponseEntity(errorMessage, ex.status)
+    }
 }
