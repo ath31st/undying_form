@@ -3,7 +3,7 @@ package sidim.doma.undying.service
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import sidim.doma.undying.exceptionhandler.exception.DistrictException
-import sidim.doma.undying.repository.DistrictRepository
+import sidim.doma.undying.repository.location.DistrictRepository
 
 @Service
 class DistrictService(private val districtRepository: DistrictRepository) {

@@ -1,4 +1,4 @@
-package sidim.doma.undying.repository
+package sidim.doma.undying.repository.location
 
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
