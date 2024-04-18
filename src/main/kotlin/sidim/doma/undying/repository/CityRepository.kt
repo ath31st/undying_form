@@ -22,6 +22,13 @@ class CityRepository(private val dslContext: DSLContext) {
         return r.into(Cities::class.java)
     }
 
+    fun getCityById(cityId: Int): Cities? {
+        return dslContext.select(c)
+            .from(c)
+            .where(c.CITY_ID.eq(cityId))
+            .fetchOneInto(Cities::class.java)
+    }
+
     fun isCityExistByName(cityName: String): Boolean {
         return dslContext.selectCount()
             .from(c)
