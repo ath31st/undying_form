@@ -15,6 +15,7 @@ class CityService(private val cityRepository: CityRepository) {
     }
 
     fun createCity(dto: NewCityDto): Cities {
+        checkCityExistByName(dto.name.trim())
         return cityRepository.saveNewCity(dto)
     }
 
