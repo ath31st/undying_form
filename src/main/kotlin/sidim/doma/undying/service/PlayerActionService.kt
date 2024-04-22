@@ -8,7 +8,6 @@ import sidim.doma.undying.repository.PlayerActionRepository
 import sidim.doma.undying.service.location.GraveyardService
 import sidim.doma.undying.service.monster.BodyPartService
 import sidim.doma.undying.service.scholar.ScholarService
-import sidim.doma.undying.service.storage.StorageService
 import sidim.doma.undying.util.ActionTypes
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
 import sidim.doma.undying.util.constant.ActionConstants.CHANCE_HIGH_VALUE_CAUNT
@@ -23,9 +22,8 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 @Service
-class ActionService(
+class PlayerActionService(
     private val playerActionRepository: PlayerActionRepository,
-    private val storageService: StorageService,
     private val bodyPartsService: BodyPartService,
     private val scholarService: ScholarService,
     private val graveyardService: GraveyardService,

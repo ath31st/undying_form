@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import sidim.doma.undying.dto.bodyparts.TransferBodyPartsDto
-import sidim.doma.undying.service.ActionService
+import sidim.doma.undying.service.PlayerActionService
 import sidim.doma.undying.service.monster.BodyPartService
 import sidim.doma.undying.service.storage.StorageService
 
@@ -18,19 +18,19 @@ import sidim.doma.undying.service.storage.StorageService
 @RequestMapping("/api/v1/body_parts")
 class BodyPartController(
     private val bodyPartService: BodyPartService,
-    private val actionService: ActionService,
+    private val playerActionService: PlayerActionService,
     private val storageService: StorageService,
 ) {
     @PostMapping("/transfer_body_parts_to_storage")
     @Transactional
     fun transferBodyPartsToStorage(@RequestBody dto: TransferBodyPartsDto): ResponseEntity<HttpStatus> {
-        actionService.checkIfNoExistsPlayerAction(dto.scholarId, dto.actionUuid)
+        playerActionService.checkIfNoExistsPlayerAction(dto.scholarId, dto.actionUuid)
         val storageId = storageService.getStorageIdByScholarId(dto.scholarId)
         storageService.checkCountEmptySlotsForTransferBodyPartsByStorageId(storageId, dto.bodyPartIds.size)
         bodyPartService.transferBodyPartsFromScholarToStorage(dto, storageId)
         storageService.decreaseCountEmptySlotsByStorageId(storageId, dto.bodyPartIds.size)
         bodyPartService.deleteExtraBodyPartsAfterTransfer(dto.scholarId)
-        actionService.deleteActionUuidByScholarId(dto.scholarId, dto.actionUuid)
+        playerActionService.deleteActionUuidByScholarId(dto.scholarId, dto.actionUuid)
         return ResponseEntity.ok(HttpStatus.OK)
     }
 }
