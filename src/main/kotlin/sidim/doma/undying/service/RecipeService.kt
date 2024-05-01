@@ -1,7 +1,9 @@
 package sidim.doma.undying.service
 
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.recipe.NewRecipeDto
 import sidim.doma.undying.exceptionhandler.exception.RecipeException
 import sidim.doma.undying.generated.tables.pojos.Recipes
@@ -27,6 +29,10 @@ class RecipeService(private val recipeRepository: RecipeRepository, private val 
             throw RecipeException("Recipe with id: $recipeId not found", HttpStatus.NOT_FOUND)
         }
         return recipeMapper.fromRecipePojoToModel(fullRecipeRecord)
+    }
+
+    fun getAllRecipesWithSearch(req: PageRequest, name: String?): PageDto<Recipes> {
+        return recipeRepository.getRecipesWithPaginationAndSorting(req, name)
     }
 
     fun checkExistsRecipeById(recipeId: Int) {
