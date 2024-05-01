@@ -12,6 +12,7 @@ import sidim.doma.undying.repository.RecipeRepository
 @Service
 class RecipeService(private val recipeRepository: RecipeRepository, private val recipeMapper: RecipeMapper) {
     fun createRecipe(dto: NewRecipeDto): Recipes {
+        checkExistsRecipeByName(dto.name)
         return recipeRepository.saveNewRecipe(dto)
     }
 
