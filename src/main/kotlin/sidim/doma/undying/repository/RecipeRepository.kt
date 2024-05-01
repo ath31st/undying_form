@@ -3,7 +3,10 @@ package sidim.doma.undying.repository
 import org.jooq.DSLContext
 import org.jooq.Record1
 import org.jooq.Result
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.recipe.NewRecipeDto
 import sidim.doma.undying.generated.tables.pojos.Recipes
 import sidim.doma.undying.generated.tables.records.ItemsRecord
@@ -72,5 +75,40 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .from(r)
             .where(r.RECIPE_ID.eq(id))
             .fetchOneInto(Int::class.java) == 1
+    }
+
+    fun getRecipesWithPaginationAndSorting(req: PageRequest, name: String?): PageDto<Recipes> {
+        val offset = req.offset
+
+        val selectCondition = if (name != null) r.NAME.likeIgnoreCase("%${name.trim()}%") else null
+
+        val totalElements = dslContext.selectCount()
+            .from(r)
+            .apply { if (selectCondition != null) where(selectCondition) }
+            .fetchOneInto(Int::class.java) ?: 0
+
+        val fieldName = req.sort.get().toList().firstOrNull()?.property?.let { r.field(it) } ?: r.RECIPE_ID
+        val sortField =
+            if (req.sort.get().anyMatch { it.direction == Sort.Direction.ASC }) fieldName.asc() else fieldName.desc()
+
+        val recipes = dslContext.selectFrom(r)
+            .apply { if (selectCondition != null) where(selectCondition) }
+            .orderBy(sortField)
+            .limit(req.pageSize)
+            .offset(offset)
+            .fetchInto(Recipes::class.java)
+
+        val totalPages = if (totalElements % req.pageSize == 0) {
+            totalElements / req.pageSize
+        } else {
+            (totalElements / req.pageSize) + 1
+        }
+
+        return PageDto(
+            content = recipes,
+            totalElements = totalElements,
+            totalPages = totalPages,
+            currentNumberPage = req.pageNumber + 1
+        )
     }
 }
