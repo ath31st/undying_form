@@ -9,6 +9,7 @@ import sidim.doma.undying.dto.item.NewItemDto
 import sidim.doma.undying.generated.tables.pojos.Items
 import sidim.doma.undying.generated.tables.references.ITEMS
 import sidim.doma.undying.generated.tables.references.ITEMS_STORAGES
+import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
 class ItemRepository(private val dslContext: DSLContext) {
@@ -53,17 +54,6 @@ class ItemRepository(private val dslContext: DSLContext) {
             .offset(offset)
             .fetchInto(Items::class.java)
 
-        val totalPages = if (totalElements % req.pageSize == 0) {
-            totalElements / req.pageSize
-        } else {
-            (totalElements / req.pageSize) + 1
-        }
-
-        return PageDto(
-            content = items,
-            totalElements = totalElements,
-            totalPages = totalPages,
-            currentNumberPage = req.pageNumber + 1
-        )
+        return CommonRepositoryMethods.createPageDto(req, totalElements, items)
     }
 }
