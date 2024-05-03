@@ -10,6 +10,7 @@ import sidim.doma.undying.dto.PageDto
 import sidim.doma.undying.dto.recipe.NewRecipeDto
 import sidim.doma.undying.generated.tables.pojos.Recipes
 import sidim.doma.undying.generated.tables.records.ItemsRecord
+import sidim.doma.undying.generated.tables.records.RecipeItemsRecord
 import sidim.doma.undying.generated.tables.records.RecipesRecord
 import sidim.doma.undying.generated.tables.references.ITEMS
 import sidim.doma.undying.generated.tables.references.RECIPES
@@ -49,7 +50,10 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Recipes::class.java)
     }
 
-    fun findFullRecipeById(id: Int): Pair<RecipesRecord?, Result<Record1<ItemsRecord>>> {
+    fun findFullRecipeById(id: Int): Triple<
+            RecipesRecord?,
+            Result<Record1<ItemsRecord>>,
+            Result<Record1<RecipeItemsRecord>>> {
         val recipeRecord = dslContext.selectFrom(r)
             .where(r.RECIPE_ID.eq(id))
             .fetchOne()
@@ -60,7 +64,12 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .where(ri.RECIPE_ID.eq(id))
             .fetch()
 
-        return Pair(recipeRecord, itemRecords)
+        val recipeItemRecords = dslContext.select(ri)
+            .from(ri)
+            .where(ri.RECIPE_ID.eq(id))
+            .fetch()
+
+        return Triple(recipeRecord, itemRecords, recipeItemRecords)
     }
 
     fun isRecipeExistByName(name: String): Boolean {
