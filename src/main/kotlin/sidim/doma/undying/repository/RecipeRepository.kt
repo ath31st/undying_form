@@ -98,17 +98,6 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .offset(offset)
             .fetchInto(Recipes::class.java)
 
-        val totalPages = if (totalElements % req.pageSize == 0) {
-            totalElements / req.pageSize
-        } else {
-            (totalElements / req.pageSize) + 1
-        }
-
-        return PageDto(
-            content = recipes,
-            totalElements = totalElements,
-            totalPages = totalPages,
-            currentNumberPage = req.pageNumber + 1
-        )
+        return CommonRepositoryMethods.createPageDto(req, totalElements, recipes)
     }
 }
