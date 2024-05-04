@@ -27,10 +27,7 @@ class ItemRepository(private val dslContext: DSLContext) {
     }
 
     fun isItemExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(i)
-            .where(i.NAME.eq(name.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, i, i.NAME, name)
     }
 
     fun getItemsWithPaginationAndSorting(req: PageRequest, name: String?): PageDto<Items> {
