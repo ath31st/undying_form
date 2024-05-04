@@ -73,10 +73,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
     }
 
     fun isRecipeExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(r)
-            .where(r.NAME.eq(name.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, r, r.NAME, name)
     }
 
     fun isRecipeExistById(id: Int): Boolean {
