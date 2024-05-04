@@ -13,10 +13,7 @@ class UserRepository(private val dslContext: DSLContext) {
     private val u = USERS
 
     fun isUserExistByUsername(username: String): Boolean {
-        return dslContext.selectCount()
-            .from(u)
-            .where(u.USERNAME.eq(username))
-            .fetchOneInto(Int::class.java) == 1
+        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, u, u.USERNAME, username)
     }
 
     fun existsUserWithId(id: Long): Boolean {
