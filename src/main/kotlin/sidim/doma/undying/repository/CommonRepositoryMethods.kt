@@ -1,5 +1,8 @@
 package sidim.doma.undying.repository
 
+import org.jooq.DSLContext
+import org.jooq.Table
+import org.jooq.TableField
 import org.springframework.data.domain.PageRequest
 import sidim.doma.undying.dto.PageDto
 
@@ -17,5 +20,17 @@ object CommonRepositoryMethods {
             totalPages = totalPages,
             currentNumberPage = req.pageNumber + 1
         )
+    }
+
+    fun isRecordExistByStringField(
+        dslContext: DSLContext,
+        table: Table<*>,
+        nameField: TableField<*, String?>,
+        value: String
+    ): Boolean {
+        return dslContext.selectCount()
+            .from(table)
+            .where(nameField.eq(value.trim()))
+            .fetchOneInto(Int::class.java) == 1
     }
 }
