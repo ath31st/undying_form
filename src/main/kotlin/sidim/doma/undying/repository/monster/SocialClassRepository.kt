@@ -6,9 +6,13 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.NewSocialClassDto
 import sidim.doma.undying.generated.tables.pojos.SocialClasses
 import sidim.doma.undying.generated.tables.references.SOCIAL_CLASSES
+import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
-class SocialClassRepository(private val dslContext: DSLContext) {
+class SocialClassRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val sc = SOCIAL_CLASSES
 
     fun saveNewSocialClass(dto: NewSocialClassDto): SocialClasses {
@@ -21,10 +25,7 @@ class SocialClassRepository(private val dslContext: DSLContext) {
     }
 
     fun isSocialClassExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(sc)
-            .where(sc.NAME.eq(name.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, sc, sc.NAME, name)
     }
 
     fun getSocialClasses(isActive: Boolean?): List<SocialClasses> {
