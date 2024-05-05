@@ -4,9 +4,11 @@ import org.jooq.DSLContext
 import org.jooq.Table
 import org.jooq.TableField
 import org.springframework.data.domain.PageRequest
+import org.springframework.stereotype.Component
 import sidim.doma.undying.dto.PageDto
 
-object CommonRepositoryMethods {
+@Component
+class CommonRepositoryMethods {
     fun <T> createPageDto(req: PageRequest, totalElements: Int, content: List<T>): PageDto<T> {
         val totalPages = if (totalElements % req.pageSize == 0) {
             totalElements / req.pageSize
