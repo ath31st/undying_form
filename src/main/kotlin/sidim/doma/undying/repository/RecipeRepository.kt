@@ -17,7 +17,10 @@ import sidim.doma.undying.generated.tables.references.RECIPES
 import sidim.doma.undying.generated.tables.references.RECIPE_ITEMS
 
 @Repository
-class RecipeRepository(private val dslContext: DSLContext) {
+class RecipeRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val r = RECIPES
     private val ri = RECIPE_ITEMS
     private val i = ITEMS
@@ -73,7 +76,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
     }
 
     fun isRecipeExistByName(name: String): Boolean {
-        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, r, r.NAME, name)
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, r, r.NAME, name)
     }
 
     fun isRecipeExistById(id: Int): Boolean {
@@ -104,6 +107,6 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .offset(offset)
             .fetchInto(Recipes::class.java)
 
-        return CommonRepositoryMethods.createPageDto(req, totalElements, recipes)
+        return commonRepositoryMethods.createPageDto(req, totalElements, recipes)
     }
 }

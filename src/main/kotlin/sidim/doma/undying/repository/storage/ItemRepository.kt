@@ -12,7 +12,10 @@ import sidim.doma.undying.generated.tables.references.ITEMS_STORAGES
 import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
-class ItemRepository(private val dslContext: DSLContext) {
+class ItemRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val i = ITEMS
     private val ist = ITEMS_STORAGES
 
@@ -27,7 +30,7 @@ class ItemRepository(private val dslContext: DSLContext) {
     }
 
     fun isItemExistByName(name: String): Boolean {
-        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, i, i.NAME, name)
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, i, i.NAME, name)
     }
 
     fun getItemsWithPaginationAndSorting(req: PageRequest, name: String?): PageDto<Items> {
@@ -51,6 +54,6 @@ class ItemRepository(private val dslContext: DSLContext) {
             .offset(offset)
             .fetchInto(Items::class.java)
 
-        return CommonRepositoryMethods.createPageDto(req, totalElements, items)
+        return commonRepositoryMethods.createPageDto(req, totalElements, items)
     }
 }

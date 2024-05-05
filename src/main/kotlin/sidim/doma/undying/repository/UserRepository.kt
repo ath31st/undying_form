@@ -9,11 +9,14 @@ import sidim.doma.undying.util.Role
 import java.time.LocalDate
 
 @Repository
-class UserRepository(private val dslContext: DSLContext) {
+class UserRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val u = USERS
 
     fun isUserExistByUsername(username: String): Boolean {
-        return CommonRepositoryMethods.isRecordExistByStringField(dslContext, u, u.USERNAME, username)
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, u, u.USERNAME, username)
     }
 
     fun existsUserWithId(id: Long): Boolean {
