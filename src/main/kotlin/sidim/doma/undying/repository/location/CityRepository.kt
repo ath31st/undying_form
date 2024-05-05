@@ -5,9 +5,13 @@ import org.springframework.stereotype.Repository
 import sidim.doma.undying.dto.citiy.NewCityDto
 import sidim.doma.undying.generated.tables.pojos.Cities
 import sidim.doma.undying.generated.tables.references.CITIES
+import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
-class CityRepository(private val dslContext: DSLContext) {
+class CityRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val c = CITIES
 
     fun saveNewCity(dto: NewCityDto): Cities {
@@ -30,9 +34,6 @@ class CityRepository(private val dslContext: DSLContext) {
     }
 
     fun isCityExistByName(cityName: String): Boolean {
-        return dslContext.selectCount()
-            .from(c)
-            .where(c.NAME.eq(cityName.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, c, c.NAME, cityName)
     }
 }
