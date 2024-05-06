@@ -7,9 +7,13 @@ import sidim.doma.undying.generated.tables.pojos.NegativeTraits
 import sidim.doma.undying.generated.tables.records.ScholarNegativeTraitsRecord
 import sidim.doma.undying.generated.tables.references.NEGATIVE_TRAITS
 import sidim.doma.undying.generated.tables.references.SCHOLAR_NEGATIVE_TRAITS
+import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
-class NegativeTraitRepository(private val dslContext: DSLContext) {
+class NegativeTraitRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val nt = NEGATIVE_TRAITS
     private val snt = SCHOLAR_NEGATIVE_TRAITS
 
@@ -48,10 +52,7 @@ class NegativeTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun isNegativeTraitExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(nt)
-            .where(nt.NAME.eq(name.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, nt, nt.NAME, name.trim())
     }
 
     fun findTraitsByScholarId(id: Long): List<NegativeTraits> {
