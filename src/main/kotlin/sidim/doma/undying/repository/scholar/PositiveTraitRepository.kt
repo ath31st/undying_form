@@ -7,9 +7,13 @@ import sidim.doma.undying.generated.tables.pojos.PositiveTraits
 import sidim.doma.undying.generated.tables.records.ScholarPositiveTraitsRecord
 import sidim.doma.undying.generated.tables.references.POSITIVE_TRAITS
 import sidim.doma.undying.generated.tables.references.SCHOLAR_POSITIVE_TRAITS
+import sidim.doma.undying.repository.CommonRepositoryMethods
 
 @Repository
-class PositiveTraitRepository(private val dslContext: DSLContext) {
+class PositiveTraitRepository(
+    private val dslContext: DSLContext,
+    private val commonRepositoryMethods: CommonRepositoryMethods,
+) {
     private val pt = POSITIVE_TRAITS
     private val spt = SCHOLAR_POSITIVE_TRAITS
 
@@ -48,10 +52,7 @@ class PositiveTraitRepository(private val dslContext: DSLContext) {
     }
 
     fun isPositiveTraitExistByName(name: String): Boolean {
-        return dslContext.selectCount()
-            .from(pt)
-            .where(pt.NAME.eq(name.trim()))
-            .fetchOneInto(Int::class.java) == 1
+        return commonRepositoryMethods.isRecordExistByStringField(dslContext, pt, pt.NAME, name.trim())
     }
 
     fun findTraitsByScholarId(id: Long): List<PositiveTraits> {
