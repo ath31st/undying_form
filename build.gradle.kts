@@ -10,8 +10,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
     id("nu.studer.jooq") version "8.2.1"
     id("org.flywaydb.flyway") version "9.21.1"
-    kotlin("jvm") version "1.9.21"
-    kotlin("plugin.spring") version "1.9.20"
+    kotlin("jvm") version "1.9.24"
+    kotlin("plugin.spring") version "1.9.24"
 }
 
 allOpen {
