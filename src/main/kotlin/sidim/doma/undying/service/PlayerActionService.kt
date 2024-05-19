@@ -102,7 +102,7 @@ class PlayerActionService(
     }
 
     fun getResultFindingBodyParts(scholarId: Long): List<BodyPart> {
-        return bodyPartsService.findBodyPartsByScholarId(scholarId)
+        return bodyPartsService.findBodyParts(scholarId, BodyPartService.SearchingBy.SCHOLAR_ID)
     }
 
     fun deleteActionUuidByScholarId(scholarId: Long, actionUuid: UUID) {

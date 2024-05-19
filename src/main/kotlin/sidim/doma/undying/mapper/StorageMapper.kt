@@ -8,7 +8,10 @@ import sidim.doma.undying.service.monster.BodyPartService
 @Component
 class StorageMapper(private val bodyPartService: BodyPartService) {
     fun fromStoragePojoToModel(pojo: Storages): Storage {
-        val bodyParts = bodyPartService.findBodyPartsByStorageId(pojo.storageId ?: 0).toMutableList()
+        val bodyParts = bodyPartService
+            .findBodyParts(pojo.storageId ?: 0, BodyPartService.SearchingBy.STORAGE_ID)
+            .toMutableList()
+
         return Storage(pojo.storageId ?: 0, pojo.capacity ?: 0, pojo.emptySlots ?: 0, bodyParts)
     }
 }
