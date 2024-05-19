@@ -67,13 +67,16 @@ class BodyPartService(
         return findBodyPartsByIds(generatedBodyParts)
     }
 
-    fun findBodyPartsByStorageId(storageId: Long): List<BodyPart> {
-        val bodyPartRecords3 = bodyPartRepository.findBodyPartsByStorageId(storageId)
-        return bodyPartRecords3.map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
-    }
+    fun findBodyParts(id: Long, mode: SearchingBy): List<BodyPart> {
+        val bodyPartRecords3 = when (mode) {
+            SearchingBy.SCHOLAR_ID -> {
+                bodyPartRepository.findBodyPartsByScholarId(id)
+            }
 
-    fun findBodyPartsByScholarId(scholarId: Long): List<BodyPart> {
-        val bodyPartRecords3 = bodyPartRepository.findBodyPartsByScholarId(scholarId)
+            SearchingBy.STORAGE_ID -> {
+                bodyPartRepository.findBodyPartsByStorageId(id)
+            }
+        }
         return bodyPartRecords3.map { bodyPartMapper.fromBodyPartRecordToModel(it.value1(), it.value2(), it.value3()) }
     }
 
@@ -103,5 +106,9 @@ class BodyPartService(
 
     fun deleteBodyPartsFromStorage(storageId: Long, bodyPartIds: List<Long>): Int {
         return bodyPartRepository.deleteBodyPartsFromStorage(storageId, bodyPartIds)
+    }
+
+    enum class SearchingBy {
+        STORAGE_ID, SCHOLAR_ID
     }
 }
