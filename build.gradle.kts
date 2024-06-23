@@ -48,6 +48,7 @@ val postgresVersion = "42.7.3"
 val springdocVersion = "2.5.0"
 val opencsvVersion = "5.9"
 val modelMapperVersion = "3.2.0"
+val kotlinLogging = "7.0.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
@@ -74,6 +75,8 @@ dependencies {
     implementation("org.modelmapper:modelmapper:$modelMapperVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$starterVersion")
     testImplementation("org.springframework.security:spring-security-test:$securityTestVersion")
+
+    implementation("io.github.oshai:kotlin-logging:$kotlinLogging")
 }
 
 tasks.withType<KotlinCompile> {
