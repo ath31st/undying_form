@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.item
 
-class ItemForRecipeDto(
+data class ItemForRecipeDto(
     val itemId: Int,
     val name: String,
     val description: String,

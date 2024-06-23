@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto
 
-class NewSocialClassDto(
+data class NewSocialClassDto(
     val name: String,
     val description: String
 )

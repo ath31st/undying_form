@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.user
 
-class UserRegDto(
+data class UserRegDto(
     val username: String,
     val email: String?,
 )

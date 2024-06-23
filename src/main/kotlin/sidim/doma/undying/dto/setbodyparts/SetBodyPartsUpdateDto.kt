@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.setbodyparts
 
-class SetBodyPartsUpdateDto(
+data class SetBodyPartsUpdateDto(
     val setBodyPartsId: Long,
     val leftHandIdForSlot: Long?,
     val rightHandIdForSlot: Long?,

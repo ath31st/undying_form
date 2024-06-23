@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.citiy
 
-class NewCityDto(
+data class NewCityDto(
     val name: String,
     val population: Int,
     val description: String,

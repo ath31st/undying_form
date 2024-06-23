@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.trait
 
-class NewTraitDto(
+data class NewTraitDto(
     val name: String,
     val description: String,
     val alchemyValue: Int,

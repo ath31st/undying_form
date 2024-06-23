@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.scholar
 
-class ScholarDto(
+data class ScholarDto(
     val name: String,
     val age: Int,
     val physicalHealth: Int,

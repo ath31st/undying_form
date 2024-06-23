@@ -1,6 +1,6 @@
 package sidim.doma.undying.dto.bodyparts
 
-class NewBodyPartDto(
+data class NewBodyPartDto(
     val scholarId: Long,
     val quality: Int,
     val integrity: Int,
