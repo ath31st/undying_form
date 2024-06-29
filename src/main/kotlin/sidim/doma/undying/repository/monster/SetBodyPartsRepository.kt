@@ -69,7 +69,7 @@ class SetBodyPartsRepository(private val dslContext: DSLContext) {
             .fetchOneInto(Long::class.java)
     }
 
-    fun prepareIdsForDeletingAndUpdating(
+    private fun prepareIdsForDeletingAndUpdating(
         currentSlot: Long?,
         newSlotId: Long?,
         idsForDelBodyParts: MutableList<Long>,
@@ -89,6 +89,15 @@ class SetBodyPartsRepository(private val dslContext: DSLContext) {
                 idsForDelBodyParts.add(currentSlot)
             }
         }
+    }
+
+    private fun isFullSet(r: SetsBodyPartsRecord): Boolean {
+        return r.leftHandSlot != null &&
+                r.rightHandSlot != null &&
+                r.leftLegSlot != null &&
+                r.rightLegSlot != null &&
+                r.upperBodySlot != null &&
+                r.headSlot != null
     }
 
     fun updateSlotsSetBodyParts(dto: SetBodyPartsUpdateDto): Pair<List<Long>, List<Long>> {
@@ -142,6 +151,8 @@ class SetBodyPartsRepository(private val dslContext: DSLContext) {
 
             prepareIdsForDeletingAndUpdating(r.headSlot, dto.headIdForSlot, idsForDelBodyParts, idsForUpdBodyParts)
             r.headSlot = dto.headIdForSlot
+
+            r.setIsCompleted = isFullSet(r)
 
             dslContext.update(sbp)
                 .set(r)
