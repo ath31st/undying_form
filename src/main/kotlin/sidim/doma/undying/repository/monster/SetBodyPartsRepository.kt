@@ -86,6 +86,7 @@ class SetBodyPartsRepository(private val dslContext: DSLContext) {
 
             currentSlot != null && newSlotId != currentSlot -> {
                 idsForUpdBodyParts.add(newSlotId!!)
+                idsForDelBodyParts.add(currentSlot)
             }
         }
     }
