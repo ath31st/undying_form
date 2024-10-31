@@ -10,12 +10,12 @@ import sidim.doma.undying.service.monster.BodyPartService
 import sidim.doma.undying.service.scholar.ScholarService
 import sidim.doma.undying.util.ActionTypes
 import sidim.doma.undying.util.GeneratorRandomValuesUtil
-import sidim.doma.undying.util.constant.ActionConstants.CHANCE_HIGH_VALUE_CAUNT
-import sidim.doma.undying.util.constant.ActionConstants.CHANCE_LOW_VALUE_CAUNT
-import sidim.doma.undying.util.constant.ActionConstants.CHANCE_MID_VALUE_CAUNT
-import sidim.doma.undying.util.constant.ActionConstants.HIGH_VALUE_CAUNT
-import sidim.doma.undying.util.constant.ActionConstants.LOW_VALUE_CAUNT
-import sidim.doma.undying.util.constant.ActionConstants.MID_VALUE_CAUNT
+import sidim.doma.undying.util.constant.ActionConstants.CHANCE_HIGH_VALUE_COUNT
+import sidim.doma.undying.util.constant.ActionConstants.CHANCE_LOW_VALUE_COUNT
+import sidim.doma.undying.util.constant.ActionConstants.CHANCE_MID_VALUE_COUNT
+import sidim.doma.undying.util.constant.ActionConstants.HIGH_VALUE_COUNT
+import sidim.doma.undying.util.constant.ActionConstants.LOW_VALUE_COUNT
+import sidim.doma.undying.util.constant.ActionConstants.MID_VALUE_COUNT
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.*
@@ -84,12 +84,12 @@ class PlayerActionService(
         graveyardService.checkExistsGraveyardWithId(graveyardId)
 
         val bodyPartsCount = generator.generateRandomWithProbabilities(
-            LOW_VALUE_CAUNT,
-            CHANCE_LOW_VALUE_CAUNT,
-            MID_VALUE_CAUNT,
-            CHANCE_MID_VALUE_CAUNT,
-            HIGH_VALUE_CAUNT,
-            CHANCE_HIGH_VALUE_CAUNT
+            LOW_VALUE_COUNT,
+            CHANCE_LOW_VALUE_COUNT,
+            MID_VALUE_COUNT,
+            CHANCE_MID_VALUE_COUNT,
+            HIGH_VALUE_COUNT,
+            CHANCE_HIGH_VALUE_COUNT
         )
 
         val foundedBodyParts = bodyPartsService.generateRandomBodyPartsByGraveyardId(
