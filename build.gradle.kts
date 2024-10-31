@@ -36,19 +36,19 @@ repositories {
     mavenCentral()
 }
 
-val starterVersion = "3.3.1"
-val jooqPluginVersion = "8.2.1"
-val kotlinVersion = "2.0.0"
-val flywayVersion = "9.21.1"
-val jooqApiVersion = "3.19.7"
-val jacksonVersion = "2.17.1"
-val slf4jVersion = "2.0.13"
-val securityTestVersion = "6.3.0"
-val postgresVersion = "42.7.3"
-val springdocVersion = "2.5.0"
-val opencsvVersion = "5.9"
-val modelMapperVersion = "3.2.0"
-val kotlinLogging = "7.0.0"
+val starterVersion: String by project
+val jooqPluginVersion: String by project
+val kotlinVersion: String by project
+val flywayVersion: String by project
+val jooqApiVersion: String by project
+val jacksonVersion: String by project
+val slf4jVersion: String by project
+val securityTestVersion: String by project
+val postgresVersion: String by project
+val springdocVersion: String by project
+val opencsvVersion: String by project
+val modelMapperVersion: String by project
+val kotlinLogging: String by project
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq:$starterVersion")
