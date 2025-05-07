@@ -1,17 +1,26 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.flywaydb:flyway-database-postgresql:11.8.0")
+    }
+}
+
+apply(plugin = "org.flywaydb.flyway")
 
 plugins {
-    id("org.springframework.boot") version "3.2.0"
-    id("io.spring.dependency-management") version "1.1.4"
+    id("org.springframework.boot") version "3.4.5"
+    id("io.spring.dependency-management") version "1.1.7"
     id("application")
     id("jacoco")
-    id("io.gitlab.arturbosch.detekt") version "1.23.4"
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
-    id("nu.studer.jooq") version "8.2.1"
-    id("org.flywaydb.flyway") version "9.21.1"
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.1.20"
+    id("nu.studer.jooq") version "10.1"
+    id("org.flywaydb.flyway") version "11.8.0"
+    kotlin("jvm") version "2.1.20"
+    kotlin("plugin.spring") version "2.1.20"
 }
 
 allOpen {
@@ -22,7 +31,11 @@ group = "sidim.doma"
 version = "0.0.1"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 configurations {
@@ -37,7 +50,6 @@ repositories {
 }
 
 val starterVersion: String by project
-val jooqPluginVersion: String by project
 val kotlinVersion: String by project
 val flywayVersion: String by project
 val jooqApiVersion: String by project
@@ -58,13 +70,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-rest:$starterVersion")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$starterVersion")
 
+    runtimeOnly("org.postgresql:postgresql:$postgresVersion")
     jooqGenerator("org.postgresql:postgresql:$postgresVersion")
     jooqGenerator("org.slf4j:slf4j-jdk14:$slf4jVersion")
     jooqGenerator("org.jooq:jooq-meta-extensions:$jooqApiVersion")
-
-    runtimeOnly("org.postgresql:postgresql:$postgresVersion")
     api("org.jooq:jooq-codegen:$jooqApiVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
+    implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocVersion")
     implementation("org.springdoc:springdoc-openapi-starter-common:$springdocVersion")
@@ -73,17 +85,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("com.opencsv:opencsv:$opencsvVersion")
     implementation("org.modelmapper:modelmapper:$modelMapperVersion")
+    implementation("io.github.oshai:kotlin-logging:${kotlinLogging}")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test:$starterVersion")
     testImplementation("org.springframework.security:spring-security-test:$securityTestVersion")
-
-    implementation("io.github.oshai:kotlin-logging:$kotlinLogging")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
-    }
 }
 
 tasks.withType<Test> {
@@ -222,6 +227,7 @@ flyway {
     password = dbPassword
     schemas = arrayOf(dbSchema)
     driver = dbDriver
+    mixed = true
 }
 
 extensions.findByName("buildScan")?.withGroovyBuilder {
