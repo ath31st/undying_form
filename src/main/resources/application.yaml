@@ -10,8 +10,11 @@ spring:
 
   # only for development (on production must be commented)
   flyway:
-    clean-on-validation-error: true
     clean-disabled: false
+
+  docker:
+    compose:
+      enabled: false
 
 springdoc:
   swagger-ui:
